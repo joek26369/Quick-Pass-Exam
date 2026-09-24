@@ -1,0 +1,276 @@
+{
+  "format_version": 1,
+  "questions": 2,
+  "concepts": 2,
+  "source_count": 1,
+  "teaching_evidence_count": 2,
+  "profile": {
+    "exam_code": "ruankao-xitixiangmu",
+    "exam_name": "信息系统项目管理师",
+    "exam_name_zh": "信息系统项目管理师（软考高级）",
+    "description": "软考高级 信息系统项目管理师（第4版教材）",
+    "exam_full_name": "软考高级 · 信息系统项目管理师",
+    "standard_label": "软考信管（2025 新版教材）",
+    "brand_line": "考试助手 V2 · 软考知识卡片",
+    "hashtags": "#软考 #信息系统项目管理 #高项 #考试",
+    "bank_format": "ruankao_web",
+    "subject_error_label": "软考特有错误",
+    "domain_hint": "信息系统项目管理",
+    "domain_examples": [
+      "informatization_development (信息化发展)",
+      "it_development (信息技术发展)",
+      "is_governance (信息系统治理)",
+      "is_management (信息系统管理)",
+      "is_engineering (信息系统工程)",
+      "pm_overview (项目管理概论)",
+      "project_initiation (项目立项管理)",
+      "project_integration (项目整合管理)",
+      "project_scope (项目范围管理)",
+      "project_schedule (项目进度管理)",
+      "project_cost (项目成本管理)",
+      "project_quality (项目质量管理)",
+      "project_resource (项目资源管理)",
+      "project_communication (项目沟通管理)",
+      "project_risk (项目风险管理)",
+      "project_procurement (项目采购管理)",
+      "project_stakeholder (项目干系人管理)",
+      "project_performance (项目绩效域)",
+      "config_change_mgmt (配置与变更管理)",
+      "senior_pm (高级项目管理)",
+      "pm_science (项目管理科学基础)",
+      "org_governance (组织通用治理)",
+      "org_management (组织通用管理)",
+      "laws_regulations (法律法规与标准规范)"
+    ],
+    "visualization": {
+      "mermaid_role": "软考信息系统项目管理师的可视化专家",
+      "sequence_participants": [
+        "项目经理",
+        "项目发起人",
+        "项目团队",
+        "客户",
+        "供应商",
+        "PMO",
+        "变更控制委员会",
+        "质量保证"
+      ],
+      "preset_templates": {}
+    },
+    "complexity_thresholds": {
+      "stem_length_threshold": 300,
+      "multi_option_length_threshold": 250,
+      "options_count_threshold": 4
+    },
+    "content_style": {
+      "language": "zh",
+      "code_format": "text",
+      "domain_expert_role": "软考信息系统项目管理师的资深讲师",
+      "tone": "专业、简洁、实用",
+      "max_sentence_length": 60,
+      "mnemonic_requirement": "押韵、有趣、易记（30字以内）"
+    },
+    "syllabus_source": {
+      "type": "web",
+      "url": "https://ruankaodaren.com",
+      "file_path": "",
+      "format": "markdown"
+    },
+    "keyword_rules": {
+      "integration": [
+        "整合管理",
+        "变更控制",
+        "CCB",
+        "整体变更"
+      ],
+      "scope": [
+        "范围管理",
+        "WBS",
+        "需求收集",
+        "确认范围",
+        "控制范围"
+      ],
+      "schedule": [
+        "进度管理",
+        "关键路径",
+        "CPM",
+        "甘特图",
+        "PERT",
+        "赶工",
+        "快速跟进"
+      ],
+      "cost": [
+        "成本管理",
+        "EVM",
+        "挣值",
+        "CPI",
+        "SPI",
+        "BAC",
+        "EAC",
+        "ETC"
+      ],
+      "quality": [
+        "质量管理",
+        "QA",
+        "QC",
+        "六西格玛",
+        "PDCA",
+        "因果图"
+      ],
+      "resource": [
+        "资源管理",
+        "团队建设",
+        "责任分配",
+        "RACI"
+      ],
+      "communication": [
+        "沟通管理",
+        "干系人沟通",
+        "沟通渠道",
+        "报告绩效"
+      ],
+      "risk": [
+        "风险管理",
+        "风险识别",
+        "定性分析",
+        "定量分析",
+        "应对策略",
+        "EMV"
+      ],
+      "procurement": [
+        "采购管理",
+        "合同",
+        "招投标",
+        "供应商"
+      ],
+      "stakeholder": [
+        "干系人管理",
+        "权力/利益",
+        "参与度"
+      ],
+      "performance": [
+        "绩效域",
+        "工作绩效",
+        "交付绩效"
+      ],
+      "config_change": [
+        "配置管理",
+        "变更管理",
+        "基线",
+        "版本控制"
+      ],
+      "governance": [
+        "治理",
+        "组织结构",
+        "项目管理办公室",
+        "PMO"
+      ],
+      "informatization": [
+        "信息化",
+        "数字化转型",
+        "智慧城市",
+        "大数据",
+        "云计算",
+        "物联网",
+        "人工智能",
+        "区块链"
+      ],
+      "engineering": [
+        "软件工程",
+        "需求工程",
+        "软件测试",
+        "开发模型",
+        "敏捷",
+        "CMMI"
+      ]
+    },
+    "stage_config": {
+      "stage1": {
+        "min_concepts_per_domain": 2,
+        "max_concepts_per_domain": 10,
+        "sample_size": 15
+      },
+      "stage2": {
+        "required_fields": [
+          "definition",
+          "principle",
+          "rules",
+          "mnemonic"
+        ],
+        "auto_approve_threshold": 0.85,
+        "incomplete_confidence": 0.0
+      },
+      "stage3": {
+        "auto_approve_enabled": true,
+        "auto_approve_score_threshold": 0.9
+      },
+      "stage4": {
+        "build_relations": true,
+        "build_knowledge_base": true
+      },
+      "stage5": {
+        "use_llm": false,
+        "mode": "template"
+      }
+    },
+    "sample_data": {
+      "concepts": [],
+      "kps": {}
+    }
+  },
+  "entry": "index.html",
+  "quality_summary": {
+    "structural_status": "passed",
+    "content_status": "review_required",
+    "semantic_verification": "not_performed",
+    "browser_status": "not_checked",
+    "metrics": {
+      "blocked_count": 0,
+      "review_required_count": 2,
+      "agent_reviewed_count": 0,
+      "limited_count": 0,
+      "triple_duplicate_count": 0,
+      "placeholder_count": 0,
+      "one_question_card_count": 2,
+      "concepts_with_supports": 2,
+      "concepts_with_related": 0,
+      "concepts_without_teaching_evidence": 0,
+      "concepts_without_supports": 0,
+      "concept_count": 2,
+      "question_count": 2
+    },
+    "concepts": [
+      {
+        "concept_id": "cost_performance_index",
+        "status": "review_required",
+        "has_substantive_body": true,
+        "review_metadata_valid": false,
+        "teaching_evidence": {
+          "supports": 1,
+          "related": 0,
+          "other": 0,
+          "total": 1
+        },
+        "findings": [
+          "CARD_SINGLE_QUESTION",
+          "CARD_REVIEW_MISSING_OR_INVALID"
+        ]
+      },
+      {
+        "concept_id": "stakeholder_engagement",
+        "status": "review_required",
+        "has_substantive_body": true,
+        "review_metadata_valid": false,
+        "teaching_evidence": {
+          "supports": 1,
+          "related": 0,
+          "other": 0,
+          "total": 1
+        },
+        "findings": [
+          "CARD_SINGLE_QUESTION",
+          "CARD_REVIEW_MISSING_OR_INVALID"
+        ]
+      }
+    ]
+  }
+}

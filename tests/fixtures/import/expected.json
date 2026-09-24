@@ -1,0 +1,23 @@
+{
+  "fixture_kind": "self_authored_ruankao_two_question",
+  "encoding": "UTF-8",
+  "questions": [
+    {
+      "id": "qpe_input_001",
+      "expected_answer": "A",
+      "source_page": 1,
+      "stem_marker": "1.【自编成本管理题】"
+    },
+    {
+      "id": "qpe_input_002",
+      "expected_answer": "B",
+      "source_page": 2,
+      "stem_marker": "2.【自编干系人管理题】"
+    }
+  ],
+  "notes": [
+    "题目为自编，不是官方试题",
+    "PDF page numbers are 1-based",
+    "OCR/structure/full generation are separate checks"
+  ]
+}

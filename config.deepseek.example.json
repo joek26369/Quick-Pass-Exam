@@ -1,0 +1,16 @@
+{
+  "provider": "deepseek",
+  "api_url": "https://api.deepseek.com",
+  "api_key_env": "QPE_LLM_API_KEY",
+  "max_transport_retries": 2,
+  "global": {"enabled": true},
+  "stages": {
+    "analyzer": {
+      "model": "deepseek-v4-flash",
+      "timeout": 180,
+      "temperature": 0.3,
+      "max_tokens": 16384,
+      "enabled": true
+    }
+  }
+}

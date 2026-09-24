@@ -1,0 +1,16 @@
+{
+  "provider": "openai-compatible",
+  "api_url": "https://provider.example/v1",
+  "api_key_env": "QPE_LLM_API_KEY",
+  "max_transport_retries": 2,
+  "global": {"enabled": true},
+  "stages": {
+    "analyzer": {
+      "model": "provider-model-name",
+      "timeout": 180,
+      "temperature": 0.3,
+      "max_tokens": 4096,
+      "enabled": true
+    }
+  }
+}

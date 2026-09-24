@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Pass 学习包</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/logo-mark.png">
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#5b677c; --line:#d9e0ea; --bg:#f4f7fb; --card:#fff; --accent:#1d5fd1; --ok:#137a52; --bad:#b53838; }
+    * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,"PingFang SC",sans-serif }
+    button { font:inherit; cursor:pointer } header { position:sticky; top:0; z-index:2; display:flex; gap:12px; align-items:center; padding:12px 20px; background:#ffffffed; border-bottom:1px solid var(--line); backdrop-filter:blur(8px) }
+    .brand { display:flex; align-items:center; gap:9px; color:var(--ink); font-size:18px; font-weight:800; white-space:nowrap }.brand img { display:block; width:40px; height:26px; object-fit:contain } nav { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap } nav button,.button { border:1px solid var(--line); border-radius:7px; padding:7px 11px; background:#fff; color:var(--ink) } nav button[aria-selected="true"],.button.primary { border-color:var(--accent); color:#fff; background:var(--accent) }
+    #stats,#profile-status,#storage-status { color:var(--muted); font-size:13px } #profile-status,#storage-status { display:block; padding:5px 20px; border-bottom:1px solid var(--line) } #profile-status { background:#f8fafc } #profile-status strong { color:var(--ink) } #profile-id { margin-left:6px; padding:2px 6px; color:#174d98; background:#eaf1ff; border-radius:4px } #storage-status { background:#eef5ff } #storage-status a { color:#0b55b5 } #save-warning { color:var(--bad); margin-left:12px } main { max-width:1280px; margin:24px auto; padding:0 18px 48px } .layout { display:grid; grid-template-columns:260px minmax(0,1fr) 230px; gap:20px }
+    aside { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; align-self:start; position:sticky; top:70px; max-height:calc(100vh - 90px); overflow:auto } aside button { width:100%; text-align:left; border:0; border-radius:6px; padding:7px; background:transparent } aside button:hover,aside button.active { background:#eaf1ff; color:#0b459e }
+    .wrongbook-list { display:grid; gap:10px; margin-top:16px }.wrongbook-list button { width:100%; padding:12px; border:1px solid var(--line); border-radius:8px; background:#fff; text-align:left; overflow-wrap:anywhere }.wrongbook-list button:hover { background:#eef5ff }
+    article { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:24px; min-width:0 } h2 { margin-top:0 } h3 { margin-top:26px; font-size:17px } h4 { margin:16px 0 6px } .muted { color:var(--muted) } .callout { border-left:4px solid #7aa6ef; background:#eef5ff; padding:10px 12px; margin:12px 0; border-radius:0 6px 6px 0 } .callout > div { white-space:pre-line } .warning { border-color:#d89522; background:#fff7e9 } .error { border-color:var(--bad); background:#fff1f1 }
+    .formula { overflow:auto; padding:12px; border:1px solid var(--line); background:#f8fafc; white-space:pre-wrap; border-radius:6px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace } .relation { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 } .relation span { border:1px solid #b9c8e4; border-radius:999px; padding:3px 9px; background:#f4f8ff; font-size:14px }
+    .image { display:block; max-width:100%; max-height:520px; margin:12px 0; border:1px solid var(--line); border-radius:6px } .options { display:grid; gap:9px } .option { padding:10px; width:100%; text-align:left; border:1px solid var(--line); background:#fff; border-radius:7px } .option.selected { outline:2px solid #9dbcf0 }.option.ok { border-color:var(--ok); background:#edfbf5 }.option.bad { border-color:var(--bad); background:#fff0f0 } input[type=search] { width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; margin-bottom:8px }.chapter { color:var(--muted); font-size:13px; font-weight:700; margin:10px 7px 3px }.qbar { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:13px; margin-bottom:10px }.track { flex:1; height:6px; border-radius:999px; background:#e5ebf4; overflow:hidden }.track i { display:block; height:100%; background:var(--accent) }.qnav { display:flex; flex-wrap:wrap; gap:5px; margin-top:14px }.qnav button { width:30px; padding:4px; border:1px solid var(--line); background:#fff; border-radius:4px }.qnav button.current { background:#eaf1ff; border-color:var(--accent) }.qnav button.wrong { border-color:var(--bad); color:var(--bad) }.qnav button.ok { border-color:var(--ok); color:var(--ok) } .markdown-table { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px }.markdown-table th,.markdown-table td { border:1px solid var(--line); padding:6px; text-align:left; vertical-align:top }
+    .links { display:flex; gap:8px; flex-wrap:wrap }.links button,.links a { border:0; color:#0b55b5; background:#edf4ff; padding:4px 8px; border-radius:5px; text-decoration:none }.viz { border:1px dashed #a9b9d4; border-radius:7px; padding:12px }.viz ul { margin-bottom:0 }.hidden { display:none!important }
+    .material-list { display:grid; gap:10px }.material-card { display:grid; grid-template-columns:112px minmax(0,1fr); gap:12px; align-items:start; width:100%; padding:10px; text-align:left; border:1px solid var(--line); border-radius:8px; background:#fff }.material-card:hover { border-color:#8db0e8; background:#f7faff }.material-card-copy { display:grid; gap:3px; min-width:0 }.material-anchor { color:#174d98 }.material-meta { color:#486b9f; font-size:13px }.material-snippet { color:var(--muted); font-size:14px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden }.material-page { position:relative; display:block; width:max-content; max-width:100%; margin:0 auto 16px }.material-page .image { max-height:62vh; margin:0 }.material-page.compact { width:112px; margin:0 }.material-page.compact .image { width:112px; height:auto; margin:0 }.material-region { position:absolute; border:3px solid #e33f47; background:#e33f4724; box-shadow:0 0 0 1px #fff; pointer-events:none }.material-dialog { width:min(900px,calc(100vw - 24px)); max-height:90vh; padding:0; border:1px solid var(--line); border-radius:12px; color:var(--ink) }.material-dialog::backdrop { background:#17203399 }.material-dialog-head { position:sticky; top:0; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; background:#fff; border-bottom:1px solid var(--line) }.material-dialog-head h2 { margin:0; font-size:18px }.material-dialog-close { border:0; background:transparent; font-size:24px }.material-dialog-body { padding:18px }.material-dialog-body .button { display:inline-block; text-decoration:none }
+    .question-source-page { margin:12px 0 18px; padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:#f8fbff }.question-source-page summary { cursor:pointer; color:#174d98; font-weight:700 }.question-source-page .image { max-height:760px; object-fit:contain; margin-bottom:4px }.question-source-page .muted { font-size:13px; color:var(--muted); margin:4px 0 }
+    .case-study { margin-bottom:18px }.case-child { margin-top:20px; padding:16px; border:1px solid var(--line); border-radius:8px; background:#fbfcff }.case-child textarea { display:block; width:100%; min-height:130px; padding:10px; border:1px solid var(--line); border-radius:7px; font:inherit; resize:vertical }.case-ops { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }.case-ops .button { font-size:14px }
+    @media (max-width:980px) { .layout { grid-template-columns:220px minmax(0,1fr) } #rail { display:none } } @media (max-width:700px) { header { flex-wrap:wrap; padding:10px 14px } nav { margin-left:0 } main { margin-top:14px; padding:0 10px 28px }.layout { display:block } aside { position:static; max-height:220px; margin-bottom:12px } #rail { display:block; max-height:none } article { padding:16px } }
+
+    .cornell { margin:28px 0; border:1.5px solid #8ec0ff; border-radius:18px; overflow:hidden; background:#fff; }
+    .cornell .cl-head { display:flex; align-items:center; gap:8px; background:#dcecff; padding:14px 22px; color:#33445c; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.18em; }.cornell .cl-title { white-space:pre; }.cornell .cl-mode,.fc-ops button { position:relative; z-index:1; border:1px solid #d9e1ec; border-radius:999px; padding:7px 14px; background:transparent; color:#33445c; font-size:14px; }.cornell .cl-mode { margin-left:auto; letter-spacing:.08em; }.cornell .cl-mode:hover,.fc-ops button:hover { background:#fff; border-color:#8ec0ff; }
+    .cornell-hint { margin:0; padding:8px 18px; color:var(--muted); font-size:12px; border-bottom:1px solid var(--line); }
+    .cornell-body,.cornell-row,.cornell-header { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,2fr); }
+    .cornell-body.cornell-paired { display:block; }
+    .cornell .cl { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); }
+    .cornell .cl + .cl { border-top:1px solid #8ec0ff; }
+    .cornell .cl > div { padding:24px 38px; min-width:0; }
+    .cornell .cl > div:first-child { background:#dcecff; border-right:1px solid #8ec0ff; color:#34465e; font-size:16px; }
+    .cornell .cl > div:last-child { font-size:16px; }
+    .cornell-row { border-top:1px solid #b8c6d8; }
+    .cornell-header { background:#edf2f8; }
+    .cornell-header h4 { margin:0; padding:12px 16px; }
+    .cornell-header h4:first-child { border-right:2px solid #b8c6d8; }
+    .cornell-paired .cornell-list { list-style:none; padding:0; }
+    .cornell-cell { padding:16px; min-width:0; overflow-wrap:anywhere; }
+    .cornell-cues { background:#f6f8fc; border-right:2px solid #b8c6d8; }
+    .cornell h4 { margin:0 0 12px; font-size:13px; letter-spacing:.04em; color:#52657e; }
+    .cornell-list { margin:0; padding-left:18px; }
+    .cornell-list li { padding:0 0 12px; white-space:pre-wrap; line-height:1.8; }
+    .cornell-list li:last-child { padding-bottom:0; }
+    .cornell-summary { border-top:2px solid #b8c6d8; padding:16px 18px; background:#fbfcfe; overflow-wrap:anywhere; }
+    .cornell-summary p { margin:0; white-space:pre-wrap; line-height:1.8; }
+    .cornell-empty { margin:0; color:var(--muted); font-size:14px; }
+    .cornell code { background:#edf2f8; border-radius:3px; padding:1px 3px; white-space:pre-wrap; }
+    .cornell .cl-cards { display:none; padding:36px 38px; }.cornell.card-mode .cornell-body { display:none; }.cornell.card-mode .cl-cards { display:block; }.fc-stage { perspective:1200px; }.fc-card { position:relative; width:100%; min-height:180px; transform-style:preserve-3d; transition:transform .45s cubic-bezier(.25,.8,.3,1); cursor:pointer; border-radius:18px; outline:none; }.fc-card.flipped { transform:rotateY(180deg); }.fc-card:focus-visible { outline:3px solid #8ec0ff; outline-offset:3px; }.fc-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border:1.5px solid #8ec0ff; border-radius:18px; padding:28px 38px; overflow:auto; display:flex; flex-direction:column; gap:18px; }.fc-tag { color:#77869a; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.18em; }.fc-body { display:flex; align-items:center; flex:1; font-size:18px; line-height:1.8; }.fc-front { background:#dcecff; }.fc-back { background:#fff; transform:rotateY(180deg); }.fc-back .fc-tag { color:#4e8bd3; }.fc-ops { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:18px; }.fc-count { min-width:56px; text-align:center; color:#52657e; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; }.fc-card.measuring { min-height:0; height:auto !important; }.fc-card.measuring .fc-face { position:relative; inset:auto; transform:none; }.fc-card.measuring .fc-back { position:relative; }
+    @media (max-width:600px) {
+      .cornell-body { grid-template-columns:minmax(0,1fr); }
+      .cornell-row,.cornell-header,.cornell .cl { grid-template-columns:minmax(0,1fr) minmax(0,1.7fr); }
+      .cornell-paired .cornell-cues { border-right:2px solid #b8c6d8; border-bottom:0; }
+      .cornell-cues { border-right:0; border-bottom:1px solid var(--line); }
+      .cornell-cell,.cornell-summary { padding:14px; }.cornell .cl > div { padding:18px 14px; }.cornell .cl-cards { padding:18px 14px; }.fc-face { padding:20px; }
+    }
+    .knowledge-graph { border:1px solid var(--line); border-radius:10px; padding:12px; background:#fbfcff; }
+    .graph-scroll { max-width:100%; overflow-x:auto; }
+    .graph-scroll svg { display:block; margin:auto; font-family:system-ui,-apple-system,"PingFang SC",sans-serif; }
+    .graph-axis { color:var(--muted); margin:0 0 10px; }
+    .graph-quadrants { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:2px; background:#5778ab; border:2px solid #5778ab; }
+    .graph-quadrant { padding:18px 12px; background:#eef5ff; overflow-wrap:anywhere; }
+    .graph-quadrant:nth-child(2) { background:#e7f5ee; }
+    .graph-quadrant p { margin:8px 0 0; }
+    .knowledge-graph details { margin-top:12px; overflow-wrap:anywhere; }
+    .knowledge-graph summary { cursor:pointer; color:#0b55b5; }
+    .compare-hint { color:var(--muted); font-size:14px; margin:6px 0 14px; }
+    .compare-table-scroll { max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .compare-table { width:100%; border-collapse:collapse; margin:12px 0 24px; font-size:14px; table-layout:fixed; }
+    .compare-table th,.compare-table td { border:1px solid #c8d5e6; padding:12px; text-align:left; vertical-align:top; overflow-wrap:anywhere; }
+    .compare-table thead { background:#e8effa; }
+    .compare-table th:first-child { width:24%; }
+    .compare-table tbody th { background:#f3f7fd; color:#174d98; }
+    .compare-table p { margin:0 0 8px; }.compare-table p:last-child { margin-bottom:0; }
+    .compare-toolbar { margin-bottom:14px; }
+    .compare-cards { display:grid; gap:14px; }
+    .compare-card { border:1px solid #c8d5e6; border-radius:10px; overflow:hidden; }
+    .compare-names { display:grid; grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr); gap:10px; align-items:center; padding:14px; background:#edf3fc; text-align:center; overflow-wrap:anywhere; }
+    .compare-versus { color:#647a9b; }
+    .compare-answer { padding:12px 16px; background:#fff; }
+    .compare-answer summary { color:#174d98; cursor:pointer; font-size:14px; }
+    .compare-answer p { margin:12px 0 0; border-left:3px solid #a1bce4; padding-left:12px; overflow-wrap:anywhere; }
+    @media(max-width:600px) { .compare-table { min-width:620px; table-layout:auto; } }
+  .case-study,.case-child{scroll-margin-top:110px}
+</style>
+</head>
+<body>
+  <header><div class="brand" aria-label="Quick Pass Exam-快考通"><img src="assets/logo-mark.png" alt=""><span>Quick Pass Exam-快考通</span></div><span id="stats"></span><nav><button data-view="notes" aria-selected="true">考点笔记</button><button data-view="methods" aria-selected="false" class="hidden">方法卡</button><button data-view="wrongbook" aria-selected="false">错题本</button><button data-view="quiz" aria-selected="false">选择题</button><button data-view="cases" aria-selected="false" class="hidden">案例题</button></nav></header>
+  <div id="profile-status" role="status"><strong>当前 Profile：</strong><span id="profile-name"></span><code id="profile-id"></code></div>
+  <div id="storage-status" role="status">当前为单机版 Skill，更多功能及使用可访问：<a href="https://www.quickpexam.com/" target="_blank" rel="noopener noreferrer">www.quickpexam.com</a><span id="save-warning" role="alert"></span></div>
+  <main><div class="layout"><aside id="sidebar" aria-label="目录"></aside><section id="content" aria-live="polite"></section><aside id="rail" aria-label="关联内容"></aside></div></main>
+  <dialog id="material-dialog" class="material-dialog"><div class="material-dialog-head"><h2 class="material-dialog-title">教辅原版内容</h2><button type="button" class="material-dialog-close" aria-label="关闭">×</button></div><div class="material-dialog-body"></div></dialog>
+  <script>__QUICK_PASS_DATA__</script>
+</body>
+</html>

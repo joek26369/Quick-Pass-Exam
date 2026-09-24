@@ -1,0 +1,197 @@
+{
+  "baseline_head": "c979b7c6b1f46b46674e8ddbb8b53a7d58f8d40e",
+  "source": "selected current working-tree files, not git archive",
+  "internal_source_package": {
+    "filename": "quick-pass-candidate-20260923-r19-quick-pass-exam-dimension-columns.zip",
+    "sha256": "bdf5602fd25bb3c8c14824584c0b6eb62416f375d3f396430b6108aa6fc492dc"
+  },
+  "license_status": "pending_rights_holder_confirmation",
+  "records": [
+    {
+      "target": "vendor/llm_client.py",
+      "source": "src/llm_client.py",
+      "source_sha256": "69491e3c62e8a3e1acb8f870844a9fefdd2e92294a5752a90382e8c7d87326c0",
+      "target_sha256": "1f8cfd734e916d6b945614760fdfeeeb45a9fe988bc7e70851f0119443997bfd",
+      "source_dirty_at_start": true,
+      "adapted": true
+    },
+    {
+      "target": "vendor/exam_point_extractor.py",
+      "source": "src/exam_point_extractor.py",
+      "source_sha256": "d74c162df146fe4afe05509e940290e9a5ffb67715a18a5b1fcc90b2e98b97c5",
+      "target_sha256": "064c4032203fa8705538ecbdc7996975357f361b62d4fa8e645af4d706b7157a",
+      "source_dirty_at_start": false,
+      "adapted": true
+    },
+    {
+      "target": "vendor/phase2_classifier.py",
+      "source": "src/phase2_classifier.py",
+      "source_sha256": "be3ef3f0178118c8cc0088307f388e8861f8d8b9bcc0772b0ecfe9d6695ffb8c",
+      "target_sha256": "6c9f82f0f630eaaf2297cac7b46e9f9055c1a403735491ba8005d27f35135898",
+      "source_dirty_at_start": false,
+      "adapted": true
+    },
+    {
+      "target": "vendor/concept_relation_builder.py",
+      "source": "src/concept_relation_builder.py",
+      "source_sha256": "ef1818d45275023ff1226c3fb0f890ca548e25a7ce68e666f58f05aae71a4e2a",
+      "target_sha256": "085ecb4a83b0c84928012535890dadbc141101d54deb7f07e55e810430c44e9a",
+      "source_dirty_at_start": false,
+      "adapted": true
+    },
+    {
+      "target": "vendor/phase4_content_generator.py",
+      "source": "src/phase4_content_generator.py",
+      "source_sha256": "08abeea19a57287275abb9220553534f114a0abc39ae973b6a7084f61bd053bd",
+      "target_sha256": "e1e9de37504b223fa12b76f2caeb32516194358d61cce44cf29b55fe3e8dcb6e",
+      "source_dirty_at_start": true,
+      "adapted": true
+    },
+    {
+      "target": "vendor/formula_style.py",
+      "source": "src/formula_style.py",
+      "source_sha256": "9fab2a4100217b99157e510ec11ce831c19d0f241e57d3c48279d76293e9f45f",
+      "target_sha256": "9fab2a4100217b99157e510ec11ce831c19d0f241e57d3c48279d76293e9f45f",
+      "source_dirty_at_start": false,
+      "adapted": false
+    },
+    {
+      "target": "vendor/generation_quality_gate.py",
+      "source": "src/generation_quality_gate.py",
+      "source_sha256": "697e8a54854ea5356d5b8a0bf2049002b5062e397bbfa3cd6c67836a2c1f3eea",
+      "target_sha256": "87c91bb0291f6005158390bdaf7e4b7e2be680b2367f01b863ebabf54877cf32",
+      "source_dirty_at_start": true,
+      "adapted": true,
+      "adaptation": "Kept evaluate_generation and report contracts; removed only the WebApp SQLite parent-task status side effect."
+    },
+    {
+      "target": "vendor/note_quality.py",
+      "source": "webapp/note_quality.py",
+      "source_sha256": "c9631aead966a891d302e1890e3a0e3df846380216aaf930ed6b58511f0ba8f4",
+      "target_sha256": "fdff24fd3d5553225a90c822b7c53936b710bc5fc5a785440b1b0c833e52a21f",
+      "source_dirty_at_start": true,
+      "adapted": true,
+      "adaptation": "Extracted Cornell normalization used by phase4; standalone requires explicit cue/note pairs and does not infer semantic pairing from parallel legacy arrays."
+    },
+    {
+      "target": "profiles/ruankao-xitixiangmu.json",
+      "source": "data/profiles/ruankao-xitixiangmu.json",
+      "source_sha256": "2612335aff2de6c6855eac276f0773274fc4f0fd7798d7bf8744c6b6426461b1",
+      "target_sha256": "2612335aff2de6c6855eac276f0773274fc4f0fd7798d7bf8744c6b6426461b1",
+      "source_dirty_at_start": false,
+      "adapted": false
+    },
+    {
+      "target": "renderer.py",
+      "source": "export_web.py; webapp/static/views.js: concept evidence cards and readerDialog",
+      "source_sha256": "560326529f50c3d685ba0b7215f96a16378988cd885c6edb7cc499230615b7a1",
+      "target_sha256": "fdf33e145eced5bd2477320aca9e8d5113e4bcc05d49ec5295d72309a5c849d8",
+      "source_dirty_at_start": false,
+      "adapted": true,
+      "adaptation": "Adapted the original learning renderer to self-contained pages and offline evidence; PDF question sources now include a rendered physical-page image for diagram verification."
+    },
+    {
+      "target": "templates/index.html",
+      "source": "export_web.py; webapp/static/views.js and webapp/static/style.css",
+      "source_sha256": "560326529f50c3d685ba0b7215f96a16378988cd885c6edb7cc499230615b7a1",
+      "target_sha256": "3aeeea1896fc2f2bcd21451e6d167676fdb75a84d01ca7eeaac22ac21ed02f6f",
+      "source_dirty_at_start": false,
+      "adapted": true
+    },
+    {
+      "target": "templates/materials.js",
+      "source": "webapp/static/views.js readerDialog and concept evidence cards",
+      "source_sha256": "04412777aad1eadf66e00a098e38e62644f713a76ff0c8bd4093ecb673ad8228",
+      "target_sha256": "e1193eaf998a2dfaa87c05c00fe2c82ce064be279f2f457aba45b57c9865a50f",
+      "source_dirty_at_start": true,
+      "adapted": true,
+      "adaptation": "Kept card-to-reader and trusted physical-page behavior; removed server APIs, auth, drag/drop and clipping in favor of package-local originals and rendered pages."
+    },
+    {
+      "target": "study_server.py",
+      "source": "webapp/server.py",
+      "source_sha256": "1c072dd8b34882bf1728187c6f53d0964dc04bf09d6ae2938e437afe123ed177",
+      "target_sha256": "b040396f716cb6f6bdef13c11a9531e8428d683c4cbdc4f966aacb3d4ddf998d",
+      "source_dirty_at_start": true,
+      "adapted": true,
+      "adaptation": "Adapted local attempt and wrongbook counters, including three-correct mastery, into a loopback-only SQLite library; preserved packaged original-page images in historical mistakes and added verified automatic launch/reuse."
+    },
+    {
+      "target": "templates/progress.js",
+      "source": "webapp/static/views.js",
+      "source_sha256": "04412777aad1eadf66e00a098e38e62644f713a76ff0c8bd4093ecb673ad8228",
+      "target_sha256": "973e12c3d5249cb294d3ac87f161eb9db67d7d767df7c4a5852ec6646641fc4c",
+      "source_dirty_at_start": true,
+      "adapted": true,
+      "adaptation": "Adapted answer, wrongbook, and review entry interactions to offline package URLs and durable local library API."
+    }
+  ],
+  "standalone_adapters": [
+    {
+      "target": "generator.py",
+      "reuses": [
+        "src/exam_point_extractor.py",
+        "src/phase2_classifier.py",
+        "src/concept_relation_builder.py",
+        "src/phase4_content_generator.py",
+        "src/generation_quality_gate.py",
+        "export_web.py data contract"
+      ],
+      "purpose": "Thin orchestration, isolated configuration, v2-only Agent content handoff, explicit original-source and teaching-evidence validation, and package manifest."
+    },
+    {
+      "target": "importer.py, agent_preprocess.py and document_adapter.py",
+      "reuses": [
+        "PyMuPDF local page rendering and native-text extraction",
+        "standard-library OOXML body, table and embedded-media traversal",
+        "existing questions provenance fields and validation contract"
+      ],
+      "purpose": "Loss-aware local document staging and resumable Agent question handoff; no OCR, parser, or structuring provider calls."
+    },
+    {
+      "target": "cli.py",
+      "reuses": [
+        "existing questions/concepts contracts and extracted pipeline entry points"
+      ],
+      "purpose": "Standalone command routing and verified automatic learning-library launch; it does not define a parallel learning-content model."
+    },
+    {
+      "target": "study_server.py and templates/progress.js",
+      "reuses": [
+        "webapp/server.py quiz/answer, wrongbook and three-correct mastery rule"
+      ],
+      "purpose": "Loopback-only SQLite study library and browser client for durable cross-package attempts, Agent-collected photo mistakes, and saved source-page images."
+    }
+  ],
+  "local_revision": {
+    "name": "r16.1-wrongbook-entry",
+    "base_candidate": "quick-pass-candidate-20260921-r15.zip",
+    "changes": [
+      "agent card-authoring guidance and examples",
+      "deterministic content defect checks",
+      "separate content and structural reports",
+      "visible review status and evidence gaps",
+      "blocked package registration guard",
+      "intermediate-exam Agent-only profile and original/generated explanation guidance",
+      "always-visible wrongbook navigation with empty state"
+    ],
+    "semantic_validation": "agent declarations are not independently verified by local code"
+  },
+  "case_learning_extension": {
+    "name": "r19-case-learning",
+    "base_candidate": "quick-pass-candidate-20260922-r18.zip",
+    "base_sha256": "e7a025c2ab7244011f734a17797dab2cd6e4148c35cb5110a26fefd94629b6b7",
+    "reuse": "Case/subquestion, calculation method and answering-method field semantics adapted from existing Quick Pass ruankao pipeline; local deterministic contract and offline self-assessment added.",
+    "source_references": [
+      "src/ruankao/analyzer.py",
+      "src/ruankao/exporter.py",
+      "run_ruankao_pipeline.py"
+    ],
+    "not_reused": [
+      "Provider-driven analysis runtime",
+      "positional answer fallback",
+      "subjective automatic grading (not found in audited pipeline)"
+    ],
+    "generated_examples": "Synthetic test originals only; not user exam materials."
+  }
+}

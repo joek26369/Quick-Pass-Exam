@@ -1,0 +1,307 @@
+{
+  "_fixture_metadata": {
+    "review_status": "questions_human_reviewed",
+    "question_reviewed_by": "user",
+    "question_reviewed_at": "2026-09-20",
+    "source_status": "intentionally_missing",
+    "profile": "ruankao-xitixiangmu"
+  },
+  "questions": [
+    {
+      "id": "fixture_hi_001",
+      "question_zh": "某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |",
+      "options": [
+        {
+          "label": "A",
+          "text": "CPI=0.80，说明每投入 1 元产生 0.80 元挣值",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "CPI=1.25，说明项目成本绩效良好",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "CPI=1.00，说明 EV 与 AC 相等",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "CPI=0.15，说明项目只完成了 15% 的预算",
+          "is_correct": false
+        }
+      ],
+      "answer": "A",
+      "explanation": "CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。",
+      "option_analyses": [
+        {
+          "option": "A",
+          "is_correct": true,
+          "analysis": "正确。60/75=0.80。",
+          "quotes": [
+            "CPI = EV / AC"
+          ]
+        },
+        {
+          "option": "B",
+          "is_correct": false,
+          "analysis": "错误。1.25 是倒数关系。",
+          "quotes": []
+        },
+        {
+          "option": "C",
+          "is_correct": false,
+          "analysis": "错误。EV 与 AC 不相等。",
+          "quotes": []
+        },
+        {
+          "option": "D",
+          "is_correct": false,
+          "analysis": "错误。0.15 不是 CPI。",
+          "quotes": []
+        }
+      ],
+      "memory_tips": [
+        "CPI 看成本：挣值除实际，低于 1 就吃亏。"
+      ],
+      "concept_ids": [
+        "fixture_evm_cpi"
+      ],
+      "is_calculation": true
+    },
+    {
+      "id": "fixture_hi_002",
+      "question_zh": "项目关键干系人持续反对范围变更。项目经理首先应采取的做法是：",
+      "options": [
+        {
+          "label": "A",
+          "text": "立即跳过评审并冻结全部需求",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "分析干系人的权力、利益和参与度，并制定沟通与参与策略",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "删除该干系人的所有意见",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "只依据项目经理个人经验决定",
+          "is_correct": false
+        }
+      ],
+      "answer": "B",
+      "explanation": "应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。没有外部来源、来源 ID 或页码。",
+      "option_analyses": [
+        {
+          "option": "A",
+          "is_correct": false,
+          "analysis": "错误。跳过治理流程会增加风险。",
+          "quotes": []
+        },
+        {
+          "option": "B",
+          "is_correct": true,
+          "analysis": "正确。干系人分析是制定参与策略的基础。",
+          "quotes": [
+            "分析干系人的权力、利益和参与度"
+          ]
+        },
+        {
+          "option": "C",
+          "is_correct": false,
+          "analysis": "错误。删除意见不能解决冲突。",
+          "quotes": []
+        },
+        {
+          "option": "D",
+          "is_correct": false,
+          "analysis": "错误。范围变更应遵循控制机制。",
+          "quotes": []
+        }
+      ],
+      "memory_tips": [
+        "先看权利与利益，再定沟通参与。"
+      ],
+      "concept_ids": [
+        "fixture_stakeholder_engagement"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "fixture_evm_cpi",
+      "title": "成本绩效指数 CPI",
+      "parent": "项目成本管理",
+      "one_liner": "CPI=EV/AC，用于判断成本效率。",
+      "core_concept": {
+        "definition": "成本绩效指数是 EV 与 AC 的比值。",
+        "principle": "CPI 小于 1 表示成本效率偏低，等于 1 表示符合计划，大于 1 表示成本效率较好。",
+        "syntax": "CPI = EV / AC",
+        "rules": [
+          "CPI = EV / AC",
+          "计算题先确认 EV 与 AC 的单位一致"
+        ],
+        "comparisons": [
+          {
+            "vs": "SPI",
+            "difference": "SPI 关注进度，CPI 关注成本。",
+            "dimensions": [
+              {
+                "dimension": "关注对象",
+                "current": "成本效率",
+                "compared": "进度效率"
+              },
+              {
+                "dimension": "计算依据",
+                "current": "挣值（EV）与实际成本（AC）",
+                "compared": "挣值（EV）与计划价值（PV）"
+              },
+              {
+                "dimension": "题目判断线索",
+                "current": "实际花费、成本超支或节约",
+                "compared": "计划进度、提前或落后"
+              }
+            ]
+          }
+        ]
+      },
+      "best_practices": [
+        "先写公式，再代入数值。"
+      ],
+      "mnemonic": "挣值除实际，低一就吃亏。",
+      "why_tested": "挣值分析常考公式和指标含义。",
+      "common_mistakes": [
+        {
+          "mistake": "把 AC/EV 当作 CPI",
+          "correct": "CPI 使用 EV/AC",
+          "severity": "high"
+        }
+      ],
+      "learning": {
+        "level": 2,
+        "estimated_hours": 0.5
+      },
+      "related_questions": [
+        "fixture_hi_001"
+      ],
+      "source_questions": [
+        "fixture_hi_001"
+      ],
+      "cornell_note": {
+        "summary": "CPI=EV/AC；小于 1 表示成本效率偏低。"
+      },
+      "visualization": {
+        "type": "flow",
+        "nodes": [
+          "EV=60",
+          "AC=75",
+          "CPI=EV/AC=0.80"
+        ],
+        "relations": [
+          "EV=60 → AC=75",
+          "AC=75 → CPI=EV/AC=0.80"
+        ]
+      },
+      "tags": [
+        "软考高项",
+        "项目成本管理",
+        "EVM",
+        "公式"
+      ],
+      "images": [
+        "assets/evm-flow.svg"
+      ],
+      "references": []
+    },
+    {
+      "id": "fixture_stakeholder_engagement",
+      "title": "干系人参与策略",
+      "parent": "项目干系人管理",
+      "one_liner": "根据权力、利益和参与度制定策略。",
+      "core_concept": {
+        "definition": "干系人参与管理通过分析干系人的影响因素，设计沟通和参与行动。",
+        "principle": "先识别与分析，再按差异制定策略并持续监控参与状态。",
+        "syntax": "识别 → 分析权力与利益 → 制定参与策略 → 监控参与状态",
+        "rules": [
+          "不能以删除反对意见代替治理",
+          "范围变更应遵循评审和控制机制"
+        ],
+        "comparisons": [
+          {
+            "vs": "项目沟通管理",
+            "difference": "干系人参与强调对象和参与状态，沟通管理强调信息交换机制。",
+            "dimensions": [
+              {
+                "dimension": "关注对象",
+                "current": "干系人的参与状态、立场和支持度",
+                "compared": "项目信息及其传递过程"
+              },
+              {
+                "dimension": "主要目的",
+                "current": "推动干系人达到期望参与水平",
+                "compared": "确保信息及时、准确地到达相关方"
+              },
+              {
+                "dimension": "题目判断线索",
+                "current": "权力、利益、参与度、抵制或支持",
+                "compared": "发送者、接收者、渠道、频率和反馈"
+              }
+            ]
+          }
+        ]
+      },
+      "best_practices": [
+        "按影响排序干系人，再选择沟通方式。"
+      ],
+      "mnemonic": "先识别，再参与；按影响，定策略。",
+      "why_tested": "干系人分析是范围冲突与变更治理的常见基础。",
+      "common_mistakes": [
+        {
+          "mistake": "把冲突意见直接删除",
+          "correct": "分析原因并设计参与策略",
+          "severity": "high"
+        }
+      ],
+      "learning": {
+        "level": 1,
+        "estimated_hours": 0.5
+      },
+      "related_questions": [
+        "fixture_hi_002"
+      ],
+      "source_questions": [
+        "fixture_hi_002"
+      ],
+      "cornell_note": {
+        "summary": "先分析权力、利益和参与度，再制定策略。"
+      },
+      "visualization": {
+        "type": "flow",
+        "nodes": [
+          "识别干系人",
+          "分析权力利益",
+          "制定参与策略",
+          "持续监控"
+        ],
+        "relations": [
+          "识别干系人 → 分析权力利益",
+          "分析权力利益 → 制定参与策略",
+          "制定参与策略 → 持续监控"
+        ]
+      },
+      "tags": [
+        "软考高项",
+        "项目干系人管理",
+        "关联"
+      ],
+      "images": [],
+      "references": []
+    }
+  ]
+}

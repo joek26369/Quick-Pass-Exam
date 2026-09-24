@@ -1,0 +1,53 @@
+{
+  "_fixture_metadata": {
+    "kind": "synthetic_high_item_choice",
+    "review_status": "questions_human_reviewed",
+    "question_reviewed_by": "user",
+    "question_reviewed_at": "2026-09-20",
+    "source_status": "intentionally_missing",
+    "profile": "ruankao-xitixiangmu"
+  },
+  "questions": [
+    {
+      "id": "fixture_hi_001",
+      "question_zh": "某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |",
+      "options": [
+        {"label": "A", "text": "CPI=0.80，说明每投入 1 元产生 0.80 元挣值", "is_correct": true},
+        {"label": "B", "text": "CPI=1.25，说明项目成本绩效良好", "is_correct": false},
+        {"label": "C", "text": "CPI=1.00，说明 EV 与 AC 相等", "is_correct": false},
+        {"label": "D", "text": "CPI=0.15，说明项目只完成了 15% 的预算", "is_correct": false}
+      ],
+      "answer": "A",
+      "explanation": "CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。",
+      "option_analyses": [
+        {"option": "A", "is_correct": true, "analysis": "正确。60/75=0.80。", "quotes": ["CPI = EV / AC"]},
+        {"option": "B", "is_correct": false, "analysis": "错误。1.25 是倒数关系。", "quotes": []},
+        {"option": "C", "is_correct": false, "analysis": "错误。EV 与 AC 不相等。", "quotes": []},
+        {"option": "D", "is_correct": false, "analysis": "错误。0.15 不是 CPI。", "quotes": []}
+      ],
+      "memory_tips": ["CPI 看成本：挣值除实际，低于 1 就吃亏。"],
+      "concept_ids": ["fixture_evm_cpi"],
+      "is_calculation": true
+    },
+    {
+      "id": "fixture_hi_002",
+      "question_zh": "项目关键干系人持续反对范围变更。项目经理首先应采取的做法是：",
+      "options": [
+        {"label": "A", "text": "立即跳过评审并冻结全部需求", "is_correct": false},
+        {"label": "B", "text": "分析干系人的权力、利益和参与度，并制定沟通与参与策略", "is_correct": true},
+        {"label": "C", "text": "删除该干系人的所有意见", "is_correct": false},
+        {"label": "D", "text": "只依据项目经理个人经验决定", "is_correct": false}
+      ],
+      "answer": "B",
+      "explanation": "应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。没有外部来源、来源 ID 或页码。",
+      "option_analyses": [
+        {"option": "A", "is_correct": false, "analysis": "错误。跳过治理流程会增加风险。", "quotes": []},
+        {"option": "B", "is_correct": true, "analysis": "正确。干系人分析是制定参与策略的基础。", "quotes": ["分析干系人的权力、利益和参与度"]},
+        {"option": "C", "is_correct": false, "analysis": "错误。删除意见不能解决冲突。", "quotes": []},
+        {"option": "D", "is_correct": false, "analysis": "错误。范围变更应遵循控制机制。", "quotes": []}
+      ],
+      "memory_tips": ["先看权利与利益，再定沟通参与。"],
+      "concept_ids": ["fixture_stakeholder_engagement"]
+    }
+  ]
+}

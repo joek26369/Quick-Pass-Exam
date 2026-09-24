@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Pass 学习包</title>
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#5b677c; --line:#d9e0ea; --bg:#f4f7fb; --card:#fff; --accent:#1d5fd1; --ok:#137a52; --bad:#b53838; }
+    * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,"PingFang SC",sans-serif }
+    button { font:inherit; cursor:pointer } header { position:sticky; top:0; z-index:2; display:flex; gap:12px; align-items:center; padding:12px 20px; background:#ffffffed; border-bottom:1px solid var(--line); backdrop-filter:blur(8px) }
+    .brand { display:flex; align-items:center; gap:9px; color:var(--ink); font-size:18px; font-weight:800; white-space:nowrap }.brand img { display:block; width:40px; height:26px; object-fit:contain } nav { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap } nav button,.button { border:1px solid var(--line); border-radius:7px; padding:7px 11px; background:#fff; color:var(--ink) } nav button[aria-selected="true"],.button.primary { border-color:var(--accent); color:#fff; background:var(--accent) }
+    #stats,#storage-status { color:var(--muted); font-size:13px } #storage-status { display:block; padding:5px 20px; background:#eef5ff; border-bottom:1px solid var(--line) } main { max-width:1280px; margin:24px auto; padding:0 18px 48px } .layout { display:grid; grid-template-columns:260px minmax(0,1fr) 230px; gap:20px }
+    aside { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; align-self:start; position:sticky; top:70px; max-height:calc(100vh - 90px); overflow:auto } aside button { width:100%; text-align:left; border:0; border-radius:6px; padding:7px; background:transparent } aside button:hover,aside button.active { background:#eaf1ff; color:#0b459e }
+    .wrongbook-list { display:grid; gap:10px; margin-top:16px }.wrongbook-list button { width:100%; padding:12px; border:1px solid var(--line); border-radius:8px; background:#fff; text-align:left; overflow-wrap:anywhere }.wrongbook-list button:hover { background:#eef5ff }
+    article { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:24px; min-width:0 } h2 { margin-top:0 } h3 { margin-top:26px; font-size:17px } h4 { margin:16px 0 6px } .muted { color:var(--muted) } .callout { border-left:4px solid #7aa6ef; background:#eef5ff; padding:10px 12px; margin:12px 0; border-radius:0 6px 6px 0 } .callout > div { white-space:pre-line } .warning { border-color:#d89522; background:#fff7e9 } .error { border-color:var(--bad); background:#fff1f1 }
+    .formula { overflow:auto; padding:12px; border:1px solid var(--line); background:#f8fafc; white-space:pre-wrap; border-radius:6px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace } .relation { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 } .relation span { border:1px solid #b9c8e4; border-radius:999px; padding:3px 9px; background:#f4f8ff; font-size:14px }
+    .image { display:block; max-width:100%; max-height:520px; margin:12px 0; border:1px solid var(--line); border-radius:6px } .options { display:grid; gap:9px } .option { padding:10px; width:100%; text-align:left; border:1px solid var(--line); background:#fff; border-radius:7px } .option.selected { outline:2px solid #9dbcf0 }.option.ok { border-color:var(--ok); background:#edfbf5 }.option.bad { border-color:var(--bad); background:#fff0f0 } input[type=search] { width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; margin-bottom:8px }.chapter { color:var(--muted); font-size:13px; font-weight:700; margin:10px 7px 3px }.qbar { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:13px; margin-bottom:10px }.track { flex:1; height:6px; border-radius:999px; background:#e5ebf4; overflow:hidden }.track i { display:block; height:100%; background:var(--accent) }.qnav { display:flex; flex-wrap:wrap; gap:5px; margin-top:14px }.qnav button { width:30px; padding:4px; border:1px solid var(--line); background:#fff; border-radius:4px }.qnav button.current { background:#eaf1ff; border-color:var(--accent) }.qnav button.wrong { border-color:var(--bad); color:var(--bad) }.qnav button.ok { border-color:var(--ok); color:var(--ok) } .markdown-table { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px }.markdown-table th,.markdown-table td { border:1px solid var(--line); padding:6px; text-align:left; vertical-align:top }
+    .links { display:flex; gap:8px; flex-wrap:wrap }.links button,.links a { border:0; color:#0b55b5; background:#edf4ff; padding:4px 8px; border-radius:5px; text-decoration:none }.viz { border:1px dashed #a9b9d4; border-radius:7px; padding:12px }.viz ul { margin-bottom:0 }.hidden { display:none!important }
+    .material-list { display:grid; gap:10px }.material-card { display:grid; grid-template-columns:112px minmax(0,1fr); gap:12px; align-items:start; width:100%; padding:10px; text-align:left; border:1px solid var(--line); border-radius:8px; background:#fff }.material-card:hover { border-color:#8db0e8; background:#f7faff }.material-card-copy { display:grid; gap:3px; min-width:0 }.material-anchor { color:#174d98 }.material-meta { color:#486b9f; font-size:13px }.material-snippet { color:var(--muted); font-size:14px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden }.material-page { position:relative; display:block; width:max-content; max-width:100%; margin:0 auto 16px }.material-page .image { max-height:62vh; margin:0 }.material-page.compact { width:112px; margin:0 }.material-page.compact .image { width:112px; height:auto; margin:0 }.material-region { position:absolute; border:3px solid #e33f47; background:#e33f4724; box-shadow:0 0 0 1px #fff; pointer-events:none }.material-dialog { width:min(900px,calc(100vw - 24px)); max-height:90vh; padding:0; border:1px solid var(--line); border-radius:12px; color:var(--ink) }.material-dialog::backdrop { background:#17203399 }.material-dialog-head { position:sticky; top:0; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; background:#fff; border-bottom:1px solid var(--line) }.material-dialog-head h2 { margin:0; font-size:18px }.material-dialog-close { border:0; background:transparent; font-size:24px }.material-dialog-body { padding:18px }.material-dialog-body .button { display:inline-block; text-decoration:none }
+    .question-source-page { margin:12px 0 18px; padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:#f8fbff }.question-source-page summary { cursor:pointer; color:#174d98; font-weight:700 }.question-source-page .image { max-height:760px; object-fit:contain; margin-bottom:4px }.question-source-page .muted { font-size:13px; color:var(--muted); margin:4px 0 }
+    @media (max-width:980px) { .layout { grid-template-columns:220px minmax(0,1fr) } #rail { display:none } } @media (max-width:700px) { header { flex-wrap:wrap; padding:10px 14px } nav { margin-left:0 } main { margin-top:14px; padding:0 10px 28px }.layout { display:block } aside { position:static; max-height:220px; margin-bottom:12px } #rail { display:block; max-height:none } article { padding:16px } }
+
+    .cornell { margin:28px 0; border:1.5px solid #8ec0ff; border-radius:18px; overflow:hidden; background:#fff; }
+    .cornell .cl-head { display:flex; align-items:center; gap:8px; background:#dcecff; padding:14px 22px; color:#33445c; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.18em; }.cornell .cl-title { white-space:pre; }.cornell .cl-mode,.fc-ops button { position:relative; z-index:1; border:1px solid #d9e1ec; border-radius:999px; padding:7px 14px; background:transparent; color:#33445c; font-size:14px; }.cornell .cl-mode { margin-left:auto; letter-spacing:.08em; }.cornell .cl-mode:hover,.fc-ops button:hover { background:#fff; border-color:#8ec0ff; }
+    .cornell-hint { margin:0; padding:8px 18px; color:var(--muted); font-size:12px; border-bottom:1px solid var(--line); }
+    .cornell-body,.cornell-row,.cornell-header { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,2fr); }
+    .cornell-body.cornell-paired { display:block; }
+    .cornell .cl { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); }
+    .cornell .cl + .cl { border-top:1px solid #8ec0ff; }
+    .cornell .cl > div { padding:24px 38px; min-width:0; }
+    .cornell .cl > div:first-child { background:#dcecff; border-right:1px solid #8ec0ff; color:#34465e; font-size:16px; }
+    .cornell .cl > div:last-child { font-size:16px; }
+    .cornell-row { border-top:1px solid #b8c6d8; }
+    .cornell-header { background:#edf2f8; }
+    .cornell-header h4 { margin:0; padding:12px 16px; }
+    .cornell-header h4:first-child { border-right:2px solid #b8c6d8; }
+    .cornell-paired .cornell-list { list-style:none; padding:0; }
+    .cornell-cell { padding:16px; min-width:0; overflow-wrap:anywhere; }
+    .cornell-cues { background:#f6f8fc; border-right:2px solid #b8c6d8; }
+    .cornell h4 { margin:0 0 12px; font-size:13px; letter-spacing:.04em; color:#52657e; }
+    .cornell-list { margin:0; padding-left:18px; }
+    .cornell-list li { padding:0 0 12px; white-space:pre-wrap; line-height:1.8; }
+    .cornell-list li:last-child { padding-bottom:0; }
+    .cornell-summary { border-top:2px solid #b8c6d8; padding:16px 18px; background:#fbfcfe; overflow-wrap:anywhere; }
+    .cornell-summary p { margin:0; white-space:pre-wrap; line-height:1.8; }
+    .cornell-empty { margin:0; color:var(--muted); font-size:14px; }
+    .cornell code { background:#edf2f8; border-radius:3px; padding:1px 3px; white-space:pre-wrap; }
+    .cornell .cl-cards { display:none; padding:36px 38px; }.cornell.card-mode .cornell-body { display:none; }.cornell.card-mode .cl-cards { display:block; }.fc-stage { perspective:1200px; }.fc-card { position:relative; width:100%; min-height:180px; transform-style:preserve-3d; transition:transform .45s cubic-bezier(.25,.8,.3,1); cursor:pointer; border-radius:18px; outline:none; }.fc-card.flipped { transform:rotateY(180deg); }.fc-card:focus-visible { outline:3px solid #8ec0ff; outline-offset:3px; }.fc-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border:1.5px solid #8ec0ff; border-radius:18px; padding:28px 38px; overflow:auto; display:flex; flex-direction:column; gap:18px; }.fc-tag { color:#77869a; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; letter-spacing:.18em; }.fc-body { display:flex; align-items:center; flex:1; font-size:18px; line-height:1.8; }.fc-front { background:#dcecff; }.fc-back { background:#fff; transform:rotateY(180deg); }.fc-back .fc-tag { color:#4e8bd3; }.fc-ops { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:18px; }.fc-count { min-width:56px; text-align:center; color:#52657e; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; }.fc-card.measuring { min-height:0; height:auto !important; }.fc-card.measuring .fc-face { position:relative; inset:auto; transform:none; }.fc-card.measuring .fc-back { position:relative; }
+    @media (max-width:600px) {
+      .cornell-body { grid-template-columns:minmax(0,1fr); }
+      .cornell-row,.cornell-header,.cornell .cl { grid-template-columns:minmax(0,1fr) minmax(0,1.7fr); }
+      .cornell-paired .cornell-cues { border-right:2px solid #b8c6d8; border-bottom:0; }
+      .cornell-cues { border-right:0; border-bottom:1px solid var(--line); }
+      .cornell-cell,.cornell-summary { padding:14px; }.cornell .cl > div { padding:18px 14px; }.cornell .cl-cards { padding:18px 14px; }.fc-face { padding:20px; }
+    }
+    .knowledge-graph { border:1px solid var(--line); border-radius:10px; padding:12px; background:#fbfcff; }
+    .graph-scroll { max-width:100%; overflow-x:auto; }
+    .graph-scroll svg { display:block; margin:auto; font-family:system-ui,-apple-system,"PingFang SC",sans-serif; }
+    .graph-axis { color:var(--muted); margin:0 0 10px; }
+    .graph-quadrants { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:2px; background:#5778ab; border:2px solid #5778ab; }
+    .graph-quadrant { padding:18px 12px; background:#eef5ff; overflow-wrap:anywhere; }
+    .graph-quadrant:nth-child(2) { background:#e7f5ee; }
+    .graph-quadrant p { margin:8px 0 0; }
+    .knowledge-graph details { margin-top:12px; overflow-wrap:anywhere; }
+    .knowledge-graph summary { cursor:pointer; color:#0b55b5; }
+    .compare-hint { color:var(--muted); font-size:14px; margin:6px 0 14px; }
+    .compare-table { width:100%; border-collapse:collapse; margin:12px 0 24px; font-size:14px; table-layout:fixed; }
+    .compare-table th,.compare-table td { border:1px solid #c8d5e6; padding:12px; text-align:left; vertical-align:top; overflow-wrap:anywhere; }
+    .compare-table thead { background:#e8effa; }
+    .compare-table th:first-child { width:24%; }
+    .compare-table tbody th { background:#f3f7fd; color:#174d98; }
+    .compare-table p { margin:0 0 8px; }.compare-table p:last-child { margin-bottom:0; }
+    .compare-toolbar { margin-bottom:14px; }
+    .compare-cards { display:grid; gap:14px; }
+    .compare-card { border:1px solid #c8d5e6; border-radius:10px; overflow:hidden; }
+    .compare-names { display:grid; grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr); gap:10px; align-items:center; padding:14px; background:#edf3fc; text-align:center; overflow-wrap:anywhere; }
+    .compare-versus { color:#647a9b; }
+    .compare-answer { padding:12px 16px; background:#fff; }
+    .compare-answer summary { color:#174d98; cursor:pointer; font-size:14px; }
+    .compare-answer p { margin:12px 0 0; border-left:3px solid #a1bce4; padding-left:12px; overflow-wrap:anywhere; }
+    @media(max-width:600px) {
+      .compare-table,.compare-table tbody,.compare-table tr,.compare-table td,.compare-table tbody th { display:block; width:100%!important; }
+      .compare-table thead { display:none; }.compare-table tr { margin-bottom:14px; }
+      .compare-table td { border-top:0; }.compare-table td::before { content:attr(data-label); display:block; color:#52657e; font-size:12px; font-weight:700; margin-bottom:6px; }
+    }
+  </style>
+</head>
+<body>
+  <header><div class="brand" aria-label="Quick Pass Exam-快考通"><img src="assets/logo-mark.png" alt=""><span>Quick Pass Exam-快考通</span></div><span id="stats"></span><nav><button data-view="notes" aria-selected="true">考点笔记</button><button data-view="quiz" aria-selected="false">刷题</button><button data-view="wrongbook" aria-selected="false">错题本</button></nav></header>
+  <div id="quality-status" role="status" style="margin:12px 20px;padding:10px 12px;background:#fff7e9;border-left:4px solid #d89522"></div>
+  <div id="storage-status" role="status">正在读取作答记录…</div>
+  <main><div class="layout"><aside id="sidebar" aria-label="目录"></aside><section id="content" aria-live="polite"></section><aside id="rail" aria-label="关联内容"></aside></div></main>
+  <dialog id="material-dialog" class="material-dialog"><div class="material-dialog-head"><h2 class="material-dialog-title">教辅原版内容</h2><button type="button" class="material-dialog-close" aria-label="关闭">×</button></div><div class="material-dialog-body"></div></dialog>
+  <script>/* Cornell layout: explicit pairs stay paired; independent arrays stay separate. */
+function cornellInline(parent, value) {
+  const text = String(value ?? '');
+  // A deliberately small, safe emphasis subset. User HTML stays text.
+  for (const part of text.split(/(\*\*[^*\n]+\*\*|`[^`\n]+`)/g)) {
+    if (!part) continue;
+    const tag = part.startsWith('**') && part.endsWith('**') ? 'strong'
+      : part.startsWith('`') && part.endsWith('`') ? 'code' : null;
+    if (tag) {
+      const node = document.createElement(tag);
+      node.textContent = part.slice(tag === 'strong' ? 2 : 1, tag === 'strong' ? -2 : -1);
+      parent.append(node);
+    } else parent.append(document.createTextNode(part));
+  }
+}
+function addCornellFlashcards(section, body, footer, pairs) {
+  const button = document.createElement('button');
+  button.type = 'button'; button.className = 'cl-mode'; button.dataset.mode = 'card';
+  button.textContent = '闪卡';
+  section.querySelector('.cl-head').append(button);
+
+  const deck = document.createElement('div');
+  deck.className = 'cl-cards';
+  const stage = document.createElement('div'); stage.className = 'fc-stage';
+  const card = document.createElement('div'); card.className = 'fc-card';
+  card.tabIndex = 0; card.setAttribute('role', 'button'); card.title = '点击翻面';
+  const front = document.createElement('div'); front.className = 'fc-face fc-front';
+  const frontTag = document.createElement('span'); frontTag.className = 'fc-tag'; frontTag.textContent = 'CUE · 问题';
+  const frontBody = document.createElement('div'); frontBody.className = 'fc-body'; front.append(frontTag, frontBody);
+  const back = document.createElement('div'); back.className = 'fc-face fc-back';
+  const backTag = document.createElement('span'); backTag.className = 'fc-tag'; backTag.textContent = 'NOTE · 答案';
+  const backBody = document.createElement('div'); backBody.className = 'fc-body'; back.append(backTag, backBody);
+  card.append(front, back); stage.append(card);
+  const controls = document.createElement('div'); controls.className = 'fc-ops';
+  const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '上一张';
+  const count = document.createElement('span'); count.className = 'fc-count';
+  const next = document.createElement('button'); next.type = 'button'; next.textContent = '下一张';
+  controls.append(previous, count, next); deck.append(stage, controls); section.append(deck);
+
+  const state = { index: 0, flipped: false };
+  const fit = () => {
+    card.classList.add('measuring');
+    const height = Math.max(front.offsetHeight, back.offsetHeight, 180);
+    card.classList.remove('measuring');
+    card.style.height = `${height}px`;
+  };
+  const show = () => {
+    const pair = pairs[state.index]; frontBody.replaceChildren(); backBody.replaceChildren();
+    cornellInline(frontBody, pair.cue); cornellInline(backBody, pair.note);
+    state.flipped = false; card.classList.remove('flipped');
+    count.textContent = `${state.index + 1} / ${pairs.length}`;
+    card.setAttribute('aria-label', '当前显示问题，点击查看答案');
+    requestAnimationFrame(fit);
+  };
+  const flip = () => {
+    state.flipped = !state.flipped; card.classList.toggle('flipped', state.flipped);
+    card.setAttribute('aria-label', state.flipped ? '当前显示答案，点击查看问题' : '当前显示问题，点击查看答案');
+  };
+  card.addEventListener('click', flip);
+  card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); flip(); } });
+  previous.addEventListener('click', () => { state.index = (state.index - 1 + pairs.length) % pairs.length; show(); });
+  next.addEventListener('click', () => { state.index = (state.index + 1) % pairs.length; show(); });
+  button.addEventListener('click', () => {
+    const active = section.classList.toggle('card-mode');
+    footer.hidden = active;
+    button.textContent = active ? '康奈尔' : '闪卡'; button.dataset.mode = active ? 'cornell' : 'card';
+    if (active) show();
+  });
+}
+function renderCornell(parent, value, title = '康奈尔笔记') {
+  if (!value || typeof value !== 'object') return;
+  const strings = v => (Array.isArray(v) ? v : typeof v === 'string' ? [v] : [])
+    .filter(x => typeof x === 'string' && x.trim());
+  const pairs = Array.isArray(value.pairs) && value.pairing_status !== 'unpaired'
+    ? value.pairs.filter(p => p && typeof p.cue === 'string' && typeof p.note === 'string' && p.cue.trim() && p.note.trim()) : [];
+  const cues = strings(value.cues), notes = strings(value.notes ?? value.answers);
+  const summary = typeof value.summary === 'string' ? value.summary : '';
+  if (!pairs.length && !cues.length && !notes.length && !summary.trim()) return;
+  const section = document.createElement('section');
+  section.className = 'cornell'; section.setAttribute('aria-label', title);
+  const heading = document.createElement('div'); heading.className = 'cl-head';
+  const headingText = document.createElement('span'); headingText.className = 'cl-title'; headingText.textContent = 'CORNELL 自测';
+  heading.append(headingText); section.append(heading);
+  const body = document.createElement('div'); body.className = 'cornell-body';
+  function cell(label, values, cls) {
+    const box = document.createElement('div'); box.className = 'cornell-cell ' + cls;
+    if (label) { const h = document.createElement('h4'); h.textContent = label; box.append(h); }
+    if (values.length) {
+      const list = document.createElement('ul'); list.className = 'cornell-list';
+      for (const text of values) { const item = document.createElement('li'); cornellInline(item, text); list.append(item); }
+      box.append(list);
+    } else {
+      const p = document.createElement('p'); p.className = 'cornell-empty';
+      p.textContent = label === '提示 / 自测' ? '本条笔记尚未提供提示。' : '本条笔记尚未提供详细笔记。'; box.append(p);
+    }
+    return box;
+  }
+  if (pairs.length) {
+    body.classList.add('cornell-paired');
+    for (const pair of pairs) {
+      const row = document.createElement('div'); row.className = 'cl';
+      row.append(cell(null, [pair.cue], 'cornell-cues'), cell(null, [pair.note], 'cornell-notes'));
+      body.append(row);
+    }
+  } else {
+    if (cues.length && notes.length) {
+      const hint = document.createElement('p'); hint.className = 'cornell-hint';
+      hint.textContent = '提示与笔记分别整理，不按序号逐条对应。'; section.append(hint);
+    }
+    body.append(cell('提示 / 自测', cues, 'cornell-cues'), cell('笔记 / 要点', notes, 'cornell-notes'));
+  }
+  section.append(body);
+  const footer = document.createElement('div'); footer.className = 'cornell-summary';
+  const h = document.createElement('h4'); h.textContent = '总结'; footer.append(h);
+  const p = document.createElement('p'); cornellInline(p, summary || '本条笔记尚未提供总结。'); footer.append(p);
+  section.append(footer);
+  if (pairs.length) addCornellFlashcards(section, body, footer, pairs);
+  parent.append(section);
+}
+
+/* Offline diagrams; all labels are text, never executable markup. */
+function renderKnowledgeGraph(parent, value) {
+  if (!value || !value.type || value.type === 'none') return;
+  const strings = x => Array.isArray(x) ? x.filter(v => typeof v === 'string' && v.trim()) : [];
+  const nodes = [...new Set(strings(value.nodes))], relations = strings(value.relations);
+  if (!nodes.length && !relations.length) return;
+  const make = (tag, text, cls) => { const n=document.createElement(tag); if(text !== undefined)n.textContent=text; if(cls)n.className=cls; return n; };
+  parent.append(make('h3','知识图谱'));
+  parent.append(make('p','根据学习笔记整理的示意图，非教材原图；来源核验状态见本页内容说明。','compare-hint'));
+  const box=make('div',undefined,'knowledge-graph');parent.append(box);
+  const keys=['权力高·利益低','权力高·利益高','权力低·利益低','权力低·利益高'];
+  if(value.type==='quadrant' && keys.every(k=>nodes.includes(k)) && nodes.length===4) {
+    box.append(make('p','权力 ↑ · 利益 →','graph-axis'));
+    const grid=make('div',undefined,'graph-quadrants');box.append(grid);
+    for(const key of keys) {
+      const cell=make('div',undefined,'graph-quadrant');cell.append(make('strong',key));
+      for(const r of relations) { const parts=r.split(/\s*→\s*/);if(parts.length===2 && parts[0]===key)cell.append(make('p',parts[1])); }
+      grid.append(cell);
+    }
+  } else if(nodes.length) {
+    const edges=[];
+    for(const r of relations) {const p=r.split(/\s*→\s*/);if(p.length===2 && nodes.includes(p[0]) && nodes.includes(p[1]))edges.push([nodes.indexOf(p[0]),nodes.indexOf(p[1])]);}
+    if(edges.length < relations.length)box.append(make('p',`${relations.length-edges.length} 条关系无法匹配图中节点，未绘制箭头；请展开下方文字说明查看。`,'callout warning'));
+    // Topological layers; cycles use a deterministic single-node-per-layer layout.
+    const degree=nodes.map(()=>0), levels=nodes.map(()=>0);edges.forEach(([a,b])=>degree[b]++);
+    const queue=degree.map((d,i)=>d===0?i:-1).filter(i=>i>=0);let count=0;
+    for(let pos=0;pos<queue.length;pos++){const a=queue[pos];count++;for(const [from,b] of edges)if(from===a){levels[b]=Math.max(levels[b],levels[a]+1);if(--degree[b]===0)queue.push(b);}}
+    if(count!==nodes.length)nodes.forEach((_,i)=>levels[i]=i);
+    const rows=[];nodes.forEach((_,i)=>(rows[levels[i]]??=[]).push(i));
+    const lines=nodes.map(n=>{const chars=Array.from(n),out=[];for(let i=0;i<chars.length;i+=12)out.push(chars.slice(i,i+12).join(''));return out;});
+    const heights=rows.map(row=>Math.max(...row.map(i=>lines[i].length*22+32)));
+    const width=Math.max(440,...rows.map(row=>row.length*210+30));let y=24;const positions=[];
+    rows.forEach((row,r)=>{row.forEach((i,j)=>positions[i]={x:(width-row.length*210)/2+j*210+10,y,h:heights[r]});y+=heights[r]+70;});
+    const ns='http://www.w3.org/2000/svg';
+    const svgNode=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs||{}))n.setAttribute(k,String(v));if(text!==undefined)n.textContent=text;return n;};
+    const svg=svgNode('svg',{viewBox:`0 0 ${width} ${y}`,width,height:y,role:'img','aria-label':'知识节点及有向关系图'});
+    svg.append(svgNode('title',{},'知识节点及有向关系图；完整关系见下方文字说明'));
+    const defs=svgNode('defs');const marker=svgNode('marker',{id:'knowledge-arrow',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'});marker.append(svgNode('path',{d:'M 0 0 L 10 5 L 0 10 z',fill:'#5778ab'}));defs.append(marker);svg.append(defs);
+    for(const [a,b] of edges){const p=positions[a],q=positions[b],x1=p.x+95,y1=p.y+p.h,x2=q.x+95,y2=q.y;svg.append(svgNode('path',{d:`M ${x1} ${y1} C ${x1} ${y1+35}, ${x2} ${y2-35}, ${x2} ${y2}`,fill:'none',stroke:'#5778ab','stroke-width':2,'marker-end':'url(#knowledge-arrow)'}));}
+    nodes.forEach((label,i)=>{const p=positions[i];svg.append(svgNode('rect',{x:p.x,y:p.y,width:190,height:p.h,rx:10,fill:'#eef5ff',stroke:'#87a7d6'}));const text=svgNode('text',{'text-anchor':'middle',fill:'#172033','font-size':15});lines[i].forEach((line,j)=>text.append(svgNode('tspan',{x:p.x+95,y:p.y+28+j*22},line)));svg.append(text);});
+    const scroll=make('div',undefined,'graph-scroll');scroll.tabIndex=0;scroll.setAttribute('aria-label','关系图，可横向滚动');scroll.append(svg);box.append(scroll);
+  }
+  const details=make('details');details.append(make('summary','查看节点与关系文字说明'));
+  const list=make('ul');for(const label of [...nodes,...relations])list.append(make('li',label));details.append(list);box.append(details);
+}
+
+/* Readable comparison grids, preserving supplied content without invented mnemonics. */
+function renderComparisons(parent, concept) {
+  const cc=concept.core_concept||{};
+  const make=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
+  const valid=x=>Array.isArray(x)?x.filter(v=>v && typeof v==='object'):[];
+  function section(title, hint) {
+    const s=make('section',undefined,'compare-section');s.append(make('h3',title),make('p',hint,'compare-hint'));parent.append(s);return s;
+  }
+  function table(container, headers, rows) {
+    const t=make('table',undefined,'compare-table');const head=make('thead'),tr=make('tr');
+    headers.forEach(label=>{const th=make('th',label);th.setAttribute('scope','col');tr.append(th);});head.append(tr);t.append(head);
+    const body=make('tbody');
+    for(const values of rows){const row=make('tr');values.forEach((value,i)=>{const cell=make(i===0?'th':'td');if(i===0)cell.setAttribute('scope','row');cell.setAttribute('data-label',headers[i]);
+      if(i===0)cornellInline(cell,value);else {const lines=String(value||'未提供').split(/；|\n/).filter(x=>x.trim());for(const line of lines){const p=make('p');cornellInline(p,line);cell.append(p);}}
+      row.append(cell);});body.append(row);}t.append(body);container.append(t);
+  }
+  const types=valid(cc.type_comparison);
+  if(types.length){
+    const s=section('类型对比','先看类型，再横向对照判别方式与关键规则。');
+    const groups=new Map();
+    for(const item of types){const name=String(item.type||'未命名类型');const parts=name.split(/[:：]/);const group=parts.length===2?parts[0]:'分类速查';const label=parts.length===2?parts[1]:name;if(!groups.has(group))groups.set(group,[]);groups.get(group).push([label,item.syntax_example,item.key_rules]);}
+    for(const [name,rows] of groups){s.append(make('h4',name));table(s,['类型','判别 / 示例','关键规则'],rows);}
+  }
+  const comparisons=valid(cc.comparisons);
+  if(comparisons.length){
+    const s=section('易混对比',`围绕「${concept.title||'当前考点'}」比较：先说出区别，再展开核对。`);
+    const toolbar=make('div',undefined,'compare-toolbar');
+    const toggle=make('button','进入自测：隐藏区别','button');toggle.type='button';toggle.setAttribute('aria-pressed','false');let hidden=false;const answers=[];
+    toggle.onclick=()=>{hidden=!hidden;answers.forEach(d=>d.open=!hidden);toggle.textContent=hidden?'结束自测：展开区别':'进入自测：隐藏区别';toggle.setAttribute('aria-pressed',String(hidden));};toolbar.append(toggle);s.append(toolbar);
+    const grid=make('div',undefined,'compare-cards');s.append(grid);
+    for(const item of comparisons){const card=make('div',undefined,'compare-card');const names=make('div',undefined,'compare-names');names.append(make('strong',concept.title||'当前考点'),make('span','↔','compare-versus'),make('strong',String(item.vs||'对比对象')));card.append(names);
+      const answer=make('details',undefined,'compare-answer');answer.open=true;answer.append(make('summary','关键区别 · 点击展开 / 收起'));
+      for(const line of String(item.difference||'未提供区别说明').split(/；|\n/).filter(x=>x.trim())){const p=make('p');cornellInline(p,line);answer.append(p);}answers.push(answer);card.append(answer);grid.append(card);
+    }
+  }
+}
+
+/* Read-only fidelity sections for fields already produced by the main pipeline.
+ * These functions never fetch sources or infer trust. All learner text reaches
+ * the DOM through the existing textContent-based helpers. */
+function fidelityText(value) {
+  if (typeof value === 'string') return value;
+  if (!value || typeof value !== 'object') return '';
+  return String(value.text || value.title || value.source_id || value.source_file || value.url || '未命名来源');
+}
+
+function fidelityList(value) {
+  return Array.isArray(value) ? value.filter(item => item !== null && item !== undefined) : [];
+}
+
+function renderQuestionTrustWarning(parent, question) {
+  const sourceLabel = question.source_paper || question.source_name || question.question_origin;
+  if (sourceLabel) callout(parent, '来源题目（输入声明）', String(sourceLabel));
+  const generated = question.generated_analysis || {};
+  if (question.answer_mismatch || generated.answer_mismatch) {
+    callout(parent, '答案存疑', '题库答案与模型辅助判断存在冲突；请提交答案后查看详情，并回到原始题库或来源资料核对。', 'warning');
+  }
+}
+
+function renderAnswerMismatchDetails(parent, question, generated) {
+  const mismatch = generated || question;
+  if (!mismatch || !mismatch.answer_mismatch) return;
+  const modelAnswer = mismatch.llm_answer || mismatch.answer || mismatch.model_answer || '未提供';
+  const prefix = generated ? '模型辅助判断' : '模型判断';
+  callout(parent, generated ? '模型生成答案冲突详情' : '答案冲突详情',
+    `题库答案为 ${question.answer || '未提供'}；${prefix}为 ${modelAnswer}。请以原始题库或来源资料的复核结果为准。`, 'warning');
+}
+
+function renderQuestionLearningDetails(parent, question, titlePrefix = '') {
+  const title = value => titlePrefix ? `模型生成${value}` : value;
+  const points = fidelityList(question.core_exam_points);
+  if (points.length) {
+    add(parent, 'h3', title('核心考点'));
+    for (const point of points) {
+      if (!point || typeof point !== 'object') continue;
+      callout(parent, String(point.title || '考点'), String(point.body || point.text || ''));
+    }
+  }
+  const solution = question.calc_solution;
+  if (solution && typeof solution === 'object') {
+    const parts = [];
+    if (solution.method_name) parts.push(`方法：${solution.method_name}`);
+    if (solution.steps) parts.push(`步骤：${solution.steps}`);
+    if (solution.common_patterns) parts.push(`常见模式：${solution.common_patterns}`);
+    if (parts.length) callout(parent, title('计算步骤'), parts.join('\n'));
+  }
+  const expansions = fidelityList(question.knowledge_expansion);
+  if (expansions.length) {
+    add(parent, 'h3', title('扩展知识'));
+    for (const item of expansions) {
+      if (!item || typeof item !== 'object') continue;
+      callout(parent, String(item.topic || '扩展要点'), String(item.body || item.text || ''));
+    }
+  }
+  const method = question.method_extract;
+  if (method && typeof method === 'object') {
+    const parts = [];
+    const labels = {method_name: '方法', steps: '步骤', description: '说明', applicable_conditions: '适用条件', common_patterns: '常见模式'};
+    for (const key of Object.keys(labels)) {
+      if (method[key]) parts.push(`${labels[key]}：${method[key]}`);
+    }
+    if (parts.length) callout(parent, title('方法论抽取'), parts.join('\n'));
+  }
+}
+
+function renderConceptFidelityDetails(parent, concept) {
+  const originIds = [];
+  for (const item of fidelityList(concept.question_origins)) {
+    const id = typeof item === 'string' ? item : item && item.question_id;
+    if (typeof id === 'string' && id && !originIds.includes(id)) originIds.push(id);
+  }
+  for (const id of fidelityList(concept.source_questions)) {
+    if (typeof id === 'string' && id && !originIds.includes(id)) originIds.push(id);
+  }
+  if (originIds.length) {
+    add(parent, 'h3', '来源题目（输入声明）');
+    const links = add(parent, 'div', undefined, 'links');
+    for (const id of originIds) {
+      if (QMAP[id]) links.append(linkButton(id, () => { state.view = 'quiz'; state.qid = id; render(); }));
+      else add(links, 'span', `${id}（不在本学习包）`);
+    }
+  }
+
+  const canonical = fidelityList(concept.canonical_references);
+  const legacy = fidelityList(concept.references);
+  const generated = fidelityList(concept.unverified_generated_references);
+  if (canonical.length) {
+    textList(parent, '输入提供的来源（未额外核验）', canonical.map(fidelityText));
+    callout(parent, '来源状态', '这些来源来自输入数据，学习包未额外核验其内容、版本、页码或教材归属。', 'warning');
+  }
+  if (legacy.length) {
+    textList(parent, '旧式来源字段（未核验）', legacy.map(fidelityText));
+    callout(parent, '来源状态', '旧式 references 字段仅保留原文，不自动视为可信来源或教辅证据。', 'warning');
+  }
+  if (generated.length) {
+    textList(parent, '模型建议来源（未核验）', generated.map(fidelityText));
+  }
+  if (!canonical.length && !legacy.length && !generated.length) {
+    callout(parent, '外部来源', '未提供可追溯的来源；关联题目不等于教材证据。', 'warning');
+  }
+}
+
+function closeMaterialDialog(){
+  const dlg=document.querySelector('#material-dialog');
+  if(dlg&&dlg.open)dlg.close();
+}
+
+function materialPageImage(parent,item,compact=false){
+  if(!item.thumbnail)return;
+  const frame=add(parent,'span',undefined,'material-page'+(compact?' compact':''));
+  image(frame,item.thumbnail,'教辅原版第 '+item.page+' 页');
+  const r=item.region;
+  if(r&&[r.x,r.y,r.width,r.height].every(Number.isFinite)){
+    const mark=add(frame,'span',undefined,'material-region');
+    mark.style.left=(r.x*100)+'%';mark.style.top=(r.y*100)+'%';
+    mark.style.width=(r.width*100)+'%';mark.style.height=(r.height*100)+'%';
+  }
+}
+
+function openMaterialDialog(item){
+  const dlg=document.querySelector('#material-dialog');
+  if(!dlg)return;
+  const title=dlg.querySelector('.material-dialog-title');
+  const body=dlg.querySelector('.material-dialog-body');
+  title.textContent=item.source_title+(item.page?' · 第 '+item.page+' 页':'');
+  body.replaceChildren();
+  if(item.anchor)add(body,'h3',item.anchor);
+  materialPageImage(body,item);
+  if(item.snippet)callout(body,'教辅节选',item.snippet);
+  if(item.relation||item.status)callout(body,'关联信息',[item.relation,item.status].filter(Boolean).join(' · '));
+  const source=document.createElement('a');
+  source.className='button primary';
+  source.href=item.source_link;
+  source.target='_blank';
+  source.rel='noopener';
+  source.textContent=item.page?'打开原文件第 '+item.page+' 页':'打开原文件';
+  body.append(source);
+  dlg.showModal();
+}
+
+function renderMaterialEvidence(parent,conceptId,evidence){
+  const rows=(Array.isArray(evidence)?evidence:[]).filter(x=>x&&x.concept_id===conceptId);
+  if(!rows.length)return;
+  add(parent,'h3','教辅资料');
+  const list=add(parent,'div',undefined,'material-list');
+  for(const item of rows){
+    const card=button('',()=>openMaterialDialog(item),'material-card');
+    materialPageImage(card,item,true);
+    const copy=add(card,'span',undefined,'material-card-copy');
+    add(copy,'strong',item.source_title+(item.page?' · 第 '+item.page+' 页':''));
+    if(item.anchor)add(copy,'span',item.anchor,'material-anchor');
+    if(item.relation||item.status)add(copy,'span',[item.relation,item.status].filter(Boolean).join(' · '),'material-meta');
+    if(item.snippet)add(copy,'span',item.snippet,'material-snippet');
+    list.append(card);
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const dlg=document.querySelector('#material-dialog');
+  dlg?.querySelector('.material-dialog-close')?.addEventListener('click',closeMaterialDialog);
+  dlg?.addEventListener('click',event=>{if(event.target===dlg)closeMaterialDialog()});
+});
+
+const DATA={"questions":[{"id":"fixture_hi_001","question_zh":"某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |","options":[{"label":"A","text":"CPI=0.80，说明每投入 1 元产生 0.80 元挣值","is_correct":true},{"label":"B","text":"CPI=1.25，说明项目成本绩效良好","is_correct":false},{"label":"C","text":"CPI=1.00，说明 EV 与 AC 相等","is_correct":false},{"label":"D","text":"CPI=0.15，说明项目只完成了 15% 的预算","is_correct":false}],"answer":"A","explanation":"CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。","option_analyses":[{"option":"A","is_correct":true,"analysis":"正确。60/75=0.80。","quotes":["CPI = EV / AC"]},{"option":"B","is_correct":false,"analysis":"错误。1.25 是倒数关系。","quotes":[]},{"option":"C","is_correct":false,"analysis":"错误。EV 与 AC 不相等。","quotes":[]},{"option":"D","is_correct":false,"analysis":"错误。0.15 不是 CPI。","quotes":[]}],"memory_tips":["CPI 看成本：挣值除实际，低于 1 就吃亏。"],"concept_ids":["cost_performance_index"],"is_calculation":true,"exam_point_summary":{"title":"成本绩效指数 CPI 的计算与判读","source_question":"fixture_hi_001","keywords":"CPI、挣值管理"},"method_extract":{},"calc_solution":{"method_name":"挣值分析","steps":"已知 BAC=100 万元，EV=60 万元，AC=75 万元。成本绩效指数公式为 CPI=EV/AC。代入得 CPI=60/75=0.80。由于 CPI<1，说明成本效率偏低，每投入 1 元实际成本仅获得 0.80 元挣值。","common_patterns":"常考 CPI、SPI、CV、SV 的公式与判读，尤其容易把 CPI=EV/AC 与 SPI=EV/PV 混淆，或把 CPI 与 AC/EV 倒置。CPI<1 表示成本绩效差，CPI>1 表示成本绩效好；CV=EV-AC，CV<0 表示成本超支。","related_concepts":["EV","AC","BAC","CV","EAC"]},"core_exam_points":[{"title":"成本绩效指数 CPI 的计算与判读","body":"CPI 是挣值管理中衡量成本效率的核心指标，公式为 CPI=EV/AC。CPI 表示每实际花费 1 元所获得的挣值。CPI>1 表示成本绩效好，CPI=1 表示符合预算，CPI<1 表示成本超支或成本效率偏低。本题 CPI=60/75=0.80，小于 1，说明成本效率偏低。"},{"title":"挣值管理核心参数 BAC、EV、AC 的含义","body":"BAC 是完工预算，即项目总预算；EV 是挣值，表示已完成工作的预算价值；AC 是实际成本，表示已完成工作的实际花费。EV 与 BAC 的比值可反映进度完成比例，但 CPI 主要反映成本效率，不是简单的完成百分比。"}],"answer_mismatch":false,"cornell_note":{"pairs":[{"cue":"CPI 的公式是什么？","note":"**CPI=EV/AC=60/75=0.80**。"},{"cue":"CPI 小于 1 代表什么？","note":"表示**成本效率偏低**：每投入 1 元实际成本，只获得 0.80 元挣值。"},{"cue":"EV、AC、BAC 分别是什么？","note":"EV 是已完成工作的预算价值；AC 是实际成本；BAC 是项目总预算。"},{"cue":"完成预算百分比与 CPI 有何区别？","note":"CPI 衡量成本效率，不等于完成比例；本题完成预算比例为 **EV/BAC=60/100=60%**。"}],"summary":"核心结论：本题正确选项为 A，CPI=EV/AC=60/75=0.80，说明每投入 1 元产生 0.80 元挣值，成本效率偏低。记忆口诀：EV 在上、AC 在下，小于 1 效率差。易错点警告：不要把 CPI 与完成百分比混淆，也不要把 AC/EV 当成 CPI。","pairing_status":"paired"},"option_translations":[{"option":"A","text_zh":"CPI=0.80，说明每投入 1 元产生 0.80 元挣值"},{"option":"B","text_zh":"CPI=1.25，说明项目成本绩效良好"},{"option":"C","text_zh":"CPI=1.00，说明 EV 与 AC 相等"},{"option":"D","text_zh":"CPI=0.15，说明项目只完成了 15% 的预算"}],"quotes":["CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。"],"is_methodology":false,"knowledge_expansion":[{"topic":"挣值管理常用指标关系","body":"CV=EV-AC，本题 CV=60-75=-15 万元，表示成本超支 15 万元。CPI=EV/AC，本题为 0.80。若还需判断进度，需要 PV 或 SPI=EV/PV；本题未给出 PV，因此不能计算进度绩效。EAC 等完工估算也需根据典型/非典型偏差假设选择公式，不能仅凭 BAC、EV、AC 随意判断。"},{"topic":"CPI 的典型应用","body":"CPI 常用于预测完工估算，如典型偏差下 EAC=BAC/CPI。本题若按典型偏差粗算，EAC=100/0.80=125 万元，表示若当前成本效率持续，项目完工可能需要约 125 万元。"}],"error":"","question_translation":"某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |\n\n![EVM 流程示意图](assets/evm-flow.svg)","generated_analysis":{"exam_point_summary":{"title":"成本绩效指数 CPI 的计算与判读","source_question":"fixture_hi_001","keywords":"CPI、挣值管理"},"method_extract":{},"calc_solution":{"method_name":"挣值分析","steps":"已知 BAC=100 万元，EV=60 万元，AC=75 万元。成本绩效指数公式为 CPI=EV/AC。代入得 CPI=60/75=0.80。由于 CPI<1，说明成本效率偏低，每投入 1 元实际成本仅获得 0.80 元挣值。","common_patterns":"常考 CPI、SPI、CV、SV 的公式与判读，尤其容易把 CPI=EV/AC 与 SPI=EV/PV 混淆，或把 CPI 与 AC/EV 倒置。CPI<1 表示成本绩效差，CPI>1 表示成本绩效好；CV=EV-AC，CV<0 表示成本超支。","related_concepts":["EV","AC","BAC","CV","EAC"]},"core_exam_points":[{"title":"成本绩效指数 CPI 的计算与判读","body":"CPI 是挣值管理中衡量成本效率的核心指标，公式为 CPI=EV/AC。CPI 表示每实际花费 1 元所获得的挣值。CPI>1 表示成本绩效好，CPI=1 表示符合预算，CPI<1 表示成本超支或成本效率偏低。本题 CPI=60/75=0.80，小于 1，说明成本效率偏低。"},{"title":"挣值管理核心参数 BAC、EV、AC 的含义","body":"BAC 是完工预算，即项目总预算；EV 是挣值，表示已完成工作的预算价值；AC 是实际成本，表示已完成工作的实际花费。EV 与 BAC 的比值可反映进度完成比例，但 CPI 主要反映成本效率，不是简单的完成百分比。"}],"answer_mismatch":false,"cornell_note":{"pairs":[{"cue":"CPI 的公式是什么？","note":"**CPI=EV/AC=60/75=0.80**。"},{"cue":"CPI 小于 1 代表什么？","note":"表示**成本效率偏低**：每投入 1 元实际成本，只获得 0.80 元挣值。"},{"cue":"EV、AC、BAC 分别是什么？","note":"EV 是已完成工作的预算价值；AC 是实际成本；BAC 是项目总预算。"},{"cue":"完成预算百分比与 CPI 有何区别？","note":"CPI 衡量成本效率，不等于完成比例；本题完成预算比例为 **EV/BAC=60/100=60%**。"}],"summary":"核心结论：本题正确选项为 A，CPI=EV/AC=60/75=0.80，说明每投入 1 元产生 0.80 元挣值，成本效率偏低。记忆口诀：EV 在上、AC 在下，小于 1 效率差。易错点警告：不要把 CPI 与完成百分比混淆，也不要把 AC/EV 当成 CPI。","pairing_status":"paired"},"option_translations":[{"option":"A","text_zh":"CPI=0.80，说明每投入 1 元产生 0.80 元挣值"},{"option":"B","text_zh":"CPI=1.25，说明项目成本绩效良好"},{"option":"C","text_zh":"CPI=1.00，说明 EV 与 AC 相等"},{"option":"D","text_zh":"CPI=0.15，说明项目只完成了 15% 的预算"}],"memory_tips":["CPI=EV/AC，花小钱办大事就大于 1，花大钱办小事就小于 1。","成本指数看效率：EV 在上，AC 在下；CPI<1 成本超支/效率低，CPI>1 成本节约/效率高。","不要把 CPI 与完成百分比混淆；完成预算比例通常看 EV/BAC。"],"is_calculation":true,"quotes":["CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。"],"is_methodology":false,"option_analyses":[{"option":"A","is_correct":true,"analysis":"✅ 正确。CPI=EV/AC=60/75=0.80。CPI=0.80 表示每投入 1 元实际成本，只获得 0.80 元挣值，即成本效率偏低、成本绩效不佳。","quotes":["CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。","CPI=0.80，说明每投入 1 元产生 0.80 元挣值"]},{"option":"B","is_correct":false,"analysis":"❌ 错误。CPI=1.25 是把公式倒置为 AC/EV=75/60 后得到的结果，不是 CPI 的正确计算。CPI=EV/AC=60/75=0.80，小于 1，不能说明项目成本绩效良好。","quotes":["CPI=1.25，说明项目成本绩效良好"]},{"option":"C","is_correct":false,"analysis":"❌ 错误。CPI=1.00 只有在 EV=AC 时成立。本题 EV=60，AC=75，两者不相等，因此 CPI 不为 1.00，而是 0.80。","quotes":["CPI=1.00，说明 EV 与 AC 相等"]},{"option":"D","is_correct":false,"analysis":"❌ 错误。CPI=0.15 不是本题计算结果。CPI 衡量的是成本效率，不是项目完成预算的百分比。若看完成比例，EV/BAC=60/100=60%，可说明已完成预算工作的 60%，而不是 15%。","quotes":["CPI=0.15，说明项目只完成了 15% 的预算"]}],"knowledge_expansion":[{"topic":"挣值管理常用指标关系","body":"CV=EV-AC，本题 CV=60-75=-15 万元，表示成本超支 15 万元。CPI=EV/AC，本题为 0.80。若还需判断进度，需要 PV 或 SPI=EV/PV；本题未给出 PV，因此不能计算进度绩效。EAC 等完工估算也需根据典型/非典型偏差假设选择公式，不能仅凭 BAC、EV、AC 随意判断。"},{"topic":"CPI 的典型应用","body":"CPI 常用于预测完工估算，如典型偏差下 EAC=BAC/CPI。本题若按典型偏差粗算，EAC=100/0.80=125 万元，表示若当前成本效率持续，项目完工可能需要约 125 万元。"}],"error":"","question_translation":"某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |\n\n![EVM 流程示意图](assets/evm-flow.svg)"},"llm_answer":"A","source_id":"sample-bank","source_file":"questions.json","answerable":true,"inline_image_assets":[],"unavailable_inline_images":[],"diagram_assets":[],"unavailable_diagrams":[]},{"id":"fixture_hi_002","question_zh":"项目关键干系人持续反对范围变更。项目经理首先应采取的做法是：","options":[{"label":"A","text":"立即跳过评审并冻结全部需求","is_correct":false},{"label":"B","text":"分析干系人的权力、利益和参与度，并制定沟通与参与策略","is_correct":true},{"label":"C","text":"删除该干系人的所有意见","is_correct":false},{"label":"D","text":"只依据项目经理个人经验决定","is_correct":false}],"answer":"B","explanation":"应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。没有外部来源、来源 ID 或页码。","option_analyses":[{"option":"A","is_correct":false,"analysis":"错误。跳过治理流程会增加风险。","quotes":[]},{"option":"B","is_correct":true,"analysis":"正确。干系人分析是制定参与策略的基础。","quotes":["分析干系人的权力、利益和参与度"]},{"option":"C","is_correct":false,"analysis":"错误。删除意见不能解决冲突。","quotes":[]},{"option":"D","is_correct":false,"analysis":"错误。范围变更应遵循控制机制。","quotes":[]}],"memory_tips":["先看权利与利益，再定沟通参与。"],"concept_ids":["stakeholder_engagement"],"exam_point_summary":{"title":"干系人分析与参与策略","source_question":"fixture_hi_002","keywords":"干系人分析；参与策略"},"method_extract":{"method_name":"干系人参与管理","description":"干系人参与管理是识别干系人、分析其权力、利益和参与度，并制定沟通与参与策略，以争取干系人支持项目、降低反对和冲突的管理过程。","application":"先分析干系人的权力、利益和参与度；再根据分析结果制定沟通与参与策略；持续监控干系人参与水平，推动其向支持、领导等期望状态转变。","related_concepts":["权力/利益方格","参与度评估矩阵","沟通管理计划","变更控制流程"]},"calc_solution":{},"core_exam_points":[{"title":"干系人分析与参与策略","body":"干系人持续反对变更时，应先识别并分析干系人的权力、利益和参与度，再制定针对性的沟通与参与策略。权力/利益方格可用于判断干系人管理优先级，参与度评估矩阵可用于识别当前参与水平与期望参与水平之间的差距。变更管理不能跳过评审或简单冻结需求，也不能忽视、删除干系人意见。"},{"title":"变更管理中的干系人参与","body":"范围变更往往涉及干系人利益冲突，项目经理需要先理解干系人立场与影响能力，通过沟通、参与和协商争取支持。直接强制、独断或删除意见会加剧抵触，降低项目成功概率。"}],"answer_mismatch":false,"cornell_note":{"cues":["关键干系人持续反对范围变更时，首先做什么？","干系人分析包括哪三个关键维度？","权力、利益和参与度如何影响沟通与参与策略？"],"notes":["应先分析干系人的**权力、利益和参与度**，再制定沟通与参与策略。"],"summary":"核心结论：项目经理首先应分析关键干系人的权力、利益和参与度，并制定沟通与参与策略；记忆口诀：先分析、后策略；易错点：不能跳过评审、冻结需求、删除意见或只凭个人经验决策。"},"option_translations":[{"option":"A","text_zh":"立即跳过评审并冻结全部需求"},{"option":"B","text_zh":"分析干系人的权力、利益和参与度，并制定沟通与参与策略"},{"option":"C","text_zh":"删除该干系人的所有意见"},{"option":"D","text_zh":"只依据项目经理个人经验决定"}],"is_calculation":false,"quotes":["应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。"],"is_methodology":true,"knowledge_expansion":[{"topic":"权力/利益方格","body":"权力/利益方格根据干系人的权力高低和利益高低划分管理策略：权力高、利益高者重点管理；权力高、利益低者令其满意；权力低、利益高者随时告知；权力低、利益低者监督即可。"},{"topic":"参与度评估矩阵","body":"参与度评估矩阵用于记录干系人当前参与水平与期望参与水平，常见分类包括：不了解、抵制、中立、支持、领导。通过比较差距，制定沟通与参与策略，推动干系人向期望状态转变。"},{"topic":"变更控制流程","body":"范围变更应遵循变更控制流程，包括提出变更申请、分析影响、提交变更控制委员会评审、批准或否决、更新计划和文件、通知干系人等。不能跳过评审，也不能简单冻结全部需求。"}],"error":"","question_translation":"项目关键干系人持续反对范围变更。项目经理首先应采取的做法是：","generated_analysis":{"exam_point_summary":{"title":"干系人分析与参与策略","source_question":"fixture_hi_002","keywords":"干系人分析；参与策略"},"method_extract":{"method_name":"干系人参与管理","description":"干系人参与管理是识别干系人、分析其权力、利益和参与度，并制定沟通与参与策略，以争取干系人支持项目、降低反对和冲突的管理过程。","application":"先分析干系人的权力、利益和参与度；再根据分析结果制定沟通与参与策略；持续监控干系人参与水平，推动其向支持、领导等期望状态转变。","related_concepts":["权力/利益方格","参与度评估矩阵","沟通管理计划","变更控制流程"]},"calc_solution":{},"core_exam_points":[{"title":"干系人分析与参与策略","body":"干系人持续反对变更时，应先识别并分析干系人的权力、利益和参与度，再制定针对性的沟通与参与策略。权力/利益方格可用于判断干系人管理优先级，参与度评估矩阵可用于识别当前参与水平与期望参与水平之间的差距。变更管理不能跳过评审或简单冻结需求，也不能忽视、删除干系人意见。"},{"title":"变更管理中的干系人参与","body":"范围变更往往涉及干系人利益冲突，项目经理需要先理解干系人立场与影响能力，通过沟通、参与和协商争取支持。直接强制、独断或删除意见会加剧抵触，降低项目成功概率。"}],"answer_mismatch":false,"cornell_note":{"cues":["关键干系人持续反对范围变更时，首先做什么？","干系人分析包括哪三个关键维度？","权力、利益和参与度如何影响沟通与参与策略？"],"notes":["应先分析干系人的**权力、利益和参与度**，再制定沟通与参与策略。"],"summary":"核心结论：项目经理首先应分析关键干系人的权力、利益和参与度，并制定沟通与参与策略；记忆口诀：先分析、后策略；易错点：不能跳过评审、冻结需求、删除意见或只凭个人经验决策。"},"option_translations":[{"option":"A","text_zh":"立即跳过评审并冻结全部需求"},{"option":"B","text_zh":"分析干系人的权力、利益和参与度，并制定沟通与参与策略"},{"option":"C","text_zh":"删除该干系人的所有意见"},{"option":"D","text_zh":"只依据项目经理个人经验决定"}],"memory_tips":["先分析、后策略；权力利益参与度，沟通参与不能少。","反对变更先别急，干系分析是前提。","跳过评审、冻结需求、删除意见、只凭经验——都是错误做法。"],"is_calculation":false,"quotes":["应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。"],"is_methodology":true,"option_analyses":[{"option":"A","is_correct":false,"analysis":"❌ 错误。立即跳过评审并冻结全部需求，既不符合变更控制流程，也忽视了关键干系人的合理诉求，可能导致冲突升级和需求失真。项目经理应优先分析干系人并制定参与策略，而不是强制冻结。","quotes":["立即跳过评审并冻结全部需求"]},{"option":"B","is_correct":true,"analysis":"✅ 正确。题库解析明确指出：应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。这符合干系人参与管理的标准做法，也是处理关键干系人持续反对范围变更的首要行动。","quotes":["应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。"]},{"option":"C","is_correct":false,"analysis":"❌ 错误。删除该干系人的所有意见，属于忽视甚至压制干系人诉求的做法。关键干系人的反对可能影响项目资源、验收和支持，项目经理应分析其权力、利益和参与度，并通过沟通与参与策略化解分歧。","quotes":["删除该干系人的所有意见"]},{"option":"D","is_correct":false,"analysis":"❌ 错误。只依据项目经理个人经验决定，缺乏系统的干系人分析和参与规划，容易造成主观决策，无法有效应对关键干系人的持续反对。应基于干系人分析结果制定沟通与参与策略。","quotes":["只依据项目经理个人经验决定"]}],"knowledge_expansion":[{"topic":"权力/利益方格","body":"权力/利益方格根据干系人的权力高低和利益高低划分管理策略：权力高、利益高者重点管理；权力高、利益低者令其满意；权力低、利益高者随时告知；权力低、利益低者监督即可。"},{"topic":"参与度评估矩阵","body":"参与度评估矩阵用于记录干系人当前参与水平与期望参与水平，常见分类包括：不了解、抵制、中立、支持、领导。通过比较差距，制定沟通与参与策略，推动干系人向期望状态转变。"},{"topic":"变更控制流程","body":"范围变更应遵循变更控制流程，包括提出变更申请、分析影响、提交变更控制委员会评审、批准或否决、更新计划和文件、通知干系人等。不能跳过评审，也不能简单冻结全部需求。"}],"error":"","question_translation":"项目关键干系人持续反对范围变更。项目经理首先应采取的做法是："},"llm_answer":"B","source_id":"sample-bank","source_file":"questions.json","answerable":true,"inline_image_assets":[],"unavailable_inline_images":[],"diagram_assets":[],"unavailable_diagrams":[]}],"concepts":[{"id":"cost_performance_index","title":"成本绩效指数（CPI）","parent":"project_cost","chapter":"项目成本管理","source_questions":["fixture_hi_001"],"knowledge_points":[{"id":"fixture_hi_001","statement":"成本绩效指数（CPI）"}],"learning":{"level":2,"estimated_hours":1.5,"path_note":"先掌握挣值管理三参数计划价值（PV）、挣值（EV）、实际成本（AC），再学成本绩效指数计算与判读，最后结合成本偏差、进度绩效指数和完工估算做综合预测。"},"learning_relations":{"prerequisites":[],"next_concepts":["stakeholder_engagement"],"related_concepts":["stakeholder_engagement"]},"relationships":[{"target":"stakeholder_engagement","type":"related","note":"成本绩效数据支撑干系人沟通汇报"}],"one_liner":"衡量项目成本效率的核心挣值指标，反映每元实际花费的挣值产出。","core_concept":{"definition":"成本绩效指数（CPI）是挣值管理中衡量成本效率的相对指标，表示每实际花费1元所获得的挣值。其计算公式为成本绩效指数 = 挣值 ÷ 实际成本，用于判断项目成本是节约、符合预算还是超支。","principle":"挣值管理用同一时点的预算价值与实际花费对比，把成本执行结果转化为可比较的比率。挣值（EV）代表已完成工作的预算价值，实际成本（AC）代表已完成工作的实际花费；二者相除消除项目规模影响，使不同项目或不同阶段的成本效率可比较。成本绩效指数 > 1 说明花小钱办大事，成本绩效指数 < 1 说明花大钱办小事，需分析原因并预测完工成本。","syntax":"\n\n成本绩效指数 = 挣值 ÷ 实际成本\n\n其中：\n- 成本绩效指数：成本效率相对指标，常记为 CPI。\n- 挣值：已完成工作的预算价值，常记为 EV。\n- 实际成本：已完成工作的实际花费，常记为 AC。\n\n判读：成本绩效指数 > 1 成本节约/效率高；成本绩效指数 = 1 符合预算；成本绩效指数 < 1 成本超支/效率低。","rules":["计算规则：成本绩效指数 = 挣值 ÷ 实际成本。","判读规则：成本绩效指数 > 1 表示成本节约、效率高；成本绩效指数 = 1 表示符合预算；成本绩效指数 < 1 表示成本超支、效率低。","含义规则：成本绩效指数表示每实际花费1元所获得的挣值，反映成本效率，不是进度完成百分比。","参数规则：挣值（EV）为已完成工作的预算价值；实际成本（AC）为已完成工作的实际花费；完工预算（BAC）为项目总预算。","关联规则：成本偏差（CV）= 挣值 − 实际成本；成本偏差 > 0 与成本绩效指数 > 1 同向，均表示成本节约。","进度区分规则：没有计划价值（PV）不能计算进度绩效指数（SPI）；完成预算比例通常看 挣值 ÷ 完工预算。","预测规则：仅当当前成本绩效被假定持续至完工时，完工估算 = 完工预算 ÷ 成本绩效指数；在该假定下，本例 完工估算 = 100 ÷ 0.80 = 125 万元。","非典型偏差规则：非典型偏差下不能直接用 完工估算 = 完工预算 ÷ 成本绩效指数，应重新估算剩余工作。"],"comparisons":[{"vs":"成本偏差（CV）","difference":"成本绩效指数是相对比率，反映成本效率；成本偏差是绝对金额，反映超支或节约金额。"},{"vs":"进度绩效指数（SPI）","difference":"成本绩效指数用挣值 ÷ 实际成本衡量成本效率；进度绩效指数用挣值 ÷ 计划价值衡量进度效率。"},{"vs":"完成预算比例（挣值 ÷ 完工预算）","difference":"完成预算比例反映已完成工作的预算占比，成本绩效指数反映实际花费换来的挣值效率，二者不同。"},{"vs":"完工估算（EAC）","difference":"成本绩效指数是当前绩效指标，完工估算是在典型或非典型偏差假设下对最终总成本的预测值。"}],"type_comparison":[]},"best_practices":["定期在固定报告时点计算成本绩效指数与成本偏差（CV），联合判断成本效率与超支金额。","用成本绩效指数趋势分析预测完工估算（EAC），先判断偏差属于典型还是非典型，再选择公式。","当成本绩效指数 < 1 时，优先分析范围、资源、价格、返工等原因，再制定纠偏措施，避免简单压缩质量或范围。"],"visualization":{"type":"flow","nodes":["挣值（EV）","实际成本（AC）","成本绩效指数 = 挣值 ÷ 实际成本","成本绩效指数 > 1：成本节约/效率高","成本绩效指数 = 1：符合预算","成本绩效指数 < 1：成本超支/效率低","若当前成本绩效持续：完工估算 = 完工预算 ÷ 成本绩效指数"],"relations":["挣值（EV） → 成本绩效指数 = 挣值 ÷ 实际成本","实际成本（AC） → 成本绩效指数 = 挣值 ÷ 实际成本","成本绩效指数 = 挣值 ÷ 实际成本 → 成本绩效指数 > 1：成本节约/效率高","成本绩效指数 = 挣值 ÷ 实际成本 → 成本绩效指数 = 1：符合预算","成本绩效指数 = 挣值 ÷ 实际成本 → 成本绩效指数 < 1：成本超支/效率低","成本绩效指数 = 挣值 ÷ 实际成本 → 若当前成本绩效持续：完工估算 = 完工预算 ÷ 成本绩效指数"]},"mnemonic":"CPI看效率：挣值除实际，>1省，<1超。","why_tested":"成本绩效指数是挣值管理中最常考的成本效率指标，考试常给出完工预算、挣值和实际成本要求计算并判读。该知识点还常与成本偏差、进度绩效指数、完工估算等联合考查，检验考生能否区分成本与进度、典型与非典型偏差。","common_mistakes":[{"mistake":"把成本绩效指数（CPI）当作项目完成百分比，认为成本绩效指数 = 0.80 表示只完成80%。","correct":"成本绩效指数反映成本效率，不是进度完成比例；完成预算比例通常看 挣值 ÷ 完工预算。","severity":"high"},{"mistake":"只记住公式却忽略判读方向，认为成本绩效指数 < 1 是成本节约。","correct":"成本绩效指数 > 1 表示成本节约、效率高；成本绩效指数 = 1 表示符合预算；成本绩效指数 < 1 表示成本超支、效率低。","severity":"high"},{"mistake":"在没有计划价值（PV）时强行计算进度绩效指数（SPI）。","correct":"进度绩效指数 = 挣值 ÷ 计划价值，无计划价值不能计算进度绩效指数；仅有挣值和实际成本时只能判断成本绩效，不能判断进度。","severity":"medium"},{"mistake":"典型偏差与非典型偏差混用，直接用 完工估算 = 完工预算 ÷ 成本绩效指数 处理所有情况。","correct":"只有典型偏差即当前成本效率持续时，才用 完工估算 = 完工预算 ÷ 成本绩效指数；非典型偏差需重新估算剩余工作。","severity":"high"}],"aliases":[{"text":"成本绩效指标","type":"synonym"},{"text":"CPI","type":"abbreviation"},{"text":"Cost Performance Index","type":"translation"}],"related_questions":["fixture_hi_001"],"cornell_note":{"cues":["成本绩效指数（CPI）的定义和计算公式是什么？","成本绩效指数 > 1、= 1、< 1 分别代表什么？","挣值（EV）、实际成本（AC）和完工预算（BAC）分别指什么？","成本绩效指数与成本偏差（CV）之间有什么对应关系？","为什么没有计划价值（PV）就不能判断进度绩效？","典型偏差下如何用成本绩效指数预测完工估算（EAC）？"],"notes":["**定义**：成本绩效指数（CPI）是挣值管理中衡量成本效率的相对指标，表示每实际花费1元所获得的挣值，不是进度完成百分比。\n**公式**：**成本绩效指数 = 挣值 ÷ 实际成本**；其中：**挣值（EV）**=已完成工作的预算价值，**实际成本（AC）**=已完成工作的实际花费。","**判读**：**成本绩效指数 > 1** 成本节约、效率高；**成本绩效指数 = 1** 符合预算；**成本绩效指数 < 1** 成本超支、效率低。","**挣值（EV）**：已完成工作的预算价值。\n**实际成本（AC）**：已完成工作的实际花费。\n**完工预算（BAC）**：项目总预算。","**成本偏差（CV）= 挣值 − 实际成本**。当实际成本为正时，成本偏差 > 0 与成本绩效指数 > 1 均表示成本节约；成本偏差 < 0 与成本绩效指数 < 1 均表示成本超支。","**进度绩效指数 = 挣值 ÷ 计划价值**，缺少计划价值（PV）就无法计算。\n**限制**：无 **计划价值（PV）** 不能计算 **进度绩效指数（SPI）**；本例 成本绩效指数 = 60 ÷ 75 = 0.80，成本超支。","**预测**：仅在当前成本绩效被假定持续至完工时，才可用 **完工估算 = 完工预算 ÷ 成本绩效指数**；非典型偏差需重估剩余工作，不能直接套用。"],"pairs":[{"cue":"成本绩效指数（CPI）的定义和计算公式是什么？","note":"**定义**：成本绩效指数（CPI）是挣值管理中衡量成本效率的相对指标，表示每实际花费1元所获得的挣值，不是进度完成百分比。\n**公式**：**成本绩效指数 = 挣值 ÷ 实际成本**；其中：**挣值（EV）**=已完成工作的预算价值，**实际成本（AC）**=已完成工作的实际花费。"},{"cue":"成本绩效指数 > 1、= 1、< 1 分别代表什么？","note":"**判读**：**成本绩效指数 > 1** 成本节约、效率高；**成本绩效指数 = 1** 符合预算；**成本绩效指数 < 1** 成本超支、效率低。"},{"cue":"挣值（EV）、实际成本（AC）和完工预算（BAC）分别指什么？","note":"**挣值（EV）**：已完成工作的预算价值。\n**实际成本（AC）**：已完成工作的实际花费。\n**完工预算（BAC）**：项目总预算。"},{"cue":"成本绩效指数与成本偏差（CV）之间有什么对应关系？","note":"**成本偏差（CV）= 挣值 − 实际成本**。当实际成本为正时，成本偏差 > 0 与成本绩效指数 > 1 均表示成本节约；成本偏差 < 0 与成本绩效指数 < 1 均表示成本超支。"},{"cue":"为什么没有计划价值（PV）就不能判断进度绩效？","note":"**进度绩效指数 = 挣值 ÷ 计划价值**，缺少计划价值（PV）就无法计算。\n**限制**：无 **计划价值（PV）** 不能计算 **进度绩效指数（SPI）**；本例 成本绩效指数 = 60 ÷ 75 = 0.80，成本超支。"},{"cue":"典型偏差下如何用成本绩效指数预测完工估算（EAC）？","note":"**预测**：仅在当前成本绩效被假定持续至完工时，才可用 **完工估算 = 完工预算 ÷ 成本绩效指数**；非典型偏差需重估剩余工作，不能直接套用。"}],"summary":"成本绩效指数是挣值管理的成本效率指标，公式为成本绩效指数 = 挣值 ÷ 实际成本；> 1 节约、= 1 符合、< 1 超支，且不能当作完成百分比。仅在当前成本绩效被假定持续至完工时，可用完工估算 = 完工预算 ÷ 成本绩效指数预测总成本。口诀：CPI看效率，挣值除实际，>1省，<1超。","pairing_status":"paired"},"tags":["项目成本管理","挣值管理","成本绩效指数","CPI","成本控制"],"images":["assets/evm-flow.svg"],"difficulty_level":2,"question_origins":[{"question_id":"fixture_hi_001"}],"canonical_references":[{"question_id":"fixture_hi_001","verification_status":"input_provided","source_file":"questions.json"}],"teaching_evidence_ids":["sample-evidence-cpi"],"teaching_evidence":[{"id":"sample-evidence-cpi","source_id":"sample-guide","source_file":"assets/teaching-sample.pdf","status":"input_provided","relation":"supports","page":1,"snippet":"CPI = EV / AC. When EV=60 and AC=75, CPI=0.80.","region":null}],"image_assets":["assets/content/01a6d1c1aa11.svg"],"unavailable_images":[],"question_ids":["fixture_hi_001"]},{"id":"stakeholder_engagement","title":"干系人参与管理","parent":"project_stakeholder","chapter":"项目干系人管理","source_questions":["fixture_hi_002"],"knowledge_points":[{"id":"fixture_hi_002","statement":"干系人参与管理"}],"learning":{"level":2,"estimated_hours":1.5,"path_note":"先掌握识别干系人与干系人分析的输出，再理解权力/利益方格与参与度评估矩阵，最后结合变更控制流程学习变更场景下的参与策略。"},"learning_relations":{"prerequisites":[],"next_concepts":["cost_performance_index"],"related_concepts":["cost_performance_index"]},"relationships":[{"target":"cost_performance_index","type":"related","note":"需向干系人披露CPI等绩效信息"}],"one_liner":"项目干系人管理中，基于分析制定参与策略，并持续调整以争取支持。","core_concept":{"definition":"项目干系人管理包含识别、规划、管理与监督等相关过程。本概念聚焦其中基于干系人分析结果制定参与策略、与干系人沟通协作、处理关切并监督策略有效性的学习框架。其目的在于提升支持、降低抵制；具体过程名称和教材表述应以目标考试版本为准。","principle":"干系人的参与会显著影响项目获得支持或遭遇阻力。可借助权力/利益方格判断管理优先级，并借助参与度评估矩阵识别当前与期望参与水平的差距，据此制定沟通与参与策略。当关键干系人反对范围变更时，应先分析其权力、利益和参与度，再通过沟通、协商争取支持；具体治理动作应遵循项目已批准的治理机制。","syntax":"模型学习归纳（不是固定教材流程）：识别并更新干系人信息 → 分析权力、利益和参与度 → 制定参与与沟通策略 → 沟通、协作、协商 → 监督效果并更新策略。实际项目的过程名称、顺序与治理要求以目标考试教材和已批准的项目治理机制为准。","rules":["在本题给定的关键干系人反对情境下，先分析其权力、利益和参与度，再制定针对性的沟通与参与策略。","权力/利益方格用于判断干系人管理优先级：权力高且利益高者重点管理；权力高且利益低者令其满意；权力低且利益高者随时告知；权力低且利益低者监督即可。","参与度评估矩阵用于记录干系人当前参与水平与期望参与水平，通过比较差距制定沟通与参与策略。","参与度评估矩阵的常见参与水平分类为：不了解、抵制、中立、支持、领导。","变更管理不能跳过评审，也不能简单冻结需求，更不能删除或忽视干系人意见。","模型学习归纳：范围变更通常需要提出申请、分析影响、按项目治理机制评审和决策、更新相关计划/文件并沟通受影响干系人；实际步骤、角色与审批机制以项目已批准治理要求为准。","直接强制、独断或只凭经验处理干系人冲突，会加剧抵触并降低项目成功概率。"],"comparisons":[{"vs":"识别干系人","difference":"识别干系人回答“谁是干系人”，干系人参与管理回答“如何让干系人有效参与并支持项目”。"},{"vs":"干系人分析","difference":"干系人分析输出权力、利益与参与度判断，干系人参与管理据此制定并执行参与策略。"},{"vs":"规划沟通管理","difference":"沟通管理关注信息正确及时地传递，干系人参与管理关注参与水平与支持态度的转变。"},{"vs":"实施整体变更控制","difference":"变更控制管流程、影响分析与基线更新，干系人参与管理管人的立场与支持度，二者在范围变更场景中配合使用。"}],"type_comparison":[{"type":"权力/利益方格：权力高，利益高","syntax_example":"权力高 × 利益高 → 重点管理","key_rules":"关键干系人，需重点管理、密切沟通、主动争取支持。"},{"type":"权力/利益方格：权力高，利益低","syntax_example":"权力高 × 利益低 → 令其满意","key_rules":"有影响力但关注度低，需保证其满意，避免其因不满而阻挠。"},{"type":"权力/利益方格：权力低，利益高","syntax_example":"权力低 × 利益高 → 随时告知","key_rules":"对项目结果高度关心但影响有限，需及时告信息、保持沟通。"},{"type":"权力/利益方格：权力低，利益低","syntax_example":"权力低 × 利益低 → 监督即可","key_rules":"投入最少精力，保持监督，防止状态变化。"},{"type":"参与度评估矩阵：不了解","syntax_example":"当前参与水平 = 不了解，期望参与水平 = 支持 → 差距：不了解 → 支持","key_rules":"对项目与潜在影响一无所知，需先建立基本认知。"},{"type":"参与度评估矩阵：抵制","syntax_example":"当前参与水平 = 抵制，期望参与水平 = 支持 → 差距：抵制 → 支持","key_rules":"知晓项目但反对，需分析其权力与利益，通过沟通协商化解抵触。"},{"type":"参与度评估矩阵：中立","syntax_example":"当前参与水平 = 中立，期望参与水平 = 支持 → 差距：中立 → 支持","key_rules":"知晓项目但不支持也不反对，可通过参与和沟通争取转为支持。"},{"type":"参与度评估矩阵：支持","syntax_example":"当前参与水平 = 支持，期望参与水平 = 领导 → 差距：支持 → 领导","key_rules":"知晓项目并支持，可进一步培养为领导者。"},{"type":"参与度评估矩阵：领导","syntax_example":"当前参与水平 = 领导，期望参与水平 = 领导 → 差距：无","key_rules":"积极推动项目成功，是项目最重要的支持力量。"}]},"best_practices":["在项目早期就开展干系人识别与分析，并在项目全周期持续更新干系人登记册与参与度评估矩阵。","对权力高、利益高的关键干系人建立定期沟通与主动协商机制，变更前先争取其理解与支持。","定期比较干系人当前参与水平与期望参与水平的差距，据此调整沟通与参与策略。","范围变更严格走变更控制流程，经变更控制委员会评审后再实施，并及时通知受影响干系人。"],"visualization":{"type":"quadrant","nodes":["权力高·利益高","权力高·利益低","权力低·利益高","权力低·利益低"],"relations":["权力高·利益高 → 重点管理","权力高·利益低 → 令其满意","权力低·利益高 → 随时告知","权力低·利益低 → 监督"]},"mnemonic":"先分析后策略；权力利益定优先级，参与度矩阵找差距","why_tested":"项目干系人管理常以情景题考查分析后制定策略的判断顺序，以及权力/利益方格、参与度评估矩阵的工具应用。目标考试的具体过程名称、步骤和出题范围须以对应教材版本为准。","common_mistakes":[{"mistake":"干系人持续反对变更时，直接强制推行或独断决策。","correct":"在题设已知关键干系人的情境下，应先分析其权力、利益和参与度，再制定针对性的沟通与参与策略，通过协商争取支持。","severity":"high"},{"mistake":"为加快进度跳过变更控制评审直接实施范围变更。","correct":"范围变更应按项目已批准的治理机制申请、分析影响、评审和决策；具体角色、步骤和审批要求以项目实际治理与目标教材为准。","severity":"high"},{"mistake":"简单冻结全部需求，或删除、忽视反对干系人的意见。","correct":"应正视干系人利益冲突，通过沟通、参与和协商化解分歧，删除意见只会加剧抵触。","severity":"high"},{"mistake":"混淆权力/利益方格与参与度评估矩阵的用途。","correct":"权力/利益方格用于判断管理优先级，参与度评估矩阵用于识别当前参与水平与期望参与水平的差距。","severity":"medium"},{"mistake":"只凭经验判断干系人态度，不做系统分析。","correct":"应使用干系人登记册、权力/利益方格、参与度评估矩阵等工具进行系统分析与跟踪。","severity":"medium"}],"aliases":[{"text":"干系人参与","type":"synonym"},{"text":"干系人参与管理过程","type":"synonym"},{"text":"Stakeholder Engagement Management","type":"translation"}],"related_questions":["fixture_hi_002"],"cornell_note":{"cues":["干系人参与管理的定义和过程框架是什么？","权力/利益方格四个象限分别对应什么管理策略？","参与度评估矩阵有哪几种参与水平，用来解决什么问题？","干系人持续反对范围变更时，项目经理首先应采取什么做法？","范围变更应遵循的变更控制流程有哪些关键步骤？","干系人参与管理中有哪些必须避免的错误做法？"],"notes":["**定义**：本概念是项目干系人管理中基于分析制定参与策略、沟通协作、处理关切并监督策略有效性的学习框架；具体过程名称以目标考试教材为准。\n**过程框架**：模型学习归纳（非固定教材流程）：识别并更新信息 → 分析（权力/利益方格定优先级，参与度评估矩阵找差距）→ 制定策略 → 沟通、协作、协商 → 监督并更新策略。实际项目以已批准治理机制为准。","**权力/利益方格**：权力高 × 利益高 → 重点管理；权力高 × 利益低 → 令其满意；权力低 × 利益高 → 随时告知；权力低 × 利益低 → 监督。","**参与度评估矩阵**：参与水平分为不了解、抵制、中立、支持、领导；通过比较当前参与水平与期望参与水平的差距制定沟通与参与策略。","**关键规则**：在题设已知关键干系人反对变更时，先分析其权力、利益和参与度，再制定针对性沟通与参与策略；变更不能跳过项目已批准的治理要求，也不能简单冻结需求或删除、忽视干系人意见。","**变更治理**：模型学习归纳为申请、影响分析、按治理机制评审和决策、更新相关文件、沟通受影响干系人；实际步骤、角色和审批要求以项目已批准治理机制和目标教材为准。","**重要限制**：直接强制、独断或只凭经验处理干系人冲突会加剧抵触，降低项目成功概率。\n不能跳过已批准的变更治理要求，也不能简单冻结需求或删除、忽视干系人意见。"],"pairs":[{"cue":"干系人参与管理的定义和过程框架是什么？","note":"**定义**：本概念是项目干系人管理中基于分析制定参与策略、沟通协作、处理关切并监督策略有效性的学习框架；具体过程名称以目标考试教材为准。\n**过程框架**：模型学习归纳（非固定教材流程）：识别并更新信息 → 分析（权力/利益方格定优先级，参与度评估矩阵找差距）→ 制定策略 → 沟通、协作、协商 → 监督并更新策略。实际项目以已批准治理机制为准。"},{"cue":"权力/利益方格四个象限分别对应什么管理策略？","note":"**权力/利益方格**：权力高 × 利益高 → 重点管理；权力高 × 利益低 → 令其满意；权力低 × 利益高 → 随时告知；权力低 × 利益低 → 监督。"},{"cue":"参与度评估矩阵有哪几种参与水平，用来解决什么问题？","note":"**参与度评估矩阵**：参与水平分为不了解、抵制、中立、支持、领导；通过比较当前参与水平与期望参与水平的差距制定沟通与参与策略。"},{"cue":"干系人持续反对范围变更时，项目经理首先应采取什么做法？","note":"**关键规则**：在题设已知关键干系人反对变更时，先分析其权力、利益和参与度，再制定针对性沟通与参与策略；变更不能跳过项目已批准的治理要求，也不能简单冻结需求或删除、忽视干系人意见。"},{"cue":"范围变更应遵循的变更控制流程有哪些关键步骤？","note":"**变更治理**：模型学习归纳为申请、影响分析、按治理机制评审和决策、更新相关文件、沟通受影响干系人；实际步骤、角色和审批要求以项目已批准治理机制和目标教材为准。"},{"cue":"干系人参与管理中有哪些必须避免的错误做法？","note":"**重要限制**：直接强制、独断或只凭经验处理干系人冲突会加剧抵触，降低项目成功概率。\n不能跳过已批准的变更治理要求，也不能简单冻结需求或删除、忽视干系人意见。"}],"summary":"项目干系人管理学习框架的关键是“先分析、后策略”：用权力/利益方格判断管理优先级，用参与度评估矩阵找出参与水平差距，再以沟通协商争取支持。变更治理的具体步骤以目标教材和项目已批准治理机制为准。口诀：先分析后策略；权力利益定优先级，参与度矩阵找差距。","pairing_status":"paired"},"tags":["项目干系人管理","干系人参与","权力/利益方格","参与度评估矩阵","变更控制流程"],"difficulty_level":2,"question_origins":[{"question_id":"fixture_hi_002"}],"canonical_references":[{"question_id":"fixture_hi_002","verification_status":"input_provided","source_file":"questions.json"}],"teaching_evidence_ids":["sample-evidence-stakeholder"],"teaching_evidence":[{"id":"sample-evidence-stakeholder","source_id":"sample-guide","source_file":"assets/teaching-sample.pdf","status":"input_provided","relation":"supports","page":2,"snippet":"Analyze stakeholder power, interest and current engagement before choosing a communication and engagement strategy.","region":null}],"image_assets":[],"unavailable_images":[],"question_ids":["fixture_hi_002"]}],"profile":{"exam_code":"ruankao-xitixiangmu","exam_name":"信息系统项目管理师","exam_name_zh":"信息系统项目管理师（软考高级）","description":"软考高级 信息系统项目管理师（第4版教材）","exam_full_name":"软考高级 · 信息系统项目管理师","standard_label":"软考信管（2025 新版教材）","brand_line":"考试助手 V2 · 软考知识卡片","hashtags":"#软考 #信息系统项目管理 #高项 #考试","bank_format":"ruankao_web","subject_error_label":"软考特有错误","domain_hint":"信息系统项目管理","domain_examples":["informatization_development (信息化发展)","it_development (信息技术发展)","is_governance (信息系统治理)","is_management (信息系统管理)","is_engineering (信息系统工程)","pm_overview (项目管理概论)","project_initiation (项目立项管理)","project_integration (项目整合管理)","project_scope (项目范围管理)","project_schedule (项目进度管理)","project_cost (项目成本管理)","project_quality (项目质量管理)","project_resource (项目资源管理)","project_communication (项目沟通管理)","project_risk (项目风险管理)","project_procurement (项目采购管理)","project_stakeholder (项目干系人管理)","project_performance (项目绩效域)","config_change_mgmt (配置与变更管理)","senior_pm (高级项目管理)","pm_science (项目管理科学基础)","org_governance (组织通用治理)","org_management (组织通用管理)","laws_regulations (法律法规与标准规范)"],"visualization":{"mermaid_role":"软考信息系统项目管理师的可视化专家","sequence_participants":["项目经理","项目发起人","项目团队","客户","供应商","PMO","变更控制委员会","质量保证"],"preset_templates":{}},"complexity_thresholds":{"stem_length_threshold":300,"multi_option_length_threshold":250,"options_count_threshold":4},"content_style":{"language":"zh","code_format":"text","domain_expert_role":"软考信息系统项目管理师的资深讲师","tone":"专业、简洁、实用","max_sentence_length":60,"mnemonic_requirement":"押韵、有趣、易记（30字以内）"},"syllabus_source":{"type":"web","url":"https://ruankaodaren.com","file_path":"","format":"markdown"},"keyword_rules":{"integration":["整合管理","变更控制","CCB","整体变更"],"scope":["范围管理","WBS","需求收集","确认范围","控制范围"],"schedule":["进度管理","关键路径","CPM","甘特图","PERT","赶工","快速跟进"],"cost":["成本管理","EVM","挣值","CPI","SPI","BAC","EAC","ETC"],"quality":["质量管理","QA","QC","六西格玛","PDCA","因果图"],"resource":["资源管理","团队建设","责任分配","RACI"],"communication":["沟通管理","干系人沟通","沟通渠道","报告绩效"],"risk":["风险管理","风险识别","定性分析","定量分析","应对策略","EMV"],"procurement":["采购管理","合同","招投标","供应商"],"stakeholder":["干系人管理","权力/利益","参与度"],"performance":["绩效域","工作绩效","交付绩效"],"config_change":["配置管理","变更管理","基线","版本控制"],"governance":["治理","组织结构","项目管理办公室","PMO"],"informatization":["信息化","数字化转型","智慧城市","大数据","云计算","物联网","人工智能","区块链"],"engineering":["软件工程","需求工程","软件测试","开发模型","敏捷","CMMI"]},"stage_config":{"stage1":{"min_concepts_per_domain":2,"max_concepts_per_domain":10,"sample_size":15},"stage2":{"required_fields":["definition","principle","rules","mnemonic"],"auto_approve_threshold":0.85,"incomplete_confidence":0.0},"stage3":{"auto_approve_enabled":true,"auto_approve_score_threshold":0.9},"stage4":{"build_relations":true,"build_knowledge_base":true},"stage5":{"use_llm":false,"mode":"template"}},"sample_data":{"concepts":[],"kps":{}}},"sources":[{"id":"sample-guide","title":"teaching-sample.pdf","source_file":"assets/content/393cb11e9a40.pdf"}],"teaching_evidence":[{"id":"sample-evidence-cpi","concept_id":"cost_performance_index","source_id":"sample-guide","source_file":"assets/content/393cb11e9a40.pdf","source_title":"teaching-sample.pdf","anchor":"","snippet":"CPI = EV / AC. When EV=60 and AC=75, CPI=0.80.","page":1,"thumbnail":"assets/content/bfa5882009f4-page-1.png","source_link":"assets/content/393cb11e9a40.pdf#page=1","relation":"supports","status":"input_provided","region":null},{"id":"sample-evidence-stakeholder","concept_id":"stakeholder_engagement","source_id":"sample-guide","source_file":"assets/content/393cb11e9a40.pdf","source_title":"teaching-sample.pdf","anchor":"","snippet":"Analyze stakeholder power, interest and current engagement before choosing a communication and engagement strategy.","page":2,"thumbnail":"assets/content/444f885ef003-page-2.png","source_link":"assets/content/393cb11e9a40.pdf#page=2","relation":"supports","status":"input_provided","region":null}],"quality_summary":{"structural_status":"passed","content_status":"review_required","semantic_verification":"not_performed","browser_status":"not_checked","metrics":{"blocked_count":0,"review_required_count":2,"agent_reviewed_count":0,"limited_count":0,"triple_duplicate_count":0,"placeholder_count":0,"one_question_card_count":2,"concepts_with_supports":2,"concepts_with_related":0,"concepts_without_teaching_evidence":0,"concepts_without_supports":0,"concept_count":2,"question_count":2},"concepts":[{"concept_id":"cost_performance_index","status":"review_required","has_substantive_body":true,"review_metadata_valid":false,"teaching_evidence":{"supports":1,"related":0,"other":0,"total":1},"findings":["CARD_SINGLE_QUESTION","CARD_REVIEW_MISSING_OR_INVALID"]},{"concept_id":"stakeholder_engagement","status":"review_required","has_substantive_body":true,"review_metadata_valid":false,"teaching_evidence":{"supports":1,"related":0,"other":0,"total":1},"findings":["CARD_SINGLE_QUESTION","CARD_REVIEW_MISSING_OR_INVALID"]}]}};
+const $=s=>document.querySelector(s), esc=v=>String(v??'');
+const nullMap=entries=>Object.assign(Object.create(null),Object.fromEntries(entries));
+const Q=DATA.questions, C=DATA.concepts, QMAP=nullMap(Q.map(x=>[x.id,x])), CMAP=nullMap(C.map(x=>[x.id,x]));
+const state={view:'notes',cid:C[0]?.id,qid:Q[0]?.id,answers:Object.create(null),picked:Object.create(null),wrongbook:[],storageStatus:'正在读取作答记录…'};
+// Study state belongs to a local learner. The loopback library is the only
+// supported automatic cross-package store; file:// receives a per-file fallback.
+const StudyProgress = (() => {
+  const match = location.protocol === 'http:' && location.hostname === '127.0.0.1'
+    ? location.pathname.match(/^\/packages\/([a-f0-9]{16})\/web\/index\.html$/) : null;
+  const endpoint = match ? `/api/packages/${match[1]}` : null;
+  const localKey = `quick-pass-study-v1:${DATA.profile?.exam_code || 'default'}:${location.pathname}`;
+
+  function apply(saved) {
+    state.answers = Object.assign(Object.create(null), saved.answers || {});
+    state.picked = Object.create(null);
+    for (const [qid, answer] of Object.entries(state.answers)) {
+      if (Array.isArray(answer.picked)) state.picked[qid] = [...answer.picked];
+    }
+    state.wrongbook = Array.isArray(saved.wrongbook) ? saved.wrongbook : [];
+  }
+
+  async function load() {
+    if (endpoint) {
+      const response = await fetch(endpoint + '/progress', {cache: 'no-store'});
+      if (!response.ok) throw new Error('本地学习库无法读取作答记录');
+      apply(await response.json());
+      state.storageStatus = '已连接本地学习库 · 刷新及新学习包继承记录';
+      return;
+    }
+    // Browser treatment of file:// storage differs. Keep this useful for
+    // refresh/reopen, but never promise cross-package persistence here.
+    const probe = localKey + ':probe';
+    localStorage.setItem(probe, '1');
+    localStorage.removeItem(probe);
+    const value = localStorage.getItem(localKey);
+    if (value) apply(JSON.parse(value));
+    state.storageStatus = '本文件作答已保存；跨学习包请使用本地学习库入口';
+  }
+
+  async function record(q, picked) {
+    if (endpoint) {
+      const response = await fetch(endpoint + '/answer', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({qid: q.id, picked}),
+      });
+      if (!response.ok) throw new Error('作答未保存；请确认本地学习库仍在运行');
+      const result = await response.json();
+      apply(result);
+      return;
+    }
+    const correct = q.options.filter(x => x.is_correct).map(x => x.label);
+    const answers = Object.assign(Object.create(null), state.answers);
+    answers[q.id] = {ok: picked.length === correct.length && correct.every(x => picked.includes(x)), picked: [...picked]};
+    const wrongbook = Object.entries(answers).filter(([, result]) => !result.ok)
+      .map(([qid]) => ({qid, stem: QMAP[qid]?.question_zh || qid, wrong_count: 1}));
+    // Save first. A quota/security failure must not be shown as a completed answer.
+    localStorage.setItem(localKey, JSON.stringify({answers, wrongbook}));
+    apply({answers, wrongbook});
+  }
+
+  function renderWrongbook(parent) {
+    const entries = state.wrongbook || [];
+    if (!entries.length) {
+      add(parent, 'p', '暂无待复习错题。答错的题目会自动出现在这里。', 'muted');
+      return;
+    }
+    add(parent, 'strong', `待复习 · ${entries.length} 题`);
+    for (const item of entries) {
+      const label = `${item.qid || '历史'} · ${String(item.stem || '').slice(0, 22)}（错 ${item.wrong_count} 次）`;
+      parent.append(button(label, () => {
+        if (item.qid && QMAP[item.qid]) {
+          state.view = 'quiz';
+          state.search = '';
+          state.qid = item.qid;
+          render();
+        } else if (item.history_url) {
+          location.href = item.history_url;
+        }
+      }, item.qid === state.qid ? 'active' : ''));
+    }
+    add(parent, 'hr');
+  }
+
+  return {load, record, renderWrongbook};
+})();
+
+function el(tag, text, cls){const n=document.createElement(tag); if(text!==undefined)n.textContent=text; if(cls)n.className=cls; return n}
+function add(parent,tag,text,cls){const n=el(tag,text,cls);parent.append(n);return n}
+function button(text,fn,cls){const n=el('button',text,cls);n.type='button';n.onclick=fn;return n}
+function linkButton(text,fn){return button(text,fn,'') }
+function markdown(parent,text,inlineAssets=[]){const lines=String(text||'').split(String.fromCharCode(10)),imageOnly=/^\s*!\[([^\]]*)\]\(([^)]*)\)\s*$/,assetBySource=new Map((Array.isArray(inlineAssets)?inlineAssets:[]).filter(x=>x&&typeof x.source==='string').map(x=>[x.source,x.asset]));const cells=line=>line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(x=>x.trim());for(let i=0;i<lines.length;i++){const line=lines[i],match=line.match(imageOnly);if(match){const source=match[2].trim(),asset=assetBySource.get(source);if(asset)image(parent,asset,match[1]||'题干图片');else callout(parent,'题干图片不可用',source||'未提供图片路径','warning');continue}if(line.includes('|')&&i+1<lines.length&&cells(lines[i+1]).every(x=>/^:?-{3,}:?$/.test(x))){const table=el('table',undefined,'markdown-table');const head=table.createTHead().insertRow();cells(line).forEach(v=>add(head,'th',v));const body=table.createTBody();i+=2;while(i<lines.length&&lines[i].includes('|')){const row=body.insertRow();cells(lines[i]).forEach(v=>add(row,'td',v));i++}i--;parent.append(table)}else if(line.trim()){add(parent,'p',line)}}}
+function stats(){const a=Object.values(state.answers), ok=a.filter(x=>x.ok).length; $('#stats').textContent=`本包已做 ${a.length} · 答对 ${ok} · 答错 ${a.length-ok} · 待复习错题 ${state.wrongbook.length}`; const wrongbookButton=$('nav [data-view=wrongbook]');if(wrongbookButton)wrongbookButton.textContent=`错题本（${state.wrongbook.length}）`; const status=$('#storage-status');if(status)status.textContent=state.storageStatus;}
+function qualityLabel(status){return ({blocked:'内容未通过检查',failed:'内容未通过检查',review_required:'内容待审校',agent_reviewed:'Agent 已审校',reviewed:'Agent 已审校',needs_revision:'内容待修订',fixture:'演示样本',limited:'存在内容或证据缺口'})[status]||'内容待审校'}
+function renderQualityStatus(){const root=$('#quality-status');if(!root)return;root.replaceChildren();const q=DATA.quality_summary||{},status=q.content_status;add(root,'strong',qualityLabel(status));add(root,'span',status==='agent_reviewed'?' · Agent 审校记录不等于人工核验，请结合原文学习。':status==='limited'?' · 请查看卡片说明，证据不足的内容仍需核对。':status==='fixture'?' · 自编演示内容，不代表真实资料已经核验。':status==='blocked'||status==='failed'?' · 请先修订内容，再使用本包学习。':' · 尚未完成内容审校，请结合原题和教辅核对。');const n=q.metrics?.concepts_without_supports;if(n>0)add(root,'span',` · ${n} 张卡尚无直接支持的教辅证据。`);}
+function renderCardReview(parent,review,result){const status=result?.status||'review_required',details=add(parent,'details',undefined,'card-review');add(details,'summary',qualityLabel(status));add(details,'p',typeof review?.rationale==='string'&&review.rationale.trim()?review.rationale:'未提供本卡的内容审校说明。');if(['agent_reviewed','reviewed'].includes(status))add(details,'p','此为 Agent 审校记录，不代表已经人工核验。','muted');const evidence=result?.teaching_evidence;if(evidence&&!evidence.supports){details.open=true;add(details,'p',evidence.related?'教辅仅提供相关材料，尚未找到直接支持；请结合题库依据和本卡限制说明学习。':'本卡尚无直接支持的教辅证据；请结合题库依据和本卡限制说明学习。','muted');}}
+function sidebar(){const s=$('#sidebar');s.replaceChildren();if(state.view==='wrongbook'){add(s,'strong','错题复习');add(s,'p','选择错题查看解析，也可以重做本题。','muted');return}const search=document.createElement('input');search.type='search';search.placeholder=state.view==='notes'?'搜索考点':'搜索题目';search.value=state.search||'';search.oninput=()=>{state.search=search.value;sidebar()};s.append(search);const kw=(state.search||'').trim();if(state.view==='notes'){const groups=Object.create(null);for(const c of C){if(kw&&!((c.title||'').includes(kw)||(c.tags||[]).join(' ').includes(kw)))continue;const group=c.chapter||(/[一-鿿]/.test(c.parent||'')?c.parent:'未分组');(groups[group]??=[]).push(c)}for(const [name,list] of Object.entries(groups)){add(s,'div',name,'chapter');for(const x of list)s.append(button(x.title||x.id,()=>{state.cid=x.id;render()},state.cid===x.id?'active':''))}}else{for(const x of Q){const title=x.id+' · '+(x.question_zh||x.question_en||'未命名题目').slice(0,22);if(kw&&!title.includes(kw))continue;s.append(button(title,()=>{state.qid=x.id;render()},state.qid===x.id?'active':''))}}}
+function rail(){const r=$('#rail');r.replaceChildren();if(state.view==='wrongbook'){add(r,'strong','复习记录');add(r,'p','错题按当前考试科目汇总。通过本地学习库打开时，可继续复习其他学习包中的错题。','muted');return}const note=state.view==='notes';add(r,'strong',note?'关联真题':'本题考点');const ids=note?(CMAP[state.cid].question_ids||[]):(QMAP[state.qid].concept_ids||[]);for(const id of ids)r.append(button(note?id:(CMAP[id]?.title||id),()=>{if(note){state.view='quiz';state.qid=id}else{state.view='notes';state.cid=id}render()}));}
+function callout(parent,title,body,cls=''){if(!body)return;const box=add(parent,'div',undefined,'callout '+cls);add(box,'strong',title);add(box,'div',body)}
+function textList(parent,title,values){if(!Array.isArray(values)||!values.length)return;add(parent,'h3',title);const ul=add(parent,'ul');for(const v of values)add(ul,'li',typeof v==='string'?v:(v.text||v.tip||JSON.stringify(v)))}
+function image(parent,path,alt){if(!path)return;const im=document.createElement('img');im.src=path;im.alt=alt;im.loading='lazy';im.className='image';parent.append(im)}
+function source(parent,q){if(q.source_link){const a=document.createElement('a');a.href=q.source_link;a.target='_blank';a.rel='noopener';a.textContent=`来源文件，第 ${q.source_page} 页`;parent.append(a)}else if(q.source_file||q.source_page||q.page_no)callout(parent,'来源','未提供可复制、可定位的本地来源文件与确定物理页。','warning');if(q.source_page_asset){const details=add(parent,'details',undefined,'question-source-page');const hasDiagram=(q.diagram_assets||[]).length||(q.inline_image_assets||[]).some(x=>x.asset);details.open=!hasDiagram;add(details,'summary',`查看原题所在第 ${q.source_page} 页（可能包含多题）`);const zoom=add(details,'a');zoom.href=q.source_page_asset;zoom.target='_blank';zoom.rel='noopener';image(zoom,q.source_page_asset,'原题 PDF 第 '+q.source_page+' 页');add(details,'p','点击页面图可放大核对图表与数字；也可用上方链接打开原 PDF。','muted')}}
+function sameStructuredValue(left,right){return JSON.stringify(left??null)===JSON.stringify(right??null)}
+function showNote(){const c=CMAP[state.cid],out=$('#content');out.replaceChildren();const a=el('article');out.append(a);add(a,'h2',c.title||c.id);renderCardReview(a,c.content_review,(DATA.quality_summary?.concepts||[]).find(row=>row.concept_id===c.id));add(a,'p',c.one_liner||'', 'muted');const cc=c.core_concept||{};callout(a,'定义',cc.definition);callout(a,'原理',cc.principle);textList(a,'关键规则',cc.rules);if(cc.syntax){add(a,'h3','公式/框架');add(a,'pre',cc.syntax,'formula')} renderComparisons(a,c); textList(a,'最佳实践',c.best_practices);callout(a,'记忆口诀',c.mnemonic);callout(a,'为什么考',c.why_tested);if(Array.isArray(c.common_mistakes)&&c.common_mistakes.length){add(a,'h3','易错点');for(const m of c.common_mistakes)callout(a,'易错：'+(m.mistake||''),m.correct||'', 'warning')} const cn=c.cornell_note||{};renderCornell(a,cn);if(Array.isArray(c.tags)&&c.tags.length){const tags=add(a,'div',undefined,'relation');for(const tag of c.tags)add(tags,'span',tag)}if(Array.isArray(c.image_assets))for(const p of c.image_assets)image(a,p,'教辅原图');if((c.unavailable_images||[]).length)callout(a,'资源不可用','以下教辅图没有复制到学习包：'+c.unavailable_images.join('；'),'warning');renderMaterialEvidence(a,c.id,DATA.teaching_evidence||[]);renderKnowledgeGraph(a,c.visualization);renderConceptFidelityDetails(a,c);add(a,'h3','关联题目');const links=add(a,'div',undefined,'links');for(const qid of c.question_ids||[])links.append(linkButton(qid,()=>{state.view='quiz';state.qid=qid;render()}));}
+async function answer(q){if(!q.answerable||state.saving)return;const pick=state.picked[q.id]||[];state.saving=true;try{await StudyProgress.record(q,pick);render()}catch(error){state.storageStatus=error.message||'作答保存失败';render()}finally{state.saving=false}}
+function showQuiz(){const q=QMAP[state.qid],out=$('#content');out.replaceChildren();const a=el('article');out.append(a);add(a,'h2',q.id);add(a,'p',q.question_zh||q.question_en||'');renderQuestionTrustWarning(a,q);source(a,q);for(const p of q.diagram_assets||[])image(a,p,'题目图表');if((q.unavailable_diagrams||[]).length)callout(a,'资源不可用','以下题图/表格没有复制到学习包：'+q.unavailable_diagrams.join('；'),'warning');const picked=state.picked[q.id]||[],done=state.answers[q.id];const opts=add(a,'div',undefined,'options');for(const o of q.options){const b=button(o.label+' · '+o.text,()=>{if(done||!q.answerable)return;const multi=q.options.filter(x=>x.is_correct).length>1;if(multi){const i=picked.indexOf(o.label);i<0?picked.push(o.label):picked.splice(i,1)}else{picked.splice(0,picked.length,o.label)}state.picked[q.id]=picked;render()},'option '+(picked.includes(o.label)?'selected ':'')+(done?(o.is_correct?'ok':picked.includes(o.label)?'bad':''):''));opts.append(b)}if(!q.answerable)callout(a,'不可作答','来源题目缺少选项或确定答案；已保留为阅读材料，未猜测答案。','warning');else if(!done)a.append(button('提交答案',()=>answer(q),'button primary'));add(a,'h3','关联考点');const links=add(a,'div',undefined,'links');for(const cid of q.concept_ids||[])links.append(linkButton(CMAP[cid]?.title||cid,()=>{state.view='notes';state.cid=cid;render()}));if(done){callout(a,done.ok?'答对':'答错',done.ok?'本题已答对。':'已保存到持久错题本，可从本地学习库跨包复习。',done.ok?'':'error');a.append(button('重做本题',()=>{delete state.answers[q.id];delete state.picked[q.id];render()},'button'));callout(a,'题库解析原文',q.explanation);if(q.answer_mismatch)renderAnswerMismatchDetails(a,q);if(Array.isArray(q.option_analyses)&&q.option_analyses.length){add(a,'h3','已有选项分析');for(const x of q.option_analyses){callout(a,(x.option||'')+(x.is_correct?' ✓':' ✗'),x.analysis||'');if(Array.isArray(x.quotes)&&x.quotes.length)callout(a,'引用摘录',x.quotes.join(String.fromCharCode(10)))}}renderQuestionLearningDetails(a,q);textList(a,'已有记忆辅助',q.memory_tips);const cn=q.cornell_note||{},ga=q.generated_analysis||{};if(cn.cues||cn.notes||cn.pairs){if(!sameStructuredValue(cn,ga.cornell_note))renderCornell(a,cn,'题库康奈尔笔记')}if(Object.keys(ga).length){add(a,'h3','模型生成辅助解释');callout(a,'模型说明','以下内容由模型生成，用于学习辅助，不是题库原解析。','warning');renderAnswerMismatchDetails(a,q,ga);callout(a,'模型解释',ga.explanation||ga.analysis);if(Array.isArray(ga.option_analyses))for(const x of ga.option_analyses)callout(a,'模型选项 '+(x.option||''),x.analysis||'');renderQuestionLearningDetails(a,ga,'模型生成');textList(a,'模型记忆辅助',ga.memory_tips);renderCornell(a,ga.cornell_note,'模型辅助康奈尔笔记')}}}
+function showWrongbook(){const out=$('#content');out.replaceChildren();const article=add(out,'article');add(article,'h2','错题本');add(article,'p','答错的题目会自动收录，点击题目可查看解析或重做。','muted');const list=add(article,'div',undefined,'wrongbook-list');StudyProgress.renderWrongbook(list);}
+function render(){document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===state.view));renderQualityStatus();sidebar();state.view==='notes'?showNote():state.view==='wrongbook'?showWrongbook():showQuiz();stats()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;state.search='';render()});document.title=DATA.profile?.exam_full_name||DATA.profile?.exam_name||DATA.profile?.name||'Quick Pass Exam-快考通';
+const _showQuiz=showQuiz;
+showQuiz=function(){_showQuiz();const q=QMAP[state.qid],article=$('#content article'),qi=Q.findIndex(x=>x.id===q.id);const submit=[...article.querySelectorAll('button')].find(b=>b.textContent==='提交答案');if(submit)submit.disabled=!(state.picked[q.id]||[]).length;const bar=el('div',undefined,'qbar');bar.append(el('span',(qi+1)+' / '+Q.length));const track=el('div',undefined,'track'),fill=el('i');fill.style.width=((qi+1)/Q.length*100)+'%';track.append(fill);bar.append(track);article.prepend(bar);const nav=el('div',undefined,'links');if(qi>0)nav.append(button('上一题',()=>{state.qid=Q[qi-1].id;render()},'button'));if(qi<Q.length-1)nav.append(button('下一题',()=>{state.qid=Q[qi+1].id;render()},'button'));article.append(nav);const dots=el('div',undefined,'qnav');Q.forEach((x,i)=>dots.append(button(String(i+1),()=>{state.qid=x.id;render()},i===qi?'current':'')));article.append(dots);const para=article.querySelector('p');if(para){const block=el('div',undefined,'question-body');markdown(block,q.question_zh||q.question_en||'',q.inline_image_assets||[]);para.replaceWith(block)}};
+const _showNote=showNote;showNote=function(){_showNote();const c=CMAP[state.cid],a=$('#content article');callout(a,'内容说明','考点笔记用于学习辅助；事实应以题库及输入中提供的来源为准。','warning')};
+const _render=render;render=function(){_render();rail()};
+StudyProgress.load().then(render).catch(error=>{state.storageStatus=error.message||'无法保存作答记录';render()});</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+{
+  "origin": {
+    "contract_version": "question-origin-v1",
+    "generation_id": "standalone",
+    "status": "passed",
+    "recipe": {},
+    "recipe_fingerprint": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "question_ids": [
+      "fixture_hi_001",
+      "fixture_hi_002"
+    ],
+    "question_count": 2,
+    "concept_count": 2,
+    "passed_count": 2,
+    "review_required_count": 0,
+    "concepts": [
+      {
+        "concept_id": "cost_performance_index",
+        "question_ids": [
+          "fixture_hi_001"
+        ],
+        "generated_content_ok": true,
+        "note_id": "cost_performance_index",
+        "note_version": "c8dc985d0156f0745711bdaf8644abbd9a6f01a17f6fd2ab86028de96fe04250",
+        "status": "passed"
+      },
+      {
+        "concept_id": "stakeholder_engagement",
+        "question_ids": [
+          "fixture_hi_002"
+        ],
+        "generated_content_ok": true,
+        "note_id": "stakeholder_engagement",
+        "note_version": "318360057f2011af17aa4652d7108816143659fbd43ab20bf07f0829fea22589",
+        "status": "passed"
+      }
+    ],
+    "findings": []
+  },
+  "package": {
+    "status": "passed",
+    "findings": [],
+    "agent_content": {
+      "schema_version": "quick-pass-agent-content-v2",
+      "source_count": 2,
+      "teaching_evidence_count": 2,
+      "validation": "local_structural_only"
+    }
+  },
+  "content": {
+    "contract_version": "card-content-v1",
+    "status": "review_required",
+    "semantic_verification": "not_performed",
+    "concepts": [
+      {
+        "concept_id": "cost_performance_index",
+        "status": "review_required",
+        "has_substantive_body": true,
+        "review_metadata_valid": false,
+        "teaching_evidence": {
+          "supports": 1,
+          "related": 0,
+          "other": 0,
+          "total": 1
+        },
+        "findings": [
+          "CARD_SINGLE_QUESTION",
+          "CARD_REVIEW_MISSING_OR_INVALID"
+        ]
+      },
+      {
+        "concept_id": "stakeholder_engagement",
+        "status": "review_required",
+        "has_substantive_body": true,
+        "review_metadata_valid": false,
+        "teaching_evidence": {
+          "supports": 1,
+          "related": 0,
+          "other": 0,
+          "total": 1
+        },
+        "findings": [
+          "CARD_SINGLE_QUESTION",
+          "CARD_REVIEW_MISSING_OR_INVALID"
+        ]
+      }
+    ],
+    "findings": [
+      {
+        "concept_id": "cost_performance_index",
+        "code": "CARD_SINGLE_QUESTION",
+        "severity": "info",
+        "message": "该卡关联一道题；请在知识点规划中判断是否有共享规则，数量本身不构成缺陷。"
+      },
+      {
+        "concept_id": "cost_performance_index",
+        "code": "CARD_REVIEW_MISSING_OR_INVALID",
+        "severity": "review",
+        "message": "缺少有效 Agent 审校声明：reviewer、status 及具体 rationale。"
+      },
+      {
+        "concept_id": "stakeholder_engagement",
+        "code": "CARD_SINGLE_QUESTION",
+        "severity": "info",
+        "message": "该卡关联一道题；请在知识点规划中判断是否有共享规则，数量本身不构成缺陷。"
+      },
+      {
+        "concept_id": "stakeholder_engagement",
+        "code": "CARD_REVIEW_MISSING_OR_INVALID",
+        "severity": "review",
+        "message": "缺少有效 Agent 审校声明：reviewer、status 及具体 rationale。"
+      }
+    ],
+    "metrics": {
+      "blocked_count": 0,
+      "review_required_count": 2,
+      "agent_reviewed_count": 0,
+      "limited_count": 0,
+      "triple_duplicate_count": 0,
+      "placeholder_count": 0,
+      "one_question_card_count": 2,
+      "concepts_with_supports": 2,
+      "concepts_with_related": 0,
+      "concepts_without_teaching_evidence": 0,
+      "concepts_without_supports": 0,
+      "concept_count": 2,
+      "question_count": 2
+    }
+  },
+  "browser": {
+    "status": "not_checked"
+  }
+}

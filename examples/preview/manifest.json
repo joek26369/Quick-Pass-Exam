@@ -1,0 +1,94 @@
+{
+  "schema_version": "quick-pass-package-v1",
+  "mode": "agent",
+  "profile": "ruankao-xitixiangmu",
+  "content_input_schema": "quick-pass-agent-content-v2",
+  "input_sha256": "f4e38aa949e58a31251f507293c74099f66cc24d821556bd6365042b3bc5d540",
+  "config_sha256": null,
+  "config_version": null,
+  "generated_at": "2026-09-21T10:31:46.644996+00:00",
+  "question_count": 2,
+  "concept_count": 2,
+  "quality_status": "review_required",
+  "structural_status": "passed",
+  "content_status": "review_required",
+  "semantic_verification": "not_performed",
+  "browser_status": "not_checked",
+  "metrics": {
+    "blocked_count": 0,
+    "review_required_count": 2,
+    "agent_reviewed_count": 0,
+    "limited_count": 0,
+    "triple_duplicate_count": 0,
+    "placeholder_count": 0,
+    "one_question_card_count": 2,
+    "concepts_with_supports": 2,
+    "concepts_with_related": 0,
+    "concepts_without_teaching_evidence": 0,
+    "concepts_without_supports": 0,
+    "concept_count": 2,
+    "question_count": 2
+  },
+  "concepts": [
+    {
+      "concept_id": "cost_performance_index",
+      "status": "review_required",
+      "has_substantive_body": true,
+      "review_metadata_valid": false,
+      "teaching_evidence": {
+        "supports": 1,
+        "related": 0,
+        "other": 0,
+        "total": 1
+      },
+      "findings": [
+        "CARD_SINGLE_QUESTION",
+        "CARD_REVIEW_MISSING_OR_INVALID"
+      ]
+    },
+    {
+      "concept_id": "stakeholder_engagement",
+      "status": "review_required",
+      "has_substantive_body": true,
+      "review_metadata_valid": false,
+      "teaching_evidence": {
+        "supports": 1,
+        "related": 0,
+        "other": 0,
+        "total": 1
+      },
+      "findings": [
+        "CARD_SINGLE_QUESTION",
+        "CARD_REVIEW_MISSING_OR_INVALID"
+      ]
+    }
+  ],
+  "model": null,
+  "usage": {
+    "scope": "current_process_only",
+    "event_count": 0,
+    "attempt_count": 0,
+    "succeeded_count": 0,
+    "failed_count": 0,
+    "provider_usage_complete": false,
+    "cached_work_usage": "unknown"
+  },
+  "cache": null,
+  "files": {
+    "data/concepts.json": "0cde8b547983d461889dc5a3adb523fff4843dd2916fbdbc073614c86d1042b4",
+    "data/questions.json": "b240cc94af2caf277c384a5fed4657a45e8f879c39633b7cabdcd2ecff7ae67f",
+    "data/sources.json": "eaabecd61d4cba6d2b109f2feb8c6fbcde7273cfbca3033571700620e4ed0de3",
+    "data/teaching-evidence.json": "7e56c7c8effae680d8f2a46afe90a13d5fef52f66228f24027062af60fe154b9",
+    "reports/quality-report.json": "8f79ae348bbb8394b95c6ac0a7696682015cddb98e547e2f49716b0d6e84abfc",
+    "reports/usage-attempts.json": "0742d4a51dc0b531be3998650f27f18a5a829ece3203af58e6058ee21f56b238",
+    "web/assets/content/01a6d1c1aa11.svg": "b79d5a3fb03efce5d9d1b1a3f3c17344aa42d47b8987739495ba7cd9d2757049",
+    "web/assets/content/393cb11e9a40.pdf": "4bd9ad177e4a45c036782507b21f4499bcbd8d8ac4f1f1adc2d0a9ae101cb4d5",
+    "web/assets/content/444f885ef003-page-2.png": "41a05f345bc5329aa4cac4443d76044c8bc17bede3ecfe5ea86ded25a7d053c2",
+    "web/assets/content/bfa5882009f4-page-1.png": "24d0bf21104e1ecb2ce3929704a7582d88f79a70e3db175a6eb150aa67dd44ba",
+    "web/assets/logo-mark.png": "63d7b0d6f1384445c12554bdc50668ab3ae46733e380ad6f68924404ec992b2d",
+    "web/index.html": "7ef0d878116c7f74b5a21cd359a7c2fd4c4424701afff2e90c83acef2b72c4fa",
+    "web/manifest.json": "a731dac19495331cbf0fa23dc50834c798e1dbf66455c0f5cacf823c43b47087",
+    "web/question-assets.json": "39fa40be5cbc63e97cbd6483de16618c6f96c0b7cb2db8c3b228a40b7dbb74eb"
+  },
+  "ui_revision": "r16.1-wrongbook-entry"
+}

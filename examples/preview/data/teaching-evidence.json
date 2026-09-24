@@ -1,0 +1,28 @@
+[
+  {
+    "id": "sample-evidence-cpi",
+    "source_id": "sample-guide",
+    "status": "input_provided",
+    "relation": "supports",
+    "concept_ids": [
+      "cost_performance_index"
+    ],
+    "locator": {
+      "page": 1,
+      "excerpt": "CPI = EV / AC. When EV=60 and AC=75, CPI=0.80."
+    }
+  },
+  {
+    "id": "sample-evidence-stakeholder",
+    "source_id": "sample-guide",
+    "status": "input_provided",
+    "relation": "supports",
+    "concept_ids": [
+      "stakeholder_engagement"
+    ],
+    "locator": {
+      "page": 2,
+      "excerpt": "Analyze stakeholder power, interest and current engagement before choosing a communication and engagement strategy."
+    }
+  }
+]

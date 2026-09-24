@@ -1,0 +1,15 @@
+[
+  {
+    "id": "sample-bank",
+    "role": "question_bank",
+    "path": "questions.json",
+    "sha256": "4fbc849f056ca305e04ce6af3c50d30cb77d81dfa6f1f15dcea5fed53c974ed6"
+  },
+  {
+    "id": "sample-guide",
+    "role": "teaching_material",
+    "path": "assets/teaching-sample.pdf",
+    "sha256": "4bd9ad177e4a45c036782507b21f4499bcbd8d8ac4f1f1adc2d0a9ae101cb4d5",
+    "page_count": 2
+  }
+]

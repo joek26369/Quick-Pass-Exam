@@ -1,0 +1,498 @@
+{
+  "schema_version": "quick-pass-agent-content-v2",
+  "sources": [
+    {
+      "id": "demo-bank",
+      "role": "question_bank",
+      "path": "synthetic-bank.pdf"
+    },
+    {
+      "id": "demo-guide",
+      "role": "teaching_material",
+      "path": "synthetic-guide.pdf"
+    }
+  ],
+  "questions": [
+    {
+      "id": "demo-choice1",
+      "source_id": "demo-bank",
+      "source_page": 1,
+      "question_zh": "合成选择题：CPI 的公式是什么？",
+      "options": [
+        {
+          "label": "A",
+          "text": "EV/AC",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "AC/EV",
+          "is_correct": false
+        }
+      ],
+      "answer": "A",
+      "explanation": "合成原件给出的答案为 A。",
+      "concept_ids": [
+        "demo-cpi"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "demo-cpi",
+      "title": "成本绩效指数 CPI（合成演示）",
+      "one_liner": "用同一时点的挣值除以实际成本，衡量成本效率。",
+      "source_questions": [
+        "demo-c1-q1",
+        "demo-choice1"
+      ],
+      "related_questions": [
+        "demo-c1-q1",
+        "demo-choice1"
+      ],
+      "teaching_evidence_ids": [
+        "demo-e1"
+      ],
+      "core_concept": {
+        "definition": "CPI 是每元实际成本获得的挣值。",
+        "principle": "把挣值与取得这些工作所花的实际成本相比。",
+        "syntax": "CPI=EV/AC；AC>0。",
+        "rules": [
+          "时点与金额单位必须一致。",
+          "该比率没有金额单位。"
+        ]
+      },
+      "cornell_note": {
+        "pairs": [
+          {
+            "cue": "CPI 的公式和条件？",
+            "note": "EV/AC，同一时点且币种一致，AC>0。"
+          },
+          {
+            "cue": "本例 0.80 表示什么？",
+            "note": "每投入 1 元实际成本获得 0.80 元挣值，不能据此断定进度。"
+          }
+        ],
+        "summary": "先核对数据，再计算比率并解释成本效率。"
+      },
+      "mnemonic": "挣值除实际，效率看比例。",
+      "why_tested": "本演示检查公式、代入与解释是否一致。",
+      "best_practices": [
+        "把公式、代入值和结论分别写清。"
+      ],
+      "learning_support_review": {
+        "mnemonic": {
+          "status": "included",
+          "reason": "合成验收卡；仅覆盖来源给出的 CPI 基本计算。"
+        },
+        "visualization": {
+          "status": "not_applicable",
+          "reason": "合成验收卡；仅覆盖来源给出的 CPI 基本计算。"
+        },
+        "principle": {
+          "status": "included",
+          "reason": "合成验收卡；仅覆盖来源给出的 CPI 基本计算。"
+        },
+        "comparisons": {
+          "status": "not_applicable",
+          "reason": "合成验收卡；仅覆盖来源给出的 CPI 基本计算。"
+        },
+        "best_practices": {
+          "status": "included",
+          "reason": "合成验收卡；仅覆盖来源给出的 CPI 基本计算。"
+        },
+        "why_tested": {
+          "status": "included",
+          "reason": "合成验收卡；仅覆盖来源给出的 CPI 基本计算。"
+        }
+      }
+    }
+  ],
+  "teaching_evidence": [
+    {
+      "id": "demo-e1",
+      "source_id": "demo-guide",
+      "status": "input_provided",
+      "relation": "supports",
+      "concept_ids": [
+        "demo-cpi"
+      ],
+      "locator": {
+        "page": 1,
+        "excerpt": "CPI=EV/AC；EV 与 AC 必须对应同一报告时点且币种一致，AC 大于零。"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "demo-c1",
+      "original_number": "案例一",
+      "source_id": "demo-bank",
+      "source_pages": [
+        1
+      ],
+      "scenario": "同一报告时点 EV=60 万元，AC=75 万元。",
+      "diagram_images": [],
+      "sub_questions": [
+        {
+          "id": "demo-c1-q1",
+          "original_number": "（1）",
+          "type": "计算",
+          "question": "问题（1）：计算 CPI，并解释其含义。",
+          "source_pages": [
+            1
+          ],
+          "reference_answer": {
+            "status": "verified",
+            "text": "参考答案（1）：CPI=60/75=0.80，每投入 1 元产生 0.80 元挣值。",
+            "source_id": "demo-bank",
+            "source_pages": [
+              1
+            ],
+            "sub_question_id": "demo-c1-q1"
+          },
+          "generated_analysis": "先列公式 CPI=EV/AC，再代入同一时点金额；结果为无量纲比率。",
+          "calculation_steps": [
+            {
+              "text": "CPI=60/75=0.80。每 1 元实际成本对应 0.80 元挣值。",
+              "input_basis": [
+                {
+                  "source_id": "demo-bank",
+                  "page": 1,
+                  "excerpt": "同一报告时点 EV=60 万元，AC=75 万元。"
+                }
+              ]
+            }
+          ],
+          "pitfalls": [
+            "不要颠倒分子与分母；CPI 没有万元单位。"
+          ],
+          "concept_ids": [
+            "demo-cpi"
+          ],
+          "evidence_ids": [
+            "demo-e1"
+          ],
+          "method_ids": [
+            "demo-calc"
+          ],
+          "score": {
+            "max_points": 4,
+            "source_id": "demo-bank",
+            "source_pages": [
+              1
+            ],
+            "excerpt": "评分示例：该小问 4 分，公式与代入 2 分、结果及解释 2 分。"
+          },
+          "scoring_points": [
+            {
+              "text": "公式与代入 2 分、结果及解释 2 分。",
+              "source_id": "demo-bank",
+              "source_pages": [
+                1
+              ],
+              "excerpt": "评分示例：该小问 4 分，公式与代入 2 分、结果及解释 2 分。"
+            }
+          ]
+        }
+      ],
+      "coverage_review": {
+        "status": "complete",
+        "background_status": "complete",
+        "diagrams_status": "complete",
+        "expected_diagram_pages": [],
+        "expected_sub_question_ids": [
+          "demo-c1-q1"
+        ],
+        "reason": "已逐页核对本合成原件；仅结构验收，非真实试题审校。"
+      }
+    },
+    {
+      "id": "demo-c2",
+      "original_number": "案例二",
+      "source_id": "demo-bank",
+      "source_pages": [
+        2
+      ],
+      "scenario": "客户口头要求增加报表。项目经理尚未记录和评估请求。",
+      "diagram_images": [],
+      "sub_questions": [
+        {
+          "id": "demo-c2-q1",
+          "original_number": "（1）",
+          "type": "简答",
+          "question": "问题（1）：指出案例中的一个问题。",
+          "source_pages": [
+            2
+          ],
+          "reference_answer": {
+            "status": "verified",
+            "text": "参考答案（1）：变更请求尚未被记录。",
+            "source_id": "demo-bank",
+            "source_pages": [
+              2
+            ],
+            "sub_question_id": "demo-c2-q1"
+          },
+          "generated_analysis": "",
+          "calculation_steps": [],
+          "pitfalls": [],
+          "concept_ids": [],
+          "evidence_ids": [],
+          "method_ids": [
+            "demo-answer"
+          ]
+        },
+        {
+          "id": "demo-c2-q2",
+          "original_number": "（2）",
+          "type": "简答",
+          "question": "问题（2）：按照本案例提供的处理顺序，写出下一步。",
+          "source_pages": [
+            2
+          ],
+          "reference_answer": {
+            "status": "verified",
+            "text": "参考答案（2）：记录请求，再评估影响，提交审批。",
+            "source_id": "demo-bank",
+            "source_pages": [
+              2
+            ],
+            "sub_question_id": "demo-c2-q2"
+          },
+          "generated_analysis": "",
+          "calculation_steps": [],
+          "pitfalls": [],
+          "concept_ids": [],
+          "evidence_ids": [],
+          "method_ids": [
+            "demo-answer"
+          ]
+        }
+      ],
+      "coverage_review": {
+        "status": "complete",
+        "background_status": "complete",
+        "diagrams_status": "complete",
+        "expected_diagram_pages": [],
+        "expected_sub_question_ids": [
+          "demo-c2-q1",
+          "demo-c2-q2"
+        ],
+        "reason": "已逐页核对本合成原件；仅结构验收，非真实试题审校。"
+      }
+    },
+    {
+      "id": "demo-c3",
+      "original_number": "案例三",
+      "source_id": "demo-bank",
+      "source_pages": [
+        3,
+        4
+      ],
+      "scenario": "A 完成后 B、C 并行，B、C 均完成才开始 D；背景与图表跨物理第 3、4 页。",
+      "diagram_images": [
+        {
+          "page": 3
+        },
+        {
+          "page": 4
+        }
+      ],
+      "sub_questions": [
+        {
+          "id": "demo-c3-q1",
+          "original_number": "（1）",
+          "type": "计算",
+          "question": "问题（1）：计算本例最短总工期并写出关键路径。",
+          "source_pages": [
+            4
+          ],
+          "reference_answer": {
+            "status": "verified",
+            "text": "参考答案（1）：max(2+3+1,2+5+1)=8 天，关键路径 A-C-D。",
+            "source_id": "demo-bank",
+            "source_pages": [
+              4
+            ],
+            "sub_question_id": "demo-c3-q1"
+          },
+          "generated_analysis": "两条路径必须都核算；D 等待 B 和 C 均完成。",
+          "calculation_steps": [
+            {
+              "text": "A-B-D=6 天；A-C-D=8 天。因此总工期 8 天，关键路径 A-C-D。",
+              "input_basis": [
+                {
+                  "source_id": "demo-bank",
+                  "page": 3,
+                  "excerpt": "A 活动工期为 2 天。A 完成后 B、C 可以并行。"
+                },
+                {
+                  "source_id": "demo-bank",
+                  "page": 4,
+                  "excerpt": "B=3 天，C=5 天，D=1 天；B、C 均完成后 D 才可开始。"
+                }
+              ]
+            }
+          ],
+          "pitfalls": [],
+          "concept_ids": [],
+          "evidence_ids": [],
+          "method_ids": []
+        }
+      ],
+      "coverage_review": {
+        "status": "complete",
+        "background_status": "complete",
+        "diagrams_status": "complete",
+        "expected_diagram_pages": [
+          3,
+          4
+        ],
+        "expected_sub_question_ids": [
+          "demo-c3-q1"
+        ],
+        "reason": "已逐页核对本合成原件；仅结构验收，非真实试题审校。"
+      }
+    },
+    {
+      "id": "demo-c4",
+      "original_number": "案例四",
+      "source_id": "demo-bank",
+      "source_pages": [
+        5
+      ],
+      "scenario": "材料包含两个小问，附带答案未注明所属小问。",
+      "diagram_images": [],
+      "sub_questions": [
+        {
+          "id": "demo-c4-q1",
+          "original_number": "（1）",
+          "type": "简答",
+          "question": "问题（1）：指出材料缺少的验收条件。",
+          "source_pages": [
+            5
+          ],
+          "reference_answer": {
+            "status": "missing",
+            "text": "",
+            "sub_question_id": "demo-c4-q1"
+          },
+          "generated_analysis": "",
+          "calculation_steps": [],
+          "pitfalls": [],
+          "concept_ids": [],
+          "evidence_ids": [],
+          "method_ids": []
+        },
+        {
+          "id": "demo-c4-q2",
+          "original_number": "（2）",
+          "type": "简答",
+          "question": "问题（2）：提出下一步核查事项。",
+          "source_pages": [
+            5
+          ],
+          "reference_answer": {
+            "status": "unresolved",
+            "text": "未标注归属的答案片段：先核实验收标准。",
+            "source_id": "demo-bank",
+            "source_pages": [
+              5
+            ],
+            "sub_question_id": "demo-c4-q2",
+            "reason": "原材料未标注答案所属小问，此片段仅供核对，不作为该问确定答案。"
+          },
+          "generated_analysis": "",
+          "calculation_steps": [],
+          "pitfalls": [],
+          "concept_ids": [],
+          "evidence_ids": [],
+          "method_ids": []
+        }
+      ],
+      "coverage_review": {
+        "status": "complete",
+        "background_status": "complete",
+        "diagrams_status": "complete",
+        "expected_diagram_pages": [],
+        "expected_sub_question_ids": [
+          "demo-c4-q1",
+          "demo-c4-q2"
+        ],
+        "reason": "已逐页核对本合成原件；仅结构验收，非真实试题审校。"
+      }
+    }
+  ],
+  "methods": [
+    {
+      "id": "demo-calc",
+      "title": "成本绩效指数的计算与判读",
+      "type": "calculation",
+      "applicability": "同一报告时点、币种一致且 AC 大于零的 EV 与 AC。",
+      "formula": "CPI=EV/AC",
+      "substitution": "本合成例题：60/75=0.80。",
+      "units": "比率无量纲；输入金额保持一致单位。",
+      "pitfalls": [
+        "不要用 AC/EV；不要由 CPI 推断进度。"
+      ],
+      "steps": [
+        "核对时点、币种和 AC 非零。",
+        "写公式并代入。",
+        "解释每元实际成本产生的挣值。"
+      ],
+      "case_basis": [
+        {
+          "source_id": "demo-bank",
+          "page": 1,
+          "excerpt": "同一报告时点 EV=60 万元，AC=75 万元。"
+        }
+      ],
+      "answer_structure": "公式 → 代入 → 结果 → 含义",
+      "sub_question_ids": [
+        "demo-c1-q1"
+      ],
+      "concept_ids": [
+        "demo-cpi"
+      ],
+      "evidence_ids": [
+        "demo-e1"
+      ]
+    },
+    {
+      "id": "demo-answer",
+      "title": "依据案例事实组织简答",
+      "type": "answering",
+      "applicability": "本合成案例已给出问题事实和明确处理顺序。",
+      "formula": "",
+      "substitution": "",
+      "units": "",
+      "pitfalls": [
+        "只回答小问所要求的事项；不要把本例顺序当所有场景的通则。"
+      ],
+      "steps": [
+        "定位与小问相关的事实。",
+        "指出该事实对应的问题或行动。"
+      ],
+      "case_basis": [
+        {
+          "source_id": "demo-bank",
+          "page": 2,
+          "excerpt": "客户口头要求增加报表。项目经理尚未记录和评估请求。"
+        },
+        {
+          "source_id": "demo-bank",
+          "page": 2,
+          "excerpt": "参考答案（2）：记录请求，再评估影响，提交审批。"
+        }
+      ],
+      "answer_structure": "事实 → 对应问题／下一步",
+      "sub_question_ids": [
+        "demo-c2-q1",
+        "demo-c2-q2"
+      ],
+      "concept_ids": [],
+      "evidence_ids": []
+    }
+  ]
+}

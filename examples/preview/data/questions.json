@@ -1,0 +1,543 @@
+[
+  {
+    "id": "fixture_hi_001",
+    "question_zh": "某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |",
+    "options": [
+      {
+        "label": "A",
+        "text": "CPI=0.80，说明每投入 1 元产生 0.80 元挣值",
+        "is_correct": true
+      },
+      {
+        "label": "B",
+        "text": "CPI=1.25，说明项目成本绩效良好",
+        "is_correct": false
+      },
+      {
+        "label": "C",
+        "text": "CPI=1.00，说明 EV 与 AC 相等",
+        "is_correct": false
+      },
+      {
+        "label": "D",
+        "text": "CPI=0.15，说明项目只完成了 15% 的预算",
+        "is_correct": false
+      }
+    ],
+    "answer": "A",
+    "explanation": "CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。",
+    "option_analyses": [
+      {
+        "option": "A",
+        "is_correct": true,
+        "analysis": "正确。60/75=0.80。",
+        "quotes": [
+          "CPI = EV / AC"
+        ]
+      },
+      {
+        "option": "B",
+        "is_correct": false,
+        "analysis": "错误。1.25 是倒数关系。",
+        "quotes": []
+      },
+      {
+        "option": "C",
+        "is_correct": false,
+        "analysis": "错误。EV 与 AC 不相等。",
+        "quotes": []
+      },
+      {
+        "option": "D",
+        "is_correct": false,
+        "analysis": "错误。0.15 不是 CPI。",
+        "quotes": []
+      }
+    ],
+    "memory_tips": [
+      "CPI 看成本：挣值除实际，低于 1 就吃亏。"
+    ],
+    "concept_ids": [
+      "cost_performance_index"
+    ],
+    "is_calculation": true,
+    "exam_point_summary": {
+      "title": "成本绩效指数 CPI 的计算与判读",
+      "source_question": "fixture_hi_001",
+      "keywords": "CPI、挣值管理"
+    },
+    "method_extract": {},
+    "calc_solution": {
+      "method_name": "挣值分析",
+      "steps": "已知 BAC=100 万元，EV=60 万元，AC=75 万元。成本绩效指数公式为 CPI=EV/AC。代入得 CPI=60/75=0.80。由于 CPI<1，说明成本效率偏低，每投入 1 元实际成本仅获得 0.80 元挣值。",
+      "common_patterns": "常考 CPI、SPI、CV、SV 的公式与判读，尤其容易把 CPI=EV/AC 与 SPI=EV/PV 混淆，或把 CPI 与 AC/EV 倒置。CPI<1 表示成本绩效差，CPI>1 表示成本绩效好；CV=EV-AC，CV<0 表示成本超支。",
+      "related_concepts": [
+        "EV",
+        "AC",
+        "BAC",
+        "CV",
+        "EAC"
+      ]
+    },
+    "core_exam_points": [
+      {
+        "title": "成本绩效指数 CPI 的计算与判读",
+        "body": "CPI 是挣值管理中衡量成本效率的核心指标，公式为 CPI=EV/AC。CPI 表示每实际花费 1 元所获得的挣值。CPI>1 表示成本绩效好，CPI=1 表示符合预算，CPI<1 表示成本超支或成本效率偏低。本题 CPI=60/75=0.80，小于 1，说明成本效率偏低。"
+      },
+      {
+        "title": "挣值管理核心参数 BAC、EV、AC 的含义",
+        "body": "BAC 是完工预算，即项目总预算；EV 是挣值，表示已完成工作的预算价值；AC 是实际成本，表示已完成工作的实际花费。EV 与 BAC 的比值可反映进度完成比例，但 CPI 主要反映成本效率，不是简单的完成百分比。"
+      }
+    ],
+    "answer_mismatch": false,
+    "cornell_note": {
+      "pairs": [
+        {
+          "cue": "CPI 的公式是什么？",
+          "note": "**CPI=EV/AC=60/75=0.80**。"
+        },
+        {
+          "cue": "CPI 小于 1 代表什么？",
+          "note": "表示**成本效率偏低**：每投入 1 元实际成本，只获得 0.80 元挣值。"
+        },
+        {
+          "cue": "EV、AC、BAC 分别是什么？",
+          "note": "EV 是已完成工作的预算价值；AC 是实际成本；BAC 是项目总预算。"
+        },
+        {
+          "cue": "完成预算百分比与 CPI 有何区别？",
+          "note": "CPI 衡量成本效率，不等于完成比例；本题完成预算比例为 **EV/BAC=60/100=60%**。"
+        }
+      ],
+      "summary": "核心结论：本题正确选项为 A，CPI=EV/AC=60/75=0.80，说明每投入 1 元产生 0.80 元挣值，成本效率偏低。记忆口诀：EV 在上、AC 在下，小于 1 效率差。易错点警告：不要把 CPI 与完成百分比混淆，也不要把 AC/EV 当成 CPI。",
+      "pairing_status": "paired"
+    },
+    "option_translations": [
+      {
+        "option": "A",
+        "text_zh": "CPI=0.80，说明每投入 1 元产生 0.80 元挣值"
+      },
+      {
+        "option": "B",
+        "text_zh": "CPI=1.25，说明项目成本绩效良好"
+      },
+      {
+        "option": "C",
+        "text_zh": "CPI=1.00，说明 EV 与 AC 相等"
+      },
+      {
+        "option": "D",
+        "text_zh": "CPI=0.15，说明项目只完成了 15% 的预算"
+      }
+    ],
+    "quotes": [
+      "CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。"
+    ],
+    "is_methodology": false,
+    "knowledge_expansion": [
+      {
+        "topic": "挣值管理常用指标关系",
+        "body": "CV=EV-AC，本题 CV=60-75=-15 万元，表示成本超支 15 万元。CPI=EV/AC，本题为 0.80。若还需判断进度，需要 PV 或 SPI=EV/PV；本题未给出 PV，因此不能计算进度绩效。EAC 等完工估算也需根据典型/非典型偏差假设选择公式，不能仅凭 BAC、EV、AC 随意判断。"
+      },
+      {
+        "topic": "CPI 的典型应用",
+        "body": "CPI 常用于预测完工估算，如典型偏差下 EAC=BAC/CPI。本题若按典型偏差粗算，EAC=100/0.80=125 万元，表示若当前成本效率持续，项目完工可能需要约 125 万元。"
+      }
+    ],
+    "error": "",
+    "question_translation": "某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |\n\n![EVM 流程示意图](assets/evm-flow.svg)",
+    "generated_analysis": {
+      "exam_point_summary": {
+        "title": "成本绩效指数 CPI 的计算与判读",
+        "source_question": "fixture_hi_001",
+        "keywords": "CPI、挣值管理"
+      },
+      "method_extract": {},
+      "calc_solution": {
+        "method_name": "挣值分析",
+        "steps": "已知 BAC=100 万元，EV=60 万元，AC=75 万元。成本绩效指数公式为 CPI=EV/AC。代入得 CPI=60/75=0.80。由于 CPI<1，说明成本效率偏低，每投入 1 元实际成本仅获得 0.80 元挣值。",
+        "common_patterns": "常考 CPI、SPI、CV、SV 的公式与判读，尤其容易把 CPI=EV/AC 与 SPI=EV/PV 混淆，或把 CPI 与 AC/EV 倒置。CPI<1 表示成本绩效差，CPI>1 表示成本绩效好；CV=EV-AC，CV<0 表示成本超支。",
+        "related_concepts": [
+          "EV",
+          "AC",
+          "BAC",
+          "CV",
+          "EAC"
+        ]
+      },
+      "core_exam_points": [
+        {
+          "title": "成本绩效指数 CPI 的计算与判读",
+          "body": "CPI 是挣值管理中衡量成本效率的核心指标，公式为 CPI=EV/AC。CPI 表示每实际花费 1 元所获得的挣值。CPI>1 表示成本绩效好，CPI=1 表示符合预算，CPI<1 表示成本超支或成本效率偏低。本题 CPI=60/75=0.80，小于 1，说明成本效率偏低。"
+        },
+        {
+          "title": "挣值管理核心参数 BAC、EV、AC 的含义",
+          "body": "BAC 是完工预算，即项目总预算；EV 是挣值，表示已完成工作的预算价值；AC 是实际成本，表示已完成工作的实际花费。EV 与 BAC 的比值可反映进度完成比例，但 CPI 主要反映成本效率，不是简单的完成百分比。"
+        }
+      ],
+      "answer_mismatch": false,
+      "cornell_note": {
+        "pairs": [
+          {
+            "cue": "CPI 的公式是什么？",
+            "note": "**CPI=EV/AC=60/75=0.80**。"
+          },
+          {
+            "cue": "CPI 小于 1 代表什么？",
+            "note": "表示**成本效率偏低**：每投入 1 元实际成本，只获得 0.80 元挣值。"
+          },
+          {
+            "cue": "EV、AC、BAC 分别是什么？",
+            "note": "EV 是已完成工作的预算价值；AC 是实际成本；BAC 是项目总预算。"
+          },
+          {
+            "cue": "完成预算百分比与 CPI 有何区别？",
+            "note": "CPI 衡量成本效率，不等于完成比例；本题完成预算比例为 **EV/BAC=60/100=60%**。"
+          }
+        ],
+        "summary": "核心结论：本题正确选项为 A，CPI=EV/AC=60/75=0.80，说明每投入 1 元产生 0.80 元挣值，成本效率偏低。记忆口诀：EV 在上、AC 在下，小于 1 效率差。易错点警告：不要把 CPI 与完成百分比混淆，也不要把 AC/EV 当成 CPI。",
+        "pairing_status": "paired"
+      },
+      "option_translations": [
+        {
+          "option": "A",
+          "text_zh": "CPI=0.80，说明每投入 1 元产生 0.80 元挣值"
+        },
+        {
+          "option": "B",
+          "text_zh": "CPI=1.25，说明项目成本绩效良好"
+        },
+        {
+          "option": "C",
+          "text_zh": "CPI=1.00，说明 EV 与 AC 相等"
+        },
+        {
+          "option": "D",
+          "text_zh": "CPI=0.15，说明项目只完成了 15% 的预算"
+        }
+      ],
+      "memory_tips": [
+        "CPI=EV/AC，花小钱办大事就大于 1，花大钱办小事就小于 1。",
+        "成本指数看效率：EV 在上，AC 在下；CPI<1 成本超支/效率低，CPI>1 成本节约/效率高。",
+        "不要把 CPI 与完成百分比混淆；完成预算比例通常看 EV/BAC。"
+      ],
+      "is_calculation": true,
+      "quotes": [
+        "CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。"
+      ],
+      "is_methodology": false,
+      "option_analyses": [
+        {
+          "option": "A",
+          "is_correct": true,
+          "analysis": "✅ 正确。CPI=EV/AC=60/75=0.80。CPI=0.80 表示每投入 1 元实际成本，只获得 0.80 元挣值，即成本效率偏低、成本绩效不佳。",
+          "quotes": [
+            "CPI=EV/AC=60/75=0.80。CPI 小于 1 表示成本效率偏低。",
+            "CPI=0.80，说明每投入 1 元产生 0.80 元挣值"
+          ]
+        },
+        {
+          "option": "B",
+          "is_correct": false,
+          "analysis": "❌ 错误。CPI=1.25 是把公式倒置为 AC/EV=75/60 后得到的结果，不是 CPI 的正确计算。CPI=EV/AC=60/75=0.80，小于 1，不能说明项目成本绩效良好。",
+          "quotes": [
+            "CPI=1.25，说明项目成本绩效良好"
+          ]
+        },
+        {
+          "option": "C",
+          "is_correct": false,
+          "analysis": "❌ 错误。CPI=1.00 只有在 EV=AC 时成立。本题 EV=60，AC=75，两者不相等，因此 CPI 不为 1.00，而是 0.80。",
+          "quotes": [
+            "CPI=1.00，说明 EV 与 AC 相等"
+          ]
+        },
+        {
+          "option": "D",
+          "is_correct": false,
+          "analysis": "❌ 错误。CPI=0.15 不是本题计算结果。CPI 衡量的是成本效率，不是项目完成预算的百分比。若看完成比例，EV/BAC=60/100=60%，可说明已完成预算工作的 60%，而不是 15%。",
+          "quotes": [
+            "CPI=0.15，说明项目只完成了 15% 的预算"
+          ]
+        }
+      ],
+      "knowledge_expansion": [
+        {
+          "topic": "挣值管理常用指标关系",
+          "body": "CV=EV-AC，本题 CV=60-75=-15 万元，表示成本超支 15 万元。CPI=EV/AC，本题为 0.80。若还需判断进度，需要 PV 或 SPI=EV/PV；本题未给出 PV，因此不能计算进度绩效。EAC 等完工估算也需根据典型/非典型偏差假设选择公式，不能仅凭 BAC、EV、AC 随意判断。"
+        },
+        {
+          "topic": "CPI 的典型应用",
+          "body": "CPI 常用于预测完工估算，如典型偏差下 EAC=BAC/CPI。本题若按典型偏差粗算，EAC=100/0.80=125 万元，表示若当前成本效率持续，项目完工可能需要约 125 万元。"
+        }
+      ],
+      "error": "",
+      "question_translation": "某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |\n\n![EVM 流程示意图](assets/evm-flow.svg)"
+    },
+    "llm_answer": "A",
+    "source_id": "sample-bank",
+    "source_file": "questions.json"
+  },
+  {
+    "id": "fixture_hi_002",
+    "question_zh": "项目关键干系人持续反对范围变更。项目经理首先应采取的做法是：",
+    "options": [
+      {
+        "label": "A",
+        "text": "立即跳过评审并冻结全部需求",
+        "is_correct": false
+      },
+      {
+        "label": "B",
+        "text": "分析干系人的权力、利益和参与度，并制定沟通与参与策略",
+        "is_correct": true
+      },
+      {
+        "label": "C",
+        "text": "删除该干系人的所有意见",
+        "is_correct": false
+      },
+      {
+        "label": "D",
+        "text": "只依据项目经理个人经验决定",
+        "is_correct": false
+      }
+    ],
+    "answer": "B",
+    "explanation": "应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。没有外部来源、来源 ID 或页码。",
+    "option_analyses": [
+      {
+        "option": "A",
+        "is_correct": false,
+        "analysis": "错误。跳过治理流程会增加风险。",
+        "quotes": []
+      },
+      {
+        "option": "B",
+        "is_correct": true,
+        "analysis": "正确。干系人分析是制定参与策略的基础。",
+        "quotes": [
+          "分析干系人的权力、利益和参与度"
+        ]
+      },
+      {
+        "option": "C",
+        "is_correct": false,
+        "analysis": "错误。删除意见不能解决冲突。",
+        "quotes": []
+      },
+      {
+        "option": "D",
+        "is_correct": false,
+        "analysis": "错误。范围变更应遵循控制机制。",
+        "quotes": []
+      }
+    ],
+    "memory_tips": [
+      "先看权利与利益，再定沟通参与。"
+    ],
+    "concept_ids": [
+      "stakeholder_engagement"
+    ],
+    "exam_point_summary": {
+      "title": "干系人分析与参与策略",
+      "source_question": "fixture_hi_002",
+      "keywords": "干系人分析；参与策略"
+    },
+    "method_extract": {
+      "method_name": "干系人参与管理",
+      "description": "干系人参与管理是识别干系人、分析其权力、利益和参与度，并制定沟通与参与策略，以争取干系人支持项目、降低反对和冲突的管理过程。",
+      "application": "先分析干系人的权力、利益和参与度；再根据分析结果制定沟通与参与策略；持续监控干系人参与水平，推动其向支持、领导等期望状态转变。",
+      "related_concepts": [
+        "权力/利益方格",
+        "参与度评估矩阵",
+        "沟通管理计划",
+        "变更控制流程"
+      ]
+    },
+    "calc_solution": {},
+    "core_exam_points": [
+      {
+        "title": "干系人分析与参与策略",
+        "body": "干系人持续反对变更时，应先识别并分析干系人的权力、利益和参与度，再制定针对性的沟通与参与策略。权力/利益方格可用于判断干系人管理优先级，参与度评估矩阵可用于识别当前参与水平与期望参与水平之间的差距。变更管理不能跳过评审或简单冻结需求，也不能忽视、删除干系人意见。"
+      },
+      {
+        "title": "变更管理中的干系人参与",
+        "body": "范围变更往往涉及干系人利益冲突，项目经理需要先理解干系人立场与影响能力，通过沟通、参与和协商争取支持。直接强制、独断或删除意见会加剧抵触，降低项目成功概率。"
+      }
+    ],
+    "answer_mismatch": false,
+    "cornell_note": {
+      "cues": [
+        "关键干系人持续反对范围变更时，首先做什么？",
+        "干系人分析包括哪三个关键维度？",
+        "权力、利益和参与度如何影响沟通与参与策略？"
+      ],
+      "notes": [
+        "应先分析干系人的**权力、利益和参与度**，再制定沟通与参与策略。"
+      ],
+      "summary": "核心结论：项目经理首先应分析关键干系人的权力、利益和参与度，并制定沟通与参与策略；记忆口诀：先分析、后策略；易错点：不能跳过评审、冻结需求、删除意见或只凭个人经验决策。"
+    },
+    "option_translations": [
+      {
+        "option": "A",
+        "text_zh": "立即跳过评审并冻结全部需求"
+      },
+      {
+        "option": "B",
+        "text_zh": "分析干系人的权力、利益和参与度，并制定沟通与参与策略"
+      },
+      {
+        "option": "C",
+        "text_zh": "删除该干系人的所有意见"
+      },
+      {
+        "option": "D",
+        "text_zh": "只依据项目经理个人经验决定"
+      }
+    ],
+    "is_calculation": false,
+    "quotes": [
+      "应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。"
+    ],
+    "is_methodology": true,
+    "knowledge_expansion": [
+      {
+        "topic": "权力/利益方格",
+        "body": "权力/利益方格根据干系人的权力高低和利益高低划分管理策略：权力高、利益高者重点管理；权力高、利益低者令其满意；权力低、利益高者随时告知；权力低、利益低者监督即可。"
+      },
+      {
+        "topic": "参与度评估矩阵",
+        "body": "参与度评估矩阵用于记录干系人当前参与水平与期望参与水平，常见分类包括：不了解、抵制、中立、支持、领导。通过比较差距，制定沟通与参与策略，推动干系人向期望状态转变。"
+      },
+      {
+        "topic": "变更控制流程",
+        "body": "范围变更应遵循变更控制流程，包括提出变更申请、分析影响、提交变更控制委员会评审、批准或否决、更新计划和文件、通知干系人等。不能跳过评审，也不能简单冻结全部需求。"
+      }
+    ],
+    "error": "",
+    "question_translation": "项目关键干系人持续反对范围变更。项目经理首先应采取的做法是：",
+    "generated_analysis": {
+      "exam_point_summary": {
+        "title": "干系人分析与参与策略",
+        "source_question": "fixture_hi_002",
+        "keywords": "干系人分析；参与策略"
+      },
+      "method_extract": {
+        "method_name": "干系人参与管理",
+        "description": "干系人参与管理是识别干系人、分析其权力、利益和参与度，并制定沟通与参与策略，以争取干系人支持项目、降低反对和冲突的管理过程。",
+        "application": "先分析干系人的权力、利益和参与度；再根据分析结果制定沟通与参与策略；持续监控干系人参与水平，推动其向支持、领导等期望状态转变。",
+        "related_concepts": [
+          "权力/利益方格",
+          "参与度评估矩阵",
+          "沟通管理计划",
+          "变更控制流程"
+        ]
+      },
+      "calc_solution": {},
+      "core_exam_points": [
+        {
+          "title": "干系人分析与参与策略",
+          "body": "干系人持续反对变更时，应先识别并分析干系人的权力、利益和参与度，再制定针对性的沟通与参与策略。权力/利益方格可用于判断干系人管理优先级，参与度评估矩阵可用于识别当前参与水平与期望参与水平之间的差距。变更管理不能跳过评审或简单冻结需求，也不能忽视、删除干系人意见。"
+        },
+        {
+          "title": "变更管理中的干系人参与",
+          "body": "范围变更往往涉及干系人利益冲突，项目经理需要先理解干系人立场与影响能力，通过沟通、参与和协商争取支持。直接强制、独断或删除意见会加剧抵触，降低项目成功概率。"
+        }
+      ],
+      "answer_mismatch": false,
+      "cornell_note": {
+        "cues": [
+          "关键干系人持续反对范围变更时，首先做什么？",
+          "干系人分析包括哪三个关键维度？",
+          "权力、利益和参与度如何影响沟通与参与策略？"
+        ],
+        "notes": [
+          "应先分析干系人的**权力、利益和参与度**，再制定沟通与参与策略。"
+        ],
+        "summary": "核心结论：项目经理首先应分析关键干系人的权力、利益和参与度，并制定沟通与参与策略；记忆口诀：先分析、后策略；易错点：不能跳过评审、冻结需求、删除意见或只凭个人经验决策。"
+      },
+      "option_translations": [
+        {
+          "option": "A",
+          "text_zh": "立即跳过评审并冻结全部需求"
+        },
+        {
+          "option": "B",
+          "text_zh": "分析干系人的权力、利益和参与度，并制定沟通与参与策略"
+        },
+        {
+          "option": "C",
+          "text_zh": "删除该干系人的所有意见"
+        },
+        {
+          "option": "D",
+          "text_zh": "只依据项目经理个人经验决定"
+        }
+      ],
+      "memory_tips": [
+        "先分析、后策略；权力利益参与度，沟通参与不能少。",
+        "反对变更先别急，干系分析是前提。",
+        "跳过评审、冻结需求、删除意见、只凭经验——都是错误做法。"
+      ],
+      "is_calculation": false,
+      "quotes": [
+        "应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。"
+      ],
+      "is_methodology": true,
+      "option_analyses": [
+        {
+          "option": "A",
+          "is_correct": false,
+          "analysis": "❌ 错误。立即跳过评审并冻结全部需求，既不符合变更控制流程，也忽视了关键干系人的合理诉求，可能导致冲突升级和需求失真。项目经理应优先分析干系人并制定参与策略，而不是强制冻结。",
+          "quotes": [
+            "立即跳过评审并冻结全部需求"
+          ]
+        },
+        {
+          "option": "B",
+          "is_correct": true,
+          "analysis": "✅ 正确。题库解析明确指出：应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。这符合干系人参与管理的标准做法，也是处理关键干系人持续反对范围变更的首要行动。",
+          "quotes": [
+            "应先分析干系人的权力、利益和参与度，再制定沟通与参与策略。"
+          ]
+        },
+        {
+          "option": "C",
+          "is_correct": false,
+          "analysis": "❌ 错误。删除该干系人的所有意见，属于忽视甚至压制干系人诉求的做法。关键干系人的反对可能影响项目资源、验收和支持，项目经理应分析其权力、利益和参与度，并通过沟通与参与策略化解分歧。",
+          "quotes": [
+            "删除该干系人的所有意见"
+          ]
+        },
+        {
+          "option": "D",
+          "is_correct": false,
+          "analysis": "❌ 错误。只依据项目经理个人经验决定，缺乏系统的干系人分析和参与规划，容易造成主观决策，无法有效应对关键干系人的持续反对。应基于干系人分析结果制定沟通与参与策略。",
+          "quotes": [
+            "只依据项目经理个人经验决定"
+          ]
+        }
+      ],
+      "knowledge_expansion": [
+        {
+          "topic": "权力/利益方格",
+          "body": "权力/利益方格根据干系人的权力高低和利益高低划分管理策略：权力高、利益高者重点管理；权力高、利益低者令其满意；权力低、利益高者随时告知；权力低、利益低者监督即可。"
+        },
+        {
+          "topic": "参与度评估矩阵",
+          "body": "参与度评估矩阵用于记录干系人当前参与水平与期望参与水平，常见分类包括：不了解、抵制、中立、支持、领导。通过比较差距，制定沟通与参与策略，推动干系人向期望状态转变。"
+        },
+        {
+          "topic": "变更控制流程",
+          "body": "范围变更应遵循变更控制流程，包括提出变更申请、分析影响、提交变更控制委员会评审、批准或否决、更新计划和文件、通知干系人等。不能跳过评审，也不能简单冻结全部需求。"
+        }
+      ],
+      "error": "",
+      "question_translation": "项目关键干系人持续反对范围变更。项目经理首先应采取的做法是："
+    },
+    "llm_answer": "B",
+    "source_id": "sample-bank",
+    "source_file": "questions.json"
+  }
+]

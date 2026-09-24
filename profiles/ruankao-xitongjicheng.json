@@ -1,0 +1,10 @@
+{
+  "exam_code": "ruankao-xitongjicheng",
+  "exam_name": "系统集成项目管理工程师",
+  "exam_name_zh": "系统集成项目管理工程师（软考中级）",
+  "exam_full_name": "软考中级 · 系统集成项目管理工程师",
+  "description": "Agent 根据用户提供的系统集成项目管理工程师原始题库与教辅编写知识卡片",
+  "standard_label": "用户提供的系统集成项目管理工程师题库与教辅",
+  "agent_only": true,
+  "content_style": {"language": "zh", "code_format": "text"}
+}

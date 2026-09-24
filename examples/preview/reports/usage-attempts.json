@@ -1,0 +1,12 @@
+{
+  "summary": {
+    "scope": "current_process_only",
+    "event_count": 0,
+    "attempt_count": 0,
+    "succeeded_count": 0,
+    "failed_count": 0,
+    "provider_usage_complete": false,
+    "cached_work_usage": "unknown"
+  },
+  "attempts": []
+}
