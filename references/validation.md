@@ -1,3 +1,18 @@
+# v1.0.0-beta.2 公开测试版验证（2026-09-24）
+
+本节是当前发布状态；后续章节是历史工程记录，涉及旧版本、旧依赖或当时尚未公开发布的描述，不代表 beta.2 当前状态。
+
+- 项目权利人已选择将 `LICENSE`、`NOTICE.md` 所覆盖的项目代码、文档和合成示例按 Apache License 2.0 发布；用户输入和第三方依赖不在该授权范围内。本记录不是独立法律意见。
+- PDF 后端已从 AGPL/商业双许可的 PyMuPDF 替换为 Apache-2.0/BSD-3-Clause 的 pypdfium2，并在 `THIRD_PARTY_NOTICES.md` 中列明运行和开发依赖。
+- 当前干净测试环境验证：Python **180 passed**，Node **23 passed**；其中包含 PDF 页数、文本层、原页 PNG、Agent 续跑、案例包、学习库回环 HTTP 和可复现打包。
+- `tests/test_workbuddy_layout.py` 已验证 WorkBuddy 扩展 frontmatter。Codex 通用 `quick_validate.py` 会拒绝 WorkBuddy 专用顶层字段，因此本包声明为 WorkBuddy Skill，不声明与通用 Codex Skill frontmatter 完全兼容。
+- 打包脚本固定 ZIP 时间戳和文件权限；相同源码连续构建产生相同字节和 SHA-256。
+- 本轮未重新执行真实题库内容人工审校或完整桌面/移动端截图验收；这两项属于 beta 使用时的内容与视觉验收边界，不由结构测试替代。
+
+---
+
+# 历史验证记录（r15-r19 / beta.1 以前）
+
 # r19 案例学习与自评验收（2026-09-22）
 
 > 许可状态更新（2026-09-23）：用户已明确选择 Apache License 2.0。本候选包现包含官方完整 `LICENSE` 和更新后的 `NOTICE.md`。下文关于“许可延期”“未新增 LICENSE”的文字是对应历史阶段的原始验收记录，已由本条更新取代，但保留用于说明当时的验证边界。用户导入资料与第三方内容不因该许可证自动重新授权。

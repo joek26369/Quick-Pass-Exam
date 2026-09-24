@@ -2,6 +2,7 @@
 .gitignore
 LICENSE
 NOTICE.md
+THIRD_PARTY_NOTICES.md
 README.md
 SKILL.md
 scripts/quick-pass.py
@@ -19,6 +20,7 @@ examples/concepts.json
 examples/learning-package-input.json
 examples/questions.json
 generator.py
+pdf_backend.py
 llm_config.example.json
 profiles/ruankao-xitixiangmu.json
 provenance.json
@@ -48,6 +50,7 @@ templates/graph.js
 templates/comparisons.js
 importer.py
 requirements-import.txt
+requirements-dev.txt
 tests/test_importer.py
 assets/logo-mark.png
 templates/learning-details.js
@@ -97,3 +100,4 @@ examples/cases/SOURCE-NOTE.txt
 examples/cases/synthetic-guide.pdf
 examples/cases/synthetic-bank.pdf
 examples/cases/agent-content-mixed.json
+tests/test_release_packaging.py

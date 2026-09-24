@@ -14,6 +14,7 @@ import tempfile
 from typing import Any
 
 from generator import ContractError, validate_questions
+from pdf_backend import PdfBackendUnavailable, PdfDocument, physical_page_count
 
 
 CONTRACT_VERSION = 1
@@ -68,11 +69,6 @@ def prepare_agent_handoff(pdf_path: Path, output_dir: Path, *, dpi: int = 150) -
     bytes. Existing page images and non-empty agent questions are never
     overwritten, allowing a human/Agent to continue an interrupted handoff.
     """
-    try:
-        import pymupdf
-    except ImportError as exc:  # pragma: no cover
-        raise ImportError("PDF 预处理需要 PyMuPDF；请安装 requirements-import.txt") from exc
-
     pdf_path = pdf_path.resolve()
     output_dir = checked_output_root(output_dir)
     digest = source_sha256(pdf_path)
@@ -84,30 +80,29 @@ def prepare_agent_handoff(pdf_path: Path, output_dir: Path, *, dpi: int = 150) -
     page_dir = output_dir / PAGES_DIR
     _check_managed_path(page_dir, output_dir)
     page_dir.mkdir(exist_ok=True)
-    document = pymupdf.open(str(pdf_path))
     try:
-        pages: list[dict[str, Any]] = []
-        for index, page in enumerate(document):
-            physical_page = index + 1
-            filename = f"page-{physical_page:04d}.png"
-            target = page_dir / filename
-            _check_managed_path(target, output_dir)
-            if not target.exists():
-                _atomic_write_bytes(target, page.get_pixmap(dpi=dpi, alpha=False).tobytes("png"),
-                                    root=output_dir, exclusive=True)
-            elif not target.is_file():
-                raise ContractError(f"页图目标不是普通文件：{filename}")
-            native_text = page.get_text() or ""
-            pages.append({
-                "physical_page": physical_page,
-                "image": f"{PAGES_DIR}/{filename}",
-                # Informational only. It does not classify a page as scanned
-                # or OCR-ready, and no OCR decision is made by this module.
-                "native_text": native_text,
-                "native_text_characters": len(native_text.strip()),
-            })
-    finally:
-        document.close()
+        with PdfDocument(pdf_path) as document:
+            pages: list[dict[str, Any]] = []
+            for index in range(len(document)):
+                physical_page = index + 1
+                filename = f"page-{physical_page:04d}.png"
+                target = page_dir / filename
+                _check_managed_path(target, output_dir)
+                png, native_text = document.read_page(index, dpi=dpi)
+                if not target.exists():
+                    _atomic_write_bytes(target, png, root=output_dir, exclusive=True)
+                elif not target.is_file():
+                    raise ContractError(f"页图目标不是普通文件：{filename}")
+                pages.append({
+                    "physical_page": physical_page,
+                    "image": f"{PAGES_DIR}/{filename}",
+                    # Informational only. It does not classify a page as scanned
+                    # or OCR-ready, and no OCR decision is made by this module.
+                    "native_text": native_text,
+                    "native_text_characters": len(native_text.strip()),
+                })
+    except PdfBackendUnavailable as exc:  # pragma: no cover
+        raise ImportError(str(exc)) from exc
 
     pages_payload = {
         "format_version": CONTRACT_VERSION,
@@ -234,14 +229,9 @@ def import_agent_contract(source_pdf: Path, output_dir: Path) -> Path:
     physical_pages = {item.get("physical_page") for item in pages if isinstance(item, dict)}
     if source_kind == "pdf":
         try:
-            import pymupdf
-            document = pymupdf.open(str(source_pdf))
-            try:
-                actual_page_count = len(document)
-            finally:
-                document.close()
-        except ImportError as exc:  # pragma: no cover
-            raise ImportError("PDF Agent 续跑需要 PyMuPDF；请安装 requirements-import.txt") from exc
+            actual_page_count = physical_page_count(source_pdf)
+        except PdfBackendUnavailable as exc:  # pragma: no cover
+            raise ImportError(str(exc)) from exc
         expected_pages = set(range(1, actual_page_count + 1))
         if physical_pages != expected_pages or len(pages) != actual_page_count:
             raise ContractError("页码清单与输入 PDF 的实际物理页不一致，拒绝续跑")

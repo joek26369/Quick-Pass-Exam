@@ -125,12 +125,12 @@ class _Resources:
         if destination.exists():
             return destination.relative_to(self.output_dir).as_posix()
         try:
-            import pymupdf
-            with pymupdf.open(pdf) as document:
+            from pdf_backend import PdfDocument
+            with PdfDocument(pdf) as document:
                 if not 1 <= page <= len(document):
                     raise ValueError(f"PDF 物理页超出范围：第 {page} 页")
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                document[page - 1].get_pixmap(dpi=dpi, alpha=False).save(str(destination))
+                destination.write_bytes(document.render_page(page - 1, dpi=dpi))
         except ValueError:
             raise
         except Exception as exc:

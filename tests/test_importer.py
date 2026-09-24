@@ -120,15 +120,14 @@ def test_docx_agent_contract_rejects_fabricated_page_number(tmp_path):
 
 
 def _scanned_pdf(path: Path, pages: int = 2) -> None:
-    pymupdf = pytest.importorskip('pymupdf')
-    document = pymupdf.open()
+    from reportlab.pdfgen import canvas
+    document = canvas.Canvas(str(path))
     for _ in range(pages):
-        page = document.new_page()
         # Vector marks, but no text layer: the importer must treat this as
         # visual material and must not send it to a provider by default.
-        page.draw_rect(pymupdf.Rect(36, 36, 180, 120))
-    document.save(path)
-    document.close()
+        document.rect(36, 36, 144, 84)
+        document.showPage()
+    document.save()
 
 
 def test_scanned_pdf_creates_resumable_agent_handoff(tmp_path):
@@ -237,13 +236,11 @@ def test_text_agent_contract_rejects_fabricated_page_number(tmp_path):
 
 
 def test_native_text_pdf_uses_agent_contract_with_native_text(tmp_path):
-    pymupdf = pytest.importorskip('pymupdf')
+    from reportlab.pdfgen import canvas
     source = tmp_path / 'native.pdf'
-    document = pymupdf.open()
-    page = document.new_page()
-    page.insert_text((72, 72), 'This PDF has a native text layer. ' * 4)
-    document.save(source)
-    document.close()
+    document = canvas.Canvas(str(source))
+    document.drawString(72, 760, 'This PDF has a native text layer. ' * 4)
+    document.save()
     contract_path = import_bank(source, tmp_path / 'handoff')
     contract = json.loads(contract_path.read_text())
     pages = json.loads((tmp_path / 'handoff' / 'pages.json').read_text())['pages']

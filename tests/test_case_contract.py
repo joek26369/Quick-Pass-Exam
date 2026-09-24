@@ -124,14 +124,15 @@ def test_diagram_without_a_physical_page_is_rejected():
 
 def test_case_only_concept_evidence_method_package_roundtrip(tmp_path):
     import json
-    import pymupdf
+    from reportlab.pdfgen import canvas
     from generator import AGENT_CONTENT_SCHEMA, generate_package
 
     for name in ("bank.pdf", "guide.pdf"):
-        doc = pymupdf.open()
-        doc.new_page(); doc.new_page()
-        doc.save(tmp_path / name)
-        doc.close()
+        document = canvas.Canvas(str(tmp_path / name))
+        for page_number in (1, 2):
+            document.drawString(36, 800, f"synthetic page {page_number}")
+            document.showPage()
+        document.save()
     cases, methods = sample()
     child = cases[0]["sub_questions"][0]
     child["concept_ids"] = ["concept1"]

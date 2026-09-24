@@ -51,11 +51,12 @@ def _write(tmp_path: Path, payload: dict) -> Path:
 def _v2_payload(tmp_path: Path) -> dict:
     """Two concepts share one explicit teaching evidence record."""
     (tmp_path / "bank.txt").write_text("题库原文", encoding="utf-8")
-    import pymupdf
-    document = pymupdf.open()
-    document.new_page(); document.new_page()
-    document.save(tmp_path / "guide.pdf")
-    document.close()
+    from reportlab.pdfgen import canvas
+    document = canvas.Canvas(str(tmp_path / "guide.pdf"))
+    for page_number in (1, 2):
+        document.drawString(36, 800, f"synthetic guide page {page_number}")
+        document.showPage()
+    document.save()
     payload = _agent_payload(tmp_path)
     payload["questions"][0]["concept_ids"] = ["c1", "c2"]
     payload["concepts"].append({

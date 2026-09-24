@@ -5,7 +5,7 @@ display_name_en: Quick-Pass-Exam
 description: 处理题库、真题、教辅、选择题、案例题、错题本或离线学习包生成请求；由 Agent 读取原文件并建立题目、知识点与教辅证据关联。
 description_zh: 读取题库和教辅原文件，处理选择题与案例题，生成证据可追溯的本地离线学习包。
 description_en: Build an offline exam study package from original question banks and teaching materials, with evidence-linked choice questions, case studies, knowledge cards, methods, and review records.
-version: 1.0.0-beta.1
+version: 1.0.0-beta.2
 author: Quick Pass Exam
 user-invocable: true
 disable-model-invocation: false
@@ -13,7 +13,7 @@ disable-model-invocation: false
 
 # Quick-Pass-Exam 单机学习包
 
-这是一个本地候选版本。本 Skill 自有代码、文档和合成验收示例采用 Apache License 2.0，完整文本与权利边界见根目录 `LICENSE` 和 `NOTICE.md`；用户导入资料和第三方依赖不因此被重新授权。开始前读取 @references/validation.md，了解实际验证范围和待验项。加入许可证不等于已经完成公开发布。下文路径均相对于本 Skill 目录；从其他工作目录运行命令时，先解析为正确路径。
+这是 Quick-Pass-Exam OSS WorkBuddy Skill v1.0.0-beta.2 公开测试版。本 Skill 自有代码、文档和合成验收示例采用 Apache License 2.0，完整文本与权利边界见根目录 `LICENSE`、`NOTICE.md` 和 `THIRD_PARTY_NOTICES.md`；用户导入资料和第三方依赖不因此被重新授权。开始前读取 @references/validation.md，了解实际验证范围和待验项。下文路径均相对于本 Skill 目录；从其他工作目录运行命令时，先解析为正确路径。
 
 ## WorkBuddy 资源与执行入口
 
@@ -145,4 +145,4 @@ Agent 必须从原件检查完整背景、图表、续页和答案归属：
 
 ## 文档导入边界
 
-题目/知识点字段、内容阶段、笔记规则、发布质量门和学习页面来自现有 Quick Pass 实现。教辅卡片和原页对话框沿用 concept-evidence 与 `readerDialog` 交互，并把服务端 API 改为包内本地资源。旧的高层 `bank_parser.py` 不包含在本候选包中；`document_adapter.py` 和 `--import-only` 只暴露来源材料，不是默认 Agent 路径。语义识别与审阅必须由 Agent 完成。应通过本 Skill 的编写规范加强已有内容检查和报告，不得另外引入一套平行的语义 parser 或 relation engine。
+题目/知识点字段、内容阶段、笔记规则、发布质量门和学习页面来自现有 Quick Pass 实现。教辅卡片和原页对话框沿用 concept-evidence 与 `readerDialog` 交互，并把服务端 API 改为包内本地资源。旧的高层 `bank_parser.py` 不包含在本公开测试版中；`document_adapter.py` 和 `--import-only` 只暴露来源材料，不是默认 Agent 路径。语义识别与审阅必须由 Agent 完成。应通过本 Skill 的编写规范加强已有内容检查和报告，不得另外引入一套平行的语义 parser 或 relation engine。

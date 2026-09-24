@@ -5,7 +5,12 @@
     "filename": "quick-pass-candidate-20260923-r19-quick-pass-exam-dimension-columns.zip",
     "sha256": "bdf5602fd25bb3c8c14824584c0b6eb62416f375d3f396430b6108aa6fc492dc"
   },
-  "license_status": "pending_rights_holder_confirmation",
+  "license_status": {
+    "project_files": "project_owner_declared_apache-2.0",
+    "declared_on": "2026-09-24",
+    "scope": "Files covered by LICENSE and NOTICE.md; excludes user inputs and third-party dependencies.",
+    "legal_review": "not_performed"
+  },
   "records": [
     {
       "target": "vendor/llm_client.py",
@@ -85,10 +90,10 @@
       "target": "renderer.py",
       "source": "export_web.py; webapp/static/views.js: concept evidence cards and readerDialog",
       "source_sha256": "560326529f50c3d685ba0b7215f96a16378988cd885c6edb7cc499230615b7a1",
-      "target_sha256": "fdf33e145eced5bd2477320aca9e8d5113e4bcc05d49ec5295d72309a5c849d8",
+      "target_sha256": "cf7e81dd0753800f73292f73d67c2d2034a4b8b82a8b9cba77d2dbe5223d0dfd",
       "source_dirty_at_start": false,
       "adapted": true,
-      "adaptation": "Adapted the original learning renderer to self-contained pages and offline evidence; PDF question sources now include a rendered physical-page image for diagram verification."
+      "adaptation": "Adapted the original learning renderer to self-contained pages and offline evidence; PDF question sources now include a rendered physical-page image for diagram verification. The beta.2 PDF renderer uses pypdfium2 instead of PyMuPDF."
     },
     {
       "target": "templates/index.html",
@@ -140,9 +145,9 @@
       "purpose": "Thin orchestration, isolated configuration, v2-only Agent content handoff, explicit original-source and teaching-evidence validation, and package manifest."
     },
     {
-      "target": "importer.py, agent_preprocess.py and document_adapter.py",
+      "target": "importer.py, agent_preprocess.py, document_adapter.py and pdf_backend.py",
       "reuses": [
-        "PyMuPDF local page rendering and native-text extraction",
+        "pypdfium2 local page rendering and native-text extraction",
         "standard-library OOXML body, table and embedded-media traversal",
         "existing questions provenance fields and validation contract"
       ],
@@ -193,5 +198,15 @@
       "subjective automatic grading (not found in audited pipeline)"
     ],
     "generated_examples": "Synthetic test originals only; not user exam materials."
+  },
+  "release": {
+    "version": "1.0.0-beta.2",
+    "channel": "public-beta",
+    "pdf_backend": "pypdfium2",
+    "changes": [
+      "Replaced PyMuPDF with permissively licensed pypdfium2 and Pillow.",
+      "Added third-party notices and development test dependencies.",
+      "Made snapshot ZIP output byte-reproducible."
+    ]
   }
 }

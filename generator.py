@@ -115,15 +115,10 @@ def _source_path(value: Any, input_dir: Path, field: str) -> tuple[str, Path]:
 
 def _physical_pdf_page_count(path: Path) -> int:
     try:
-        import pymupdf
+        from pdf_backend import physical_page_count
+        return physical_page_count(path)
     except ImportError as exc:  # pragma: no cover - requirements-import declares it
-        raise ContractError("校验 PDF 物理页码需要 PyMuPDF") from exc
-    try:
-        document = pymupdf.open(str(path))
-        try:
-            return len(document)
-        finally:
-            document.close()
+        raise ContractError("校验 PDF 物理页码需要 pypdfium2 和 Pillow") from exc
     except Exception as exc:
         raise ContractError(f"无法读取 PDF 原始文件以校验物理页码：{path.name}") from exc
 

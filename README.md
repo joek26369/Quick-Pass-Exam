@@ -1,6 +1,6 @@
 # Quick-Pass-Exam README：功能与使用说明
 
-WorkBuddy / Agent Skill：把题库与教辅原文件整理为**离线、可追溯、能记录学习进度**的本地学习网页。本 Skill 自有代码、文档和合成示例采用 [Apache License 2.0](LICENSE)；用户导入资料与第三方依赖不因此被重新授权，详见 [NOTICE.md](NOTICE.md) 和 [provenance.json](provenance.json)。当前为候选包，许可证就位不等于已完成公开发布。
+WorkBuddy / Agent Skill：把题库与教辅原文件整理为**离线、可追溯、能记录学习进度**的本地学习网页。当前公开测试版本为 **v1.0.0-beta.2**。本 Skill 自有代码、文档和合成示例采用 [Apache License 2.0](LICENSE)；用户导入资料与第三方依赖不因此被重新授权，详见 [NOTICE.md](NOTICE.md)、[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和 [provenance.json](provenance.json)。
 
 ---
 
@@ -142,10 +142,10 @@ quick-pass-exam/
 cd /path/to/quick-pass-exam
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt          # 基础：requests
-.venv/bin/python -m pip install -r requirements-import.txt   # 含 PyMuPDF，处理 PDF/原页/DOCX 时需要
+.venv/bin/python -m pip install -r requirements-import.txt   # PDF 导入与原页渲染
 ```
 
-`requirements-import.txt` 已包含基础依赖；SQLite 由 Python 自带。生成 PDF 原页图也需要 PyMuPDF，因此处理含 PDF 页码的真实材料时安装导入依赖。
+`requirements-import.txt` 已包含基础依赖、pypdfium2 和 Pillow；SQLite 由 Python 自带。处理 PDF 或生成原页图时安装导入依赖。开发者运行完整测试时安装 `requirements-dev.txt`。第三方许可证见 `THIRD_PARTY_NOTICES.md`。
 
 ### 5.1 场景速查
 
