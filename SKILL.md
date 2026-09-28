@@ -3,9 +3,9 @@ name: quick-pass-exam
 display_name: Quick-Pass-Exam
 display_name_en: Quick-Pass-Exam
 description: 处理题库、真题、教辅、选择题、案例题、错题本或离线学习包生成请求；由 Agent 读取原文件并建立题目、知识点与教辅证据关联。
-description_zh: 读取题库和教辅原文件，处理选择题与案例题，生成证据可追溯的本地离线学习包。
+description_zh: 针对IT认证和软考备考，把分散的题库和教辅资料系统整理成考点知识笔记，一键查看关联内容，刷题的同时高效掌握考点。
 description_en: Build an offline exam study package from original question banks and teaching materials, with evidence-linked choice questions, case studies, knowledge cards, methods, and review records.
-version: 1.0.0-beta.2
+version: 1.0.0-beta.6
 author: Quick Pass Exam
 user-invocable: true
 disable-model-invocation: false
@@ -13,7 +13,7 @@ disable-model-invocation: false
 
 # Quick-Pass-Exam 单机学习包
 
-这是 Quick-Pass-Exam OSS WorkBuddy Skill v1.0.0-beta.2 公开测试版。本 Skill 自有代码、文档和合成验收示例采用 Apache License 2.0，完整文本与权利边界见根目录 `LICENSE`、`NOTICE.md` 和 `THIRD_PARTY_NOTICES.md`；用户导入资料和第三方依赖不因此被重新授权。开始前读取 @references/validation.md，了解实际验证范围和待验项。下文路径均相对于本 Skill 目录；从其他工作目录运行命令时，先解析为正确路径。
+这是 Quick-Pass-Exam OSS WorkBuddy Skill v1.0.0-beta.6 公开测试版。本 Skill 自有代码、文档和合成验收示例采用 Apache License 2.0，完整文本与权利边界见根目录 `LICENSE`、`NOTICE.md` 和 `THIRD_PARTY_NOTICES.md`；用户导入资料和第三方依赖不因此被重新授权。开始前读取 @references/validation.md，了解实际验证范围和待验项。下文路径均相对于本 Skill 目录；从其他工作目录运行命令时，先解析为正确路径。
 
 ## WorkBuddy 资源与执行入口
 
@@ -25,19 +25,32 @@ disable-model-invocation: false
 
 ## 默认流程：Agent-first
 
+处理用户目录或修复漏包前，必须读取 @references/source-coverage.md。先按用户明确指定的目录锁定 `source-inventory.json.input_scope`，再遍历和筛选资料；不得用筛选后的工作目录代替用户输入范围。发现漏包时，按该规范完成补读、补关联、重新生成、复核和向用户补报，不能只指出问题或只改报告。
+
 默认流程把语义工作交给运行本 Skill 的 Agent：
 
 1. 接收用户提供的全部题库和教辅原文件。原文件是第一手输入，本地提取出的文本不能替代原文件。
 2. Agent 完成全部语义工作：识别题目、选项、答案及其来源；归纳知识点；建立题目与知识点的多对多关联；定位相关教辅段落和页面；建立知识点与证据的多对多关联；结合题目和教辅证据编写知识卡。
 3. 本地代码只做确定性预处理和校验：检查安全相对路径、可选哈希、PDF 物理页数、稳定 ID、双向引用、归一化区域、资源复制和引用页渲染。代码不得判断某段是否为题目、猜答案、生成知识点、检索教辅或臆造关联。
 4. 本地代码渲染静态学习包。每个知识点显示 Agent 选定的教辅节选和页面缩略图；点击卡片可以查看原页和包内原文件。题目若关联到已核验的 PDF 物理页，也要生成完整原页的离线图像；刷题页提供可展开的原页入口。
+   渲染后代码还会核对原始范围是否变化、落盘数据与 HTML 的教辅关联、原文件哈希和页图；失败时不发布正式输出目录，并输出带修复指令的失败报告。Agent 修复后必须重新生成和核对，不能手动把报告改为 passed。
 5. 生成成功时向 CLI 传入 `--open`。CLI 会注册学习包、启动或复用本地学习库、检查服务响应并打印可用 URL。把该 URL 返回给学习者；不要让用户自行安装 SQLite、注册学习包或启动服务。
 
-Agent 应生成 `agent-content.json`，其中包含 `schema_version: "quick-pass-agent-content-v2"`、`sources`、`questions`、`concepts` 和 `teaching_evidence`，再通过 `--agent-content` 执行确定性校验和打包。`sources` 必须把每个原文件明确标为 `question_bank` 或 `teaching_material`；每条证据必须携带稳定的来源 ID、知识点 ID、PDF 物理页、节选内容和可选归一化区域。JSON 应与原文件放在同一目录，并使用相对路径。
+交付或替换现有包前，运行 `python3 scripts/verify-package.py <package-directory>`，并完成新增教辅的浏览器抽查。仅原始覆盖与生成后检查均 passed 才可宣称本次范围内无未处置漏项；OCR、公式和关联语义仍需 Agent 对照原件核验，不能用结构检查替代。
+
+Agent 应生成 `agent-content.json`，其中包含 `schema_version: "quick-pass-agent-content-v2"`、`sources`、`questions`、`concepts` 和 `teaching_evidence`，再通过 `--agent-content` 执行确定性校验和打包。`sources` 必须把每个入包原文件明确标为 `question_bank` 或 `teaching_material`；每条证据必须携带稳定的来源 ID、知识点 ID、PDF 物理页、节选内容和可选归一化区域。JSON 应与入包原文件放在同一目录，并使用相对路径。
+
+处理用户资料目录时，先盘点全部原文件，再制作 `source-inventory.json`，不能仅列出已经挑中的教辅。每条记录使用相对用户原始资料根目录的 `path`；`decision: "included"` 时填写对应 `sources.id` 的 `source_id`，`decision: "excluded"` 时填写具体 `reason`。教辅虽入包但没有关联证据时填写 `no_evidence_reason`。对扫描页使用视觉读取或 OCR；无法可靠识别时写明原因，不把无文字层当成“无内容”。不要为了覆盖率伪造 `supports`；主题相关但不足以支持卡片主张时使用 `related`。
+
+生成时同时传入 `--source-root <用户原始资料根目录> --source-inventory <source-inventory.json>`。可重复传入 `--source-scope <相对子目录>`，只检查本次用户要求处理的文件夹；省略 scope 则检查整个根目录。程序逐文件核对清单、入包 source 的哈希和教辅证据数量，漏登记或无理由排除时阻止生成，并输出 `<输出目录>.source-coverage.json`。成功包内的 `reports/source-coverage.json` 可供交付验收。未提供原始目录和清单时，报告状态为 `not_checked`，不得宣称“全部教辅已处理”。
 
 `--agent-content` 不调用模型，但会执行严格的 contract、Cornell pair、provenance 和 bidirectional link quality gates。通过这些检查只说明结构合规，不代表内容在语义上真实，也不能替代人工审阅。
 
 文档识别没有独立 parser 或隐藏 OCR provider 路径。Agent 使用当前可用的文档与视觉工具直接阅读 PDF、DOCX、TXT 和 Markdown 原件。旧的 `--import-only` 仅作为诊断兼容工具保留，不是默认流程，也不是语义解析器。旧的 `--llm-config` 仅用于从已校验的 questions JSON 生成知识内容。
+
+## 计算方法覆盖
+
+生成或修复题目内容前必须读取 @references/method-coverage.md，逐题建立 `method_coverage` 清单；选择题和案例小问均需分类。按真实算法拆分并补齐方法，禁止只用考点标签批量关联或固定卡片数量。生成前后检查与浏览器验收通过后，按该规范向用户补报。
 
 ## 案例题与自评
 
@@ -108,7 +121,7 @@ Agent 必须从原件检查完整背景、图表、续页和答案归属：
 ## 根据用户请求选择入口
 
 - **“用样例生成学习包”**：运行 `python3 scripts/quick-pass.py --input examples/learning-package-input.json --profile ruankao-xitixiangmu --fixture --output <new-directory> --open`。该命令只打包仓库样例，不调用模型，必须说明这是 fixture/demo mode。
-- **“导入我的题库和教辅”**：直接检查全部原文件，不修改原件，也不先经过本地语义 parser。使用 Agent 的文档/视觉工具读取 PDF、DOCX、TXT 和 Markdown，并在 v2 `sources` 中为每个文件写明 role 和 relative path。
+- **“导入我的题库和教辅”**：直接检查全部原文件，不修改原件，也不先经过本地语义 parser。使用 Agent 的文档/视觉工具读取 PDF、DOCX、TXT 和 Markdown；XLS/XLSX 等其他资料也要登记并说明处理方式。先完成原始资料清单，再为每个入包文件在 v2 `sources` 中写明 role 和 relative path。
 - **“生成考点笔记和解析”**：Agent 完成前述全部语义步骤并写出完整 v2 payload。不得以文件名匹配、关键词规则或本地向量相似度替代 Agent 明确声明的关联。根据材料选择 profile：系统集成项目管理工程师（中级）使用 `ruankao-xitongjicheng`；信息系统项目管理师（高级）使用 `ruankao-xitixiangmu`。不得把中级资料放入高级 profile。然后运行 `python3 scripts/quick-pass.py --input <agent-content.json> --profile <matched-profile> --agent-content --output <new-directory> --open`。只有服务成功响应后才能返回打印出的 URL。
 - **“打开学习包并刷题”**：使用 `--open` 打印的 URL。仅监听 loopback 的本地学习库会通过 Python 内置 `sqlite3` 把 attempts 和 wrongbook 保存到 `~/.quick-pass-study/learning.sqlite3`；同一学习库和端口可以让重新生成的学习包继承匹配题目的历史记录。服务不调用模型。直接使用 `file://` 只能得到单文件 browser storage，不能承诺跨包继承。若学习包已生成但学习库启动失败，报告已有包路径与错误，然后运行 `python3 scripts/study-library.py open <package-directory>` 重试；不得为了重启服务而重新生成或覆盖学习包。
 - **“在手机 Agent 打开学习包”**：不得只发送或打开 `web/index.html`。单独 HTML 不包含 `web/assets`，会导致 Logo、原页图和 PDF 断链，SQLite 进度也会重置。完整包保留在电脑端，运行当前版本的 `python3 scripts/study-library.py open <package-directory>`；若 health check 显示旧服务，换用新端口。手机 Agent 应通过与电脑端服务的连接打开返回的 HTTP 学习库 URL。宣称移动端成功前，确认页面协议不是 `file://`、可见 Profile 正确、品牌 Logo 和至少一张教辅/原页图的 natural dimensions 非零、PDF HEAD 响应包含 `Accept-Ranges: bytes`，且手机与电脑错题数量一致。页面能显示正文不能证明 assets 或 SQLite 已连接。

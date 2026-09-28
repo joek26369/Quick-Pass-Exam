@@ -1167,5 +1167,72 @@
         "excerpt": "Analyze stakeholder power, interest and current engagement before choosing a communication and engagement strategy."
       }
     }
-  ]
+  ],
+  "methods": [
+    {
+      "id": "sample-cpi-method",
+      "title": "成本绩效指数的计算与判读",
+      "type": "calculation",
+      "calculation_type": "evm-performance",
+      "applicability": "给出 EV 与 AC，求成本效率。",
+      "assumptions": "同一时点、币种一致、AC 大于零。",
+      "input_requirements": [
+        "EV",
+        "AC"
+      ],
+      "formula": "CPI=EV/AC",
+      "substitution": "60/75=0.80",
+      "units": "比率无量纲",
+      "steps": [
+        "核对时点与金额单位。",
+        "用 EV 除以 AC。",
+        "比较结果与 1 的大小，说明成本效率。"
+      ],
+      "pitfalls": [
+        "不可倒置分子分母。"
+      ],
+      "case_basis": [
+        {
+          "source_id": "sample-bank",
+          "excerpt": "挣值 EV=60 万元，实际成本 AC=75 万元"
+        }
+      ],
+      "answer_structure": "",
+      "sub_question_ids": [],
+      "question_ids": [
+        "fixture_hi_001"
+      ],
+      "concept_ids": [
+        "cost_performance_index"
+      ],
+      "evidence_ids": [
+        "sample-evidence-cpi"
+      ]
+    }
+  ],
+  "method_coverage": {
+    "schema_version": "quick-pass-method-coverage-v1",
+    "items": [
+      {
+        "question_id": "fixture_hi_001",
+        "classification": "calculation",
+        "reason": "题目要求计算成本效率",
+        "requirements": [
+          {
+            "type_id": "evm-performance",
+            "method_id": "sample-cpi-method",
+            "reason": "使用同一时点 EV/AC 计算 CPI"
+          }
+        ],
+        "input_excerpt": "某项目的完工预算 BAC=100 万元，挣值 EV=60 万元，实际成本 AC=75 万元。关于成本绩效指数 CPI 的描述，正确的是：\n\n公式：CPI = EV / AC\n\n| 指标 | 数值 |\n| --- | ---: |\n| BAC | 100 |\n| EV | 60 |\n| AC | 75 |"
+      },
+      {
+        "question_id": "fixture_hi_002",
+        "classification": "non_calculation",
+        "reason": "题目询问定义或行动，不要求数值运算",
+        "requirements": [],
+        "input_excerpt": "项目关键干系人持续反对范围变更。项目经理首先应采取的做法是："
+      }
+    ]
+  }
 }

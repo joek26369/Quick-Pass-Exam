@@ -620,7 +620,9 @@ def _supplied_content(payload: dict, questions: list[dict], *, agent_content: bo
 
 def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
                      llm_config: Path | None = None, fixture: bool = False,
-                     agent_content: bool = False) -> Path:
+                     agent_content: bool = False, source_root: Path | None = None,
+                     source_inventory: Path | None = None,
+                     source_scopes: list[str] | None = None) -> Path:
     """Generate into a fresh directory from agent content, fixture, or an LLM."""
     input_path, output_dir = input_path.resolve(), output_dir.resolve()
     if output_dir.exists():
@@ -634,6 +636,12 @@ def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
         raise ContractError("--fixture 与 --agent-content 不能同时使用")
     if agent_content and llm_config is not None:
         raise ContractError("--agent-content 不接受 --llm-config；该路径不调用外部 LLM")
+    if (source_root is None) != (source_inventory is None):
+        raise ContractError("原始资料覆盖检查必须同时提供 --source-root 和 --source-inventory")
+    if source_scopes and source_root is None:
+        raise ContractError("--source-scope 必须配合 --source-root")
+    if source_root is not None and not agent_content:
+        raise ContractError("原始资料覆盖检查仅用于 --agent-content")
     if fixture or agent_content:
         final_questions, concepts, sources, teaching_evidence = _supplied_content(
             payload, questions, agent_content=agent_content, input_dir=input_path.parent
@@ -670,6 +678,20 @@ def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
         final_questions = _questions_export(p1, questions, assignments)
         sources, teaching_evidence = [], []
         mode = "llm"
+    source_coverage = {"status": "not_checked", "reason": "未提供原始资料目录与逐文件清单"}
+    if source_root is not None:
+        from source_coverage import SourceCoverageError, audit_sources
+        try:
+            source_coverage = audit_sources(source_root, source_inventory, sources,
+                                            teaching_evidence, source_scopes)
+        except SourceCoverageError as exc:
+            failure_report = output_dir.with_name(output_dir.name + ".source-coverage.json")
+            failure_report.parent.mkdir(parents=True, exist_ok=True)
+            failure_report.write_text(json.dumps(exc.report, ensure_ascii=False, indent=2),
+                                      encoding="utf-8")
+            raise ContractError(f"{exc}；报告：{failure_report}") from exc
+        except ValueError as exc:
+            raise ContractError(str(exc)) from exc
     cases, methods = [], []
     case_quality = {"status": "passed", "validation": "deterministic_structural_only",
                     "semantic_verification": "not_performed", "case_count": 0,
@@ -683,6 +705,16 @@ def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
                 question_ids={q["id"] for q in final_questions})
         except CaseContractError as exc:
             raise ContractError(str(exc)) from exc
+    method_coverage = {"status": "not_checked"}
+    if agent_content:
+        from method_coverage import audit_method_coverage
+        method_coverage = audit_method_coverage(final_questions, cases, methods,
+                                                payload.get("method_coverage"), required=True)
+        if method_coverage["status"] != "passed":
+            failed = output_dir.with_name(output_dir.name + ".method-coverage.json")
+            failed.parent.mkdir(parents=True, exist_ok=True)
+            failed.write_text(json.dumps(method_coverage, ensure_ascii=False, indent=2), encoding="utf-8")
+            raise ContractError(f"计算方法覆盖检查未通过；按报告逐题补齐后重新生成：{failed}")
     _isolate_generated_references(final_questions, concepts, cases, sources)
     report = _validate_package(
         final_questions, concepts, require_cornell_pairs=(mode in {"llm", "agent"}),
@@ -716,6 +748,8 @@ def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
         content = {**content, "status": "fixture", "validation": "demo_only"}
     quality_summary = {
         "structural_status": "passed",
+        "source_coverage_status": source_coverage["status"],
+        "method_coverage_status": method_coverage["status"],
         "content_status": content["status"],
         "case_status": case_quality["status"],
         "case_quality": case_quality,
@@ -726,7 +760,8 @@ def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
         "concepts": content["concepts"],
     }
     quality_report = {"origin": origin, "package": report, "content": content,
-                      "cases": case_quality, "browser": {"status": "not_checked"}}
+                      "cases": case_quality, "browser": {"status": "not_checked"},
+                      "source_coverage": source_coverage, "method_coverage": method_coverage}
     if content["status"] == "blocked":
         failure_report.parent.mkdir(parents=True, exist_ok=True)
         failure_report.write_text(json.dumps(quality_report, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -740,12 +775,16 @@ def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
         data_items = [("questions.json", final_questions), ("concepts.json", concepts),
                       ("cases.json", cases), ("methods.json", methods)]
         if mode == "agent":
+            data_items.append(("method-coverage.json", payload["method_coverage"]))
             data_items.extend((("sources.json", sources),
                                ("teaching-evidence.json", teaching_evidence)))
         for name, value in data_items:
             (data_dir / name).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
         (reports / "quality-report.json").write_text(json.dumps(
             quality_report, ensure_ascii=False, indent=2), encoding="utf-8")
+        (reports / "method-coverage.json").write_text(json.dumps(method_coverage, ensure_ascii=False, indent=2), encoding="utf-8")
+        (reports / "source-coverage.json").write_text(json.dumps(
+            source_coverage, ensure_ascii=False, indent=2), encoding="utf-8")
         try:
             from renderer import render_package
             # The renderer receives the validated explicit source/evidence
@@ -757,6 +796,25 @@ def generate_package(input_path: Path, output_dir: Path, *, profile_name: str,
             )
         except ImportError as exc:
             raise ContractError("renderer.py 尚不可用") from exc
+        if mode == "agent":
+            from package_audit import audit_package
+            if source_inventory is not None:
+                (data_dir / "source-inventory.json").write_bytes(source_inventory.read_bytes())
+            postflight = audit_package(temp, expected={
+                "questions": final_questions, "concepts": concepts, "sources": sources,
+                "teaching_evidence": teaching_evidence, "cases": cases, "methods": methods,
+                "method_coverage": payload["method_coverage"],
+            }, baseline=source_coverage)
+            if postflight["status"] == "blocked":
+                failed = output_dir.with_name(output_dir.name + ".post-generation-check.json")
+                failed.write_text(json.dumps(postflight, ensure_ascii=False, indent=2), encoding="utf-8")
+                raise ContractError(f"生成后核对未通过；不得交付，请按修复指令补齐后重新生成：{failed}")
+            quality_summary["post_generation_status"] = postflight["status"]
+            quality_report["post_generation"] = postflight
+            (reports / "post-generation-check.json").write_text(
+                json.dumps(postflight, ensure_ascii=False, indent=2), encoding="utf-8")
+            (reports / "quality-report.json").write_text(
+                json.dumps(quality_report, ensure_ascii=False, indent=2), encoding="utf-8")
         usage_attempts = list(llm.usage_attempts) if mode == "llm" else []
         usage_summary = _summarize_usage(usage_attempts)
         (reports / "usage-attempts.json").write_text(json.dumps(

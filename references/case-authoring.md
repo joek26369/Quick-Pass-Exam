@@ -27,6 +27,8 @@
   - 可选 `score: {max_points,source_id,source_pages,excerpt}`；`scoring_points: [{text,source_id,source_pages,excerpt}]`
 - `coverage_review`: `{status,background_status,diagrams_status,expected_sub_question_ids,expected_diagram_pages,reason}`。前三个状态为 complete/incomplete/unverified；预期清单由 Agent 对照原件填写，不能从已生成的小问倒推后当作完整性证据。
 
+方法覆盖另须遵循 [method-coverage.md](method-coverage.md)，提供全题清单与计算卡新增字段。
+
 ### methods[]
 
 `id`, `title`, `type`（calculation/answering）, `applicability`, `formula`, `substitution`, `units`, `pitfalls`（字符串数组）, `steps`（字符串数组）, `case_basis`（与 input_basis 相同结构）, `answer_structure`, `sub_question_ids`, `concept_ids`, `evidence_ids`。

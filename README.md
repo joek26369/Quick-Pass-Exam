@@ -1,6 +1,6 @@
 # Quick-Pass-Exam README：功能与使用说明
 
-WorkBuddy / Agent Skill：把题库与教辅原文件整理为**离线、可追溯、能记录学习进度**的本地学习网页。当前公开测试版本为 **v1.0.0-beta.2**。本 Skill 自有代码、文档和合成示例采用 [Apache License 2.0](LICENSE)；用户导入资料与第三方依赖不因此被重新授权，详见 [NOTICE.md](NOTICE.md)、[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和 [provenance.json](provenance.json)。
+WorkBuddy / Agent Skill：把题库与教辅原文件整理为**离线、可追溯、能记录学习进度**的本地学习网页。当前公开测试版本为 **v1.0.0-beta.6**。本 Skill 自有代码、文档和合成示例采用 [Apache License 2.0](LICENSE)；用户导入资料与第三方依赖不因此被重新授权，详见 [NOTICE.md](NOTICE.md)、[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和 [provenance.json](provenance.json)。
 
 ---
 
@@ -184,6 +184,10 @@ python3 -m venv .venv
 ```json
 {
   "schema_version": "quick-pass-agent-content-v2",
+  "method_coverage": {
+    "schema_version": "quick-pass-method-coverage-v1",
+    "items": [{"question_id": "q-1", "classification": "non_calculation", "reason": "仅识别 CPI 公式，不要求数值运算", "requirements": []}]
+  },
   "sources": [
     {"id": "bank-1", "role": "question_bank", "path": "题库.pdf"},
     {"id": "book-1", "role": "teaching_material", "path": "教材.pdf"}
@@ -231,14 +235,34 @@ python3 -m venv .venv
 
 **第二步**，生成：
 
+真实资料生成前，先逐一登记用户原始资料目录中的文件。`source-inventory.json` 的 `files` 必须覆盖所选扫描范围的每个 PDF、Word、文本或表格文件；入包文件填 `source_id`，不入包文件填具体原因。例如：
+
+```json
+{"files": [
+  {"path": "教辅/教材.pdf", "decision": "included", "source_id": "book-1"},
+  {"path": "教辅/旧版重复教材.pdf", "decision": "excluded", "reason": "与已入包教材内容重复，保留新版"}
+]}
+```
+
+如果教辅入包但未能关联到考点，还须填写 `no_evidence_reason`；扫描页应视觉读取或 OCR，不因没有文字层而直接排除。以下命令会把清单与原始文件、入包来源哈希逐一核对，并在包内生成 `reports/source-coverage.json`：
+
 ```bash
 .venv/bin/python cli.py \
   --input /path/to/agent-content.json \
   --profile ruankao-xitixiangmu \
   --agent-content \
+  --source-root /path/to/original-materials \
+  --source-inventory /path/to/source-inventory.json \
+  --source-scope 教辅 \
   --output /path/to/new-learning-package \
   --open
 ```
+
+`--source-scope` 可重复传入；不传则检查整个原始资料目录。漏登记、入包文件哈希不符或无理由排除会阻止生成，并写出 `<输出目录>.source-coverage.json`。未传原始资料目录和清单时，覆盖状态是 `not_checked`，不能据此宣称已处理全部教辅。
+
+在筛选前将用户指定的根目录和范围写入清单的 `input_scope`（例如 `{"root":"/path/to/original-materials","scopes":["教辅"]}`），命令行范围与其不一致会失败。渲染后会再次核对原始文件集合、落盘数据、HTML 中的证据关联、包内原文件哈希和页图；失败时不发布正式包，并输出含 Agent 修复步骤的 `<输出目录>.post-generation-check.json`。成功报告在 `reports/post-generation-check.json`。
+
+替换现有包前可独立复核：`python3 scripts/verify-package.py /path/to/new-learning-package`。这会重核原件并检查 manifest 文件哈希，不修改包。只有生成前后检查通过，且 Agent 完成新增教辅的浏览器和语义抽查，才算本次范围交付完成。完整漏包补读、修复及补报流程见 [原始资料覆盖规范](references/source-coverage.md)。
 
 约束要点：
 
@@ -390,3 +414,7 @@ export no_proxy=127.0.0.1,localhost
 
 **Q：能开源发布吗？**
 `LICENSE` / `NOTICE.md` 已按 Apache-2.0 就位，但用户导入的题库、真题、教材、生成的私有内容**不在授权范围**内。快照脚本 `tools/build_snapshot.py` 只打包 `SNAPSHOT_FILES.txt` 明确列出的源码文件，不含题库、缓存、Key 与私有配置。
+
+### 计算方法覆盖检查
+
+新版 `--agent-content` 必须提供全选择题/案例小问的 `method_coverage` 审查清单；旧输入需按 [计算方法覆盖规范](references/method-coverage.md) 补齐。计算卡声明算法类型、假设、输入、公式、步骤和来源，支持关联选择题。生成前漏分类/漏卡/类型不符会阻止交付，生成后再次核对网页方法内容和关联。旧包仍可阅读，但缺清单时独立验收为 limited；结构 passed 不代表程序验证了公式语义。

@@ -75,10 +75,10 @@ function renderConceptQuestionLinks(parent, concept) {
   const ids = conceptQuestionIds(concept);
   if (!ids.length) return;
   add(parent, 'h3', '关联题目');
-  const links = add(parent, 'div', undefined, 'links');
+  const links = add(parent, 'div', undefined, 'related-question-list');
   for (const id of ids) {
-    if (QMAP[id]) links.append(linkButton(id, () => { state.view = 'quiz'; state.qid = id; state.search = ''; render(); }));
-    else if (typeof CASES !== 'undefined' && CASES.some(c => (c.sub_questions || []).some(q => q.id === id))) links.append(linkButton(caseLabel(id), () => { state.view = 'cases'; state.childId = id; render(); }));
+    if (QMAP[id]) links.append(relatedQuestionButton(id, () => { state.view = 'quiz'; state.qid = id; state.search = ''; render(); }));
+    else if (typeof CASES !== 'undefined' && CASES.some(c => (c.sub_questions || []).some(q => q.id === id))) links.append(relatedQuestionButton(id, () => { state.view = 'cases'; state.childId = id; render(); }));
     else add(links, 'span', `${id}（不在本学习包）`);
   }
 }

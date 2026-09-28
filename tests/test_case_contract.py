@@ -139,6 +139,7 @@ def test_case_only_concept_evidence_method_package_roundtrip(tmp_path):
     child["evidence_ids"] = ["evidence1"]
     methods[0]["concept_ids"] = ["concept1"]
     methods[0]["evidence_ids"] = ["evidence1"]
+    methods[0].update(calculation_type="critical-path", assumptions="确定工期、无资源约束", input_requirements=["活动工期和依赖"])
     payload = {
         "schema_version": AGENT_CONTENT_SCHEMA, "questions": [],
         "concepts": [{"id": "concept1", "title": "进度计算", "source_questions": ["case1q1"],
@@ -153,6 +154,7 @@ def test_case_only_concept_evidence_method_package_roundtrip(tmp_path):
                                "concept_ids": ["concept1"],
                                "locator": {"page": 1, "excerpt": "先列各路径再取最长。"}}],
         "cases": cases, "methods": methods,
+        "method_coverage": {"schema_version": "quick-pass-method-coverage-v1", "items": [{"question_id": "case1q1", "classification": "calculation", "reason": "要求计算工期", "input_excerpt": "计算工期", "requirements": [{"type_id": "critical-path", "method_id": "method1", "reason": "使用最长路径求工期"}]}]},
     }
     path = tmp_path / "agent.json"
     path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")

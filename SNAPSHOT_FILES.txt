@@ -20,6 +20,11 @@ examples/concepts.json
 examples/learning-package-input.json
 examples/questions.json
 generator.py
+source_coverage.py
+package_audit.py
+scripts/verify-package.py
+references/source-coverage.md
+tests/test_package_audit.py
 pdf_backend.py
 llm_config.example.json
 profiles/ruankao-xitixiangmu.json
@@ -92,6 +97,7 @@ tests/test_wrongbook.cjs
 tests/test_workbuddy_layout.py
 case_contract.py
 templates/case-learning.js
+templates/question-groups.js
 references/case-authoring.md
 tests/test_case_contract.py
 tests/test_case_storage.py
@@ -101,3 +107,7 @@ examples/cases/synthetic-guide.pdf
 examples/cases/synthetic-bank.pdf
 examples/cases/agent-content-mixed.json
 tests/test_release_packaging.py
+
+method_coverage.py
+references/method-coverage.md
+tests/test_method_coverage.py

@@ -200,13 +200,19 @@
     "generated_examples": "Synthetic test originals only; not user exam materials."
   },
   "release": {
-    "version": "1.0.0-beta.2",
+    "version": "1.0.0-beta.6",
     "channel": "public-beta",
     "pdf_backend": "pypdfium2",
     "changes": [
       "Replaced PyMuPDF with permissively licensed pypdfium2 and Pillow.",
       "Added third-party notices and development test dependencies.",
-      "Made snapshot ZIP output byte-reproducible."
+      "Made snapshot ZIP output byte-reproducible.",
+      "Grouped choice and case navigation by year, half-year, and batch with collapsible batch-local numbering.",
+      "Replaced internal IDs in concept and side-rail related-question links with batch-local numbers and question summaries.",
+      "Added full-source inventory and post-generation delivery checks with actionable repair reports.",
+      "Added per-question calculation-method coverage checks, explicit assumptions and inputs, and choice-question method navigation.",
+      "Added collapsible concept chapters and improved learning-content presentation.",
+      "Marketplace upload layout: SKILL.md at ZIP root, at most one subdirectory; flatten examples with reference rewrites and exclude development tests/tools/preview."
     ]
   }
 }

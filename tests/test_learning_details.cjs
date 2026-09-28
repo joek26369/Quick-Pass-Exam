@@ -14,7 +14,8 @@ const add = (parent, tag, text, cls) => { const node=new Element(tag); node.text
 const callout = (parent, title, body, cls='') => { const node=add(parent, 'div', '', `callout ${cls}`); add(node, 'strong', title); add(node, 'div', body); };
 const textList = (parent, title, values) => { add(parent, 'h3', title); for (const value of values) add(parent, 'li', value); };
 const linkButton = (text, fn) => { const node=new Element('button'); node.textContent=text; node.onclick=fn; return node; };
-const scope={add,callout,textList,linkButton,CMAP:{C2:{title:"目标知识"}},QMAP:{Q1:{}},state:{view:'notes',qid:''},render:()=>{}};
+const relatedQuestionButton = (id, fn) => linkButton(id === 'Q1' ? '2024年下半年 · 第一批 · 第1题 · 测试题干' : '案例第1题 · 问题1', fn);
+const scope={add,callout,textList,linkButton,relatedQuestionButton,CMAP:{C2:{title:"目标知识"}},QMAP:{Q1:{}},state:{view:'notes',qid:''},render:()=>{}};
 runInNewContext(readFileSync(join(__dirname, '../templates/learning-details.js'), 'utf8'), scope);
 
 test('question mismatch warning hides answer details until the result section', () => {
@@ -48,6 +49,8 @@ test('concept references remain unverified and origin is explicitly labeled', ()
   scope.renderConceptQuestionLinks(root,{question_ids:['Q1'],source_questions:['Q1','Q2'],question_origins:[{question_id:'Q1'}],related_questions:['Q3']});
   const buttons=root.children[1].children.filter(n=>n.tag==='button');
   assert.equal(buttons.length,1);
+  assert.ok(buttons[0].textContent.includes('第1题'));
+  assert.ok(!buttons[0].textContent.includes('Q1'));
   buttons[0].onclick(); assert.equal(scope.state.qid,'Q1');
   assert.ok(root.textContent.includes('Q2（不在本学习包）'));
   assert.ok(root.textContent.includes('Q3（不在本学习包）'));
@@ -79,7 +82,7 @@ test('case knowledge links navigate to child instead of reporting missing questi
   const root=new Element('main');
   scope.renderConceptQuestionLinks(root,{source_questions:['case1q1']});
   const button=root.children[1].children[0];
-  assert.equal(button.textContent,'案例一（1）');
+  assert.equal(button.textContent,'案例第1题 · 问题1');
   button.onclick();assert.equal(scope.state.view,'cases');assert.equal(scope.state.childId,'case1q1');
   assert.ok(!root.textContent.includes('不在本学习包'));
 });

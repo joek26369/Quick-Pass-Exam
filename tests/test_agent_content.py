@@ -14,12 +14,14 @@ sys.path.insert(0, str(ROOT))
 
 import generator
 from generator import AGENT_CONTENT_SCHEMA, ContractError, generate_package
+from source_coverage import SourceCoverageError, audit_sources
 
 
 def _agent_payload(tmp_path: Path) -> dict:
     (tmp_path / "bank.txt").write_text("题库原文", encoding="utf-8")
     return {
         "schema_version": AGENT_CONTENT_SCHEMA,
+        "method_coverage": {"schema_version": "quick-pass-method-coverage-v1", "items": [{"question_id": "q1", "classification": "non_calculation", "reason": "识别绩效指标的用途，不要求数值运算", "requirements": []}]},
         "questions": [{
             "id": "q1", "question_zh": "项目成本绩效如何判断？", "answer": "A",
             "source_id": "bank-1", "concept_ids": ["c1"],
@@ -102,6 +104,66 @@ def test_agent_content_runs_quality_gate_and_renderer_without_llm(tmp_path, monk
     assert report["package"]["status"] == report["origin"]["status"] == "passed"
     assert questions[0]["concept_ids"] == ["c1"]
     assert (output / "web" / "index.html").is_file()
+
+
+def test_source_coverage_blocks_undeclared_original_and_reports_it(tmp_path):
+    originals = tmp_path / "originals"
+    originals.mkdir()
+    (originals / "guide.txt").write_text("教辅原文", encoding="utf-8")
+    (originals / "forgotten.txt").write_text("遗漏教辅", encoding="utf-8")
+    source = tmp_path / "guide-copy.txt"
+    source.write_text("教辅原文", encoding="utf-8")
+    import hashlib
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    inventory = tmp_path / "inventory.json"
+    inventory.write_text(json.dumps({"files": [
+        {"path": "guide.txt", "decision": "included", "source_id": "guide"}
+    ]}, ensure_ascii=False), encoding="utf-8")
+    with pytest.raises(SourceCoverageError, match="未登记原始文件") as caught:
+        audit_sources(originals, inventory,
+                      [{"id": "guide", "role": "teaching_material", "sha256": digest}],
+                      [{"source_id": "guide"}])
+    assert caught.value.report["status"] == "blocked"
+    assert caught.value.report["discovered_count"] == 2
+
+
+def test_source_coverage_requires_reason_for_unlinked_teaching_material(tmp_path):
+    originals = tmp_path / "originals"
+    originals.mkdir()
+    source = originals / "guide.txt"
+    source.write_text("教辅原文", encoding="utf-8")
+    import hashlib
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    inventory = tmp_path / "inventory.json"
+    inventory.write_text(json.dumps({"files": [
+        {"path": "guide.txt", "decision": "included", "source_id": "guide"}
+    ]}, ensure_ascii=False), encoding="utf-8")
+    sources = [{"id": "guide", "role": "teaching_material", "sha256": digest}]
+    with pytest.raises(SourceCoverageError, match="没有关联证据"):
+        audit_sources(originals, inventory, sources, [])
+    inventory.write_text(json.dumps({"files": [
+        {"path": "guide.txt", "decision": "included", "source_id": "guide",
+         "no_evidence_reason": "仅作为背景资料，本次考点没有可直接引用的段落"}
+    ]}, ensure_ascii=False), encoding="utf-8")
+    assert audit_sources(originals, inventory, sources, [])["status"] == "passed"
+
+
+def test_generation_blocks_missing_supplied_material_before_writing_package(tmp_path):
+    payload = _agent_payload(tmp_path)
+    input_path = _write(tmp_path, payload)
+    originals = tmp_path / "originals"
+    originals.mkdir()
+    (originals / "forgotten.txt").write_text("漏掉的教辅", encoding="utf-8")
+    inventory = tmp_path / "inventory.json"
+    inventory.write_text('{"files": []}', encoding="utf-8")
+    output = tmp_path / "package"
+    with pytest.raises(ContractError, match="原始资料覆盖检查未通过"):
+        generate_package(input_path, output, profile_name="ruankao-xitixiangmu",
+                         agent_content=True, source_root=originals,
+                         source_inventory=inventory)
+    assert not output.exists()
+    report = json.loads((tmp_path / "package.source-coverage.json").read_text(encoding="utf-8"))
+    assert report["errors"] == ["未登记原始文件：forgotten.txt"]
 
 
 def test_agent_content_requires_schema_and_complete_cornell_pairs(tmp_path):

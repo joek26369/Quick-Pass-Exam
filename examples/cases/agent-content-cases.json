@@ -312,7 +312,9 @@
           "pitfalls": [],
           "concept_ids": [],
           "evidence_ids": [],
-          "method_ids": []
+          "method_ids": [
+            "demo-network"
+          ]
         }
       ],
       "coverage_review": {
@@ -431,6 +433,12 @@
       ],
       "evidence_ids": [
         "demo-e1"
+      ],
+      "calculation_type": "evm-performance",
+      "assumptions": "同一报告时点、币种一致、AC 大于零。",
+      "input_requirements": [
+        "EV",
+        "AC"
       ]
     },
     {
@@ -467,6 +475,107 @@
       ],
       "concept_ids": [],
       "evidence_ids": []
+    },
+    {
+      "id": "demo-network",
+      "title": "并行路径的工期计算",
+      "type": "calculation",
+      "calculation_type": "critical-path",
+      "applicability": "本例为无资源约束、无提前量或滞后量的完成到开始网络。",
+      "assumptions": "各活动工期确定；D 等待两个前置活动均完成。",
+      "input_requirements": [
+        "各活动工期",
+        "完整前置关系"
+      ],
+      "formula": "总工期=max(各完整路径工期之和)",
+      "substitution": "max(2+3+1,2+5+1)=8 天",
+      "units": "天",
+      "steps": [
+        "列出 A-B-D 与 A-C-D 两条完整路径。",
+        "分别累加工期。",
+        "取最大值并列出对应关键路径。"
+      ],
+      "pitfalls": [
+        "并行活动不能全部相加。"
+      ],
+      "case_basis": [
+        {
+          "source_id": "demo-bank",
+          "page": 3,
+          "excerpt": "A 活动工期为 2 天。A 完成后 B、C 可以并行。"
+        },
+        {
+          "source_id": "demo-bank",
+          "page": 4,
+          "excerpt": "B=3 天，C=5 天，D=1 天；B、C 均完成后 D 才可开始。"
+        }
+      ],
+      "answer_structure": "",
+      "sub_question_ids": [
+        "demo-c3-q1"
+      ],
+      "question_ids": [],
+      "concept_ids": [],
+      "evidence_ids": []
     }
-  ]
+  ],
+  "method_coverage": {
+    "schema_version": "quick-pass-method-coverage-v1",
+    "items": [
+      {
+        "question_id": "demo-c1-q1",
+        "classification": "calculation",
+        "reason": "按题目要求计算指标或路径工期",
+        "input_excerpt": "问题（1）：计算 CPI，并解释其含义。",
+        "requirements": [
+          {
+            "type_id": "evm-performance",
+            "method_id": "demo-calc",
+            "reason": "本卡明确列出本问所需输入、公式与求解步骤"
+          }
+        ]
+      },
+      {
+        "question_id": "demo-c2-q1",
+        "classification": "non_calculation",
+        "reason": "根据背景作答问题或行动，不进行数值运算",
+        "input_excerpt": "问题（1）：指出案例中的一个问题。",
+        "requirements": []
+      },
+      {
+        "question_id": "demo-c2-q2",
+        "classification": "non_calculation",
+        "reason": "根据背景作答问题或行动，不进行数值运算",
+        "input_excerpt": "问题（2）：按照本案例提供的处理顺序，写出下一步。",
+        "requirements": []
+      },
+      {
+        "question_id": "demo-c3-q1",
+        "classification": "calculation",
+        "reason": "按题目要求计算指标或路径工期",
+        "input_excerpt": "问题（1）：计算本例最短总工期并写出关键路径。",
+        "requirements": [
+          {
+            "type_id": "critical-path",
+            "method_id": "demo-network",
+            "reason": "本卡明确列出本问所需输入、公式与求解步骤"
+          }
+        ]
+      },
+      {
+        "question_id": "demo-c4-q1",
+        "classification": "non_calculation",
+        "reason": "根据背景作答问题或行动，不进行数值运算",
+        "input_excerpt": "问题（1）：指出材料缺少的验收条件。",
+        "requirements": []
+      },
+      {
+        "question_id": "demo-c4-q2",
+        "classification": "non_calculation",
+        "reason": "根据背景作答问题或行动，不进行数值运算",
+        "input_excerpt": "问题（2）：提出下一步核查事项。",
+        "requirements": []
+      }
+    ]
+  }
 }

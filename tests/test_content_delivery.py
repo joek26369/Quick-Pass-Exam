@@ -41,6 +41,7 @@ def write_input(tmp_path, review=None, duplicate=False):
                                      'rationale': '已检查题目关联及讲解；未提供教辅，证据范围限于题库。'}
     payload = {
         'schema_version': 'quick-pass-agent-content-v2',
+        'method_coverage': {'schema_version': 'quick-pass-method-coverage-v1', 'items': [{'question_id': 'q1', 'classification': 'non_calculation', 'reason': '识别 CPI 用途，不要求数值运算', 'requirements': []}]},
         'sources': [{'id': 'bank', 'role': 'question_bank', 'path': 'bank.txt'}],
         'questions': [{'id': 'q1', 'question_zh': 'CPI衡量什么？', 'answer': 'A',
                        'options': [{'label': 'A', 'text': '成本效率', 'is_correct': True},

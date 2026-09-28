@@ -4,20 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Quick Pass 学习包</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/logo-mark.png">
   <style>
     :root { color-scheme: light; --ink:#172033; --muted:#5b677c; --line:#d9e0ea; --bg:#f4f7fb; --card:#fff; --accent:#1d5fd1; --ok:#137a52; --bad:#b53838; }
     * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,"PingFang SC",sans-serif }
     button { font:inherit; cursor:pointer } header { position:sticky; top:0; z-index:2; display:flex; gap:12px; align-items:center; padding:12px 20px; background:#ffffffed; border-bottom:1px solid var(--line); backdrop-filter:blur(8px) }
     .brand { display:flex; align-items:center; gap:9px; color:var(--ink); font-size:18px; font-weight:800; white-space:nowrap }.brand img { display:block; width:40px; height:26px; object-fit:contain } nav { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap } nav button,.button { border:1px solid var(--line); border-radius:7px; padding:7px 11px; background:#fff; color:var(--ink) } nav button[aria-selected="true"],.button.primary { border-color:var(--accent); color:#fff; background:var(--accent) }
-    #stats,#storage-status { color:var(--muted); font-size:13px } #storage-status { display:block; padding:5px 20px; background:#eef5ff; border-bottom:1px solid var(--line) } main { max-width:1280px; margin:24px auto; padding:0 18px 48px } .layout { display:grid; grid-template-columns:260px minmax(0,1fr) 230px; gap:20px }
+    #stats,#profile-status,#storage-status { color:var(--muted); font-size:13px } #profile-status,#storage-status { display:block; padding:5px 20px; border-bottom:1px solid var(--line) } #profile-status { background:#f8fafc } #profile-status strong { color:var(--ink) } #profile-id { margin-left:6px; padding:2px 6px; color:#174d98; background:#eaf1ff; border-radius:4px } #storage-status { background:#eef5ff } #storage-status a { color:#0b55b5 } #save-warning { color:var(--bad); margin-left:12px } main { max-width:1280px; margin:24px auto; padding:0 18px 48px } .layout { display:grid; grid-template-columns:260px minmax(0,1fr) 230px; gap:20px }
     aside { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; align-self:start; position:sticky; top:70px; max-height:calc(100vh - 90px); overflow:auto } aside button { width:100%; text-align:left; border:0; border-radius:6px; padding:7px; background:transparent } aside button:hover,aside button.active { background:#eaf1ff; color:#0b459e }
+    .question-group { margin:2px 0 2px 6px; min-width:0 }.question-group > summary { display:flex; align-items:center; gap:6px; padding:6px 4px; cursor:pointer; font-weight:650; overflow-wrap:anywhere }.question-group > summary::before { content:'▸'; color:var(--muted) }.question-group[open] > summary::before { content:'▾' }.question-group > summary > span { flex:1; min-width:0 }.question-group > summary > small { color:var(--muted); font-weight:500 }.question-group .question-group { margin-left:10px; border-left:1px solid var(--line); padding-left:4px }.grouped-question { font-size:14px; line-height:1.5; overflow-wrap:anywhere }
+    .note-chapter { margin:4px 0; border-bottom:1px solid #edf1f7 }.note-chapter > summary { color:#415574; font-size:14px }.note-chapter > button { padding-left:18px }
     .wrongbook-list { display:grid; gap:10px; margin-top:16px }.wrongbook-list button { width:100%; padding:12px; border:1px solid var(--line); border-radius:8px; background:#fff; text-align:left; overflow-wrap:anywhere }.wrongbook-list button:hover { background:#eef5ff }
     article { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:24px; min-width:0 } h2 { margin-top:0 } h3 { margin-top:26px; font-size:17px } h4 { margin:16px 0 6px } .muted { color:var(--muted) } .callout { border-left:4px solid #7aa6ef; background:#eef5ff; padding:10px 12px; margin:12px 0; border-radius:0 6px 6px 0 } .callout > div { white-space:pre-line } .warning { border-color:#d89522; background:#fff7e9 } .error { border-color:var(--bad); background:#fff1f1 }
     .formula { overflow:auto; padding:12px; border:1px solid var(--line); background:#f8fafc; white-space:pre-wrap; border-radius:6px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace } .relation { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 } .relation span { border:1px solid #b9c8e4; border-radius:999px; padding:3px 9px; background:#f4f8ff; font-size:14px }
     .image { display:block; max-width:100%; max-height:520px; margin:12px 0; border:1px solid var(--line); border-radius:6px } .options { display:grid; gap:9px } .option { padding:10px; width:100%; text-align:left; border:1px solid var(--line); background:#fff; border-radius:7px } .option.selected { outline:2px solid #9dbcf0 }.option.ok { border-color:var(--ok); background:#edfbf5 }.option.bad { border-color:var(--bad); background:#fff0f0 } input[type=search] { width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; margin-bottom:8px }.chapter { color:var(--muted); font-size:13px; font-weight:700; margin:10px 7px 3px }.qbar { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:13px; margin-bottom:10px }.track { flex:1; height:6px; border-radius:999px; background:#e5ebf4; overflow:hidden }.track i { display:block; height:100%; background:var(--accent) }.qnav { display:flex; flex-wrap:wrap; gap:5px; margin-top:14px }.qnav button { width:30px; padding:4px; border:1px solid var(--line); background:#fff; border-radius:4px }.qnav button.current { background:#eaf1ff; border-color:var(--accent) }.qnav button.wrong { border-color:var(--bad); color:var(--bad) }.qnav button.ok { border-color:var(--ok); color:var(--ok) } .markdown-table { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px }.markdown-table th,.markdown-table td { border:1px solid var(--line); padding:6px; text-align:left; vertical-align:top }
     .links { display:flex; gap:8px; flex-wrap:wrap }.links button,.links a { border:0; color:#0b55b5; background:#edf4ff; padding:4px 8px; border-radius:5px; text-decoration:none }.viz { border:1px dashed #a9b9d4; border-radius:7px; padding:12px }.viz ul { margin-bottom:0 }.hidden { display:none!important }
+    .related-question-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:8px 0 18px }.related-question-link { display:block; width:100%; min-width:0; padding:10px 12px; text-align:left; border:1px solid var(--line); border-radius:8px; background:#f5f8ff; color:var(--ink); overflow-wrap:anywhere }.related-question-link:hover,.related-question-link:focus-visible { border-color:var(--accent); background:#eaf1ff }.related-question-link small { display:block; color:#215cad; font-size:12px; font-weight:700; line-height:1.5 }.related-question-link span { display:-webkit-box; margin-top:3px; font-size:14px; line-height:1.45; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden }.related-question-rail .related-question-link { margin-top:8px }.related-question-rail .related-question-link small { font-size:11px } @media(max-width:700px) { .related-question-list { grid-template-columns:minmax(0,1fr) } }
     .material-list { display:grid; gap:10px }.material-card { display:grid; grid-template-columns:112px minmax(0,1fr); gap:12px; align-items:start; width:100%; padding:10px; text-align:left; border:1px solid var(--line); border-radius:8px; background:#fff }.material-card:hover { border-color:#8db0e8; background:#f7faff }.material-card-copy { display:grid; gap:3px; min-width:0 }.material-anchor { color:#174d98 }.material-meta { color:#486b9f; font-size:13px }.material-snippet { color:var(--muted); font-size:14px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden }.material-page { position:relative; display:block; width:max-content; max-width:100%; margin:0 auto 16px }.material-page .image { max-height:62vh; margin:0 }.material-page.compact { width:112px; margin:0 }.material-page.compact .image { width:112px; height:auto; margin:0 }.material-region { position:absolute; border:3px solid #e33f47; background:#e33f4724; box-shadow:0 0 0 1px #fff; pointer-events:none }.material-dialog { width:min(900px,calc(100vw - 24px)); max-height:90vh; padding:0; border:1px solid var(--line); border-radius:12px; color:var(--ink) }.material-dialog::backdrop { background:#17203399 }.material-dialog-head { position:sticky; top:0; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; background:#fff; border-bottom:1px solid var(--line) }.material-dialog-head h2 { margin:0; font-size:18px }.material-dialog-close { border:0; background:transparent; font-size:24px }.material-dialog-body { padding:18px }.material-dialog-body .button { display:inline-block; text-decoration:none }
     .question-source-page { margin:12px 0 18px; padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:#f8fbff }.question-source-page summary { cursor:pointer; color:#174d98; font-weight:700 }.question-source-page .image { max-height:760px; object-fit:contain; margin-bottom:4px }.question-source-page .muted { font-size:13px; color:var(--muted); margin:4px 0 }
+    .case-study { margin-bottom:18px }.case-child { margin-top:20px; padding:16px; border:1px solid var(--line); border-radius:8px; background:#fbfcff }.case-child textarea { display:block; width:100%; min-height:130px; padding:10px; border:1px solid var(--line); border-radius:7px; font:inherit; resize:vertical }.case-ops { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }.case-ops .button { font-size:14px }
     @media (max-width:980px) { .layout { grid-template-columns:220px minmax(0,1fr) } #rail { display:none } } @media (max-width:700px) { header { flex-wrap:wrap; padding:10px 14px } nav { margin-left:0 } main { margin-top:14px; padding:0 10px 28px }.layout { display:block } aside { position:static; max-height:220px; margin-bottom:12px } #rail { display:block; max-height:none } article { padding:16px } }
 
     .cornell { margin:28px 0; border:1.5px solid #8ec0ff; border-radius:18px; overflow:hidden; background:#fff; }
@@ -64,6 +70,7 @@
     .knowledge-graph details { margin-top:12px; overflow-wrap:anywhere; }
     .knowledge-graph summary { cursor:pointer; color:#0b55b5; }
     .compare-hint { color:var(--muted); font-size:14px; margin:6px 0 14px; }
+    .compare-table-scroll { max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
     .compare-table { width:100%; border-collapse:collapse; margin:12px 0 24px; font-size:14px; table-layout:fixed; }
     .compare-table th,.compare-table td { border:1px solid #c8d5e6; padding:12px; text-align:left; vertical-align:top; overflow-wrap:anywhere; }
     .compare-table thead { background:#e8effa; }
@@ -78,17 +85,14 @@
     .compare-answer { padding:12px 16px; background:#fff; }
     .compare-answer summary { color:#174d98; cursor:pointer; font-size:14px; }
     .compare-answer p { margin:12px 0 0; border-left:3px solid #a1bce4; padding-left:12px; overflow-wrap:anywhere; }
-    @media(max-width:600px) {
-      .compare-table,.compare-table tbody,.compare-table tr,.compare-table td,.compare-table tbody th { display:block; width:100%!important; }
-      .compare-table thead { display:none; }.compare-table tr { margin-bottom:14px; }
-      .compare-table td { border-top:0; }.compare-table td::before { content:attr(data-label); display:block; color:#52657e; font-size:12px; font-weight:700; margin-bottom:6px; }
-    }
-  </style>
+    @media(max-width:600px) { .compare-table { min-width:620px; table-layout:auto; } }
+  .case-study,.case-child{scroll-margin-top:110px}
+</style>
 </head>
 <body>
-  <header><div class="brand" aria-label="Quick Pass Exam-快考通"><img src="assets/logo-mark.png" alt=""><span>Quick Pass Exam-快考通</span></div><span id="stats"></span><nav><button data-view="notes" aria-selected="true">考点笔记</button><button data-view="quiz" aria-selected="false">刷题</button><button data-view="wrongbook" aria-selected="false">错题本</button></nav></header>
-  <div id="quality-status" role="status" style="margin:12px 20px;padding:10px 12px;background:#fff7e9;border-left:4px solid #d89522"></div>
-  <div id="storage-status" role="status">正在读取作答记录…</div>
+  <header><div class="brand" aria-label="Quick Pass Exam-快考通"><img src="assets/logo-mark.png" alt=""><span>Quick Pass Exam-快考通</span></div><span id="stats"></span><nav><button data-view="notes" aria-selected="true">考点笔记</button><button data-view="methods" aria-selected="false" class="hidden">方法卡</button><button data-view="wrongbook" aria-selected="false">错题本</button><button data-view="quiz" aria-selected="false">选择题</button><button data-view="cases" aria-selected="false" class="hidden">案例题</button></nav></header>
+  <div id="profile-status" role="status"><strong>当前 Profile：</strong><span id="profile-name"></span><code id="profile-id"></code></div>
+  <div id="storage-status" role="status">当前为单机版 Skill，更多功能及使用可访问：<a href="https://www.quickpexam.com/" target="_blank" rel="noopener noreferrer">www.quickpexam.com</a><span id="save-warning" role="alert"></span></div>
   <main><div class="layout"><aside id="sidebar" aria-label="目录"></aside><section id="content" aria-live="polite"></section><aside id="rail" aria-label="关联内容"></aside></div></main>
   <dialog id="material-dialog" class="material-dialog"><div class="material-dialog-head"><h2 class="material-dialog-title">教辅原版内容</h2><button type="button" class="material-dialog-close" aria-label="关闭">×</button></div><div class="material-dialog-body"></div></dialog>
   <script>/* Cornell layout: explicit pairs stay paired; independent arrays stay separate. */
@@ -220,6 +224,7 @@ function renderKnowledgeGraph(parent, value) {
   const make = (tag, text, cls) => { const n=document.createElement(tag); if(text !== undefined)n.textContent=text; if(cls)n.className=cls; return n; };
   parent.append(make('h3','知识图谱'));
   parent.append(make('p','根据学习笔记整理的示意图，非教材原图；来源核验状态见本页内容说明。','compare-hint'));
+  if (typeof value.caption === 'string' && value.caption.trim()) parent.append(make('p',value.caption,'compare-hint'));
   const box=make('div',undefined,'knowledge-graph');parent.append(box);
   const keys=['权力高·利益低','权力高·利益高','权力低·利益低','权力低·利益高'];
   if(value.type==='quadrant' && keys.every(k=>nodes.includes(k)) && nodes.length===4) {
@@ -271,25 +276,29 @@ function renderComparisons(parent, concept) {
     const body=make('tbody');
     for(const values of rows){const row=make('tr');values.forEach((value,i)=>{const cell=make(i===0?'th':'td');if(i===0)cell.setAttribute('scope','row');cell.setAttribute('data-label',headers[i]);
       if(i===0)cornellInline(cell,value);else {const lines=String(value||'未提供').split(/；|\n/).filter(x=>x.trim());for(const line of lines){const p=make('p');cornellInline(p,line);cell.append(p);}}
-      row.append(cell);});body.append(row);}t.append(body);container.append(t);
+      row.append(cell);});body.append(row);}t.append(body);const scroll=make('div',undefined,'compare-table-scroll');scroll.append(t);container.append(scroll);
   }
   const types=valid(cc.type_comparison);
   if(types.length){
     const s=section('类型对比','先看类型，再横向对照判别方式与关键规则。');
     const groups=new Map();
     for(const item of types){const name=String(item.type||'未命名类型');const parts=name.split(/[:：]/);const group=parts.length===2?parts[0]:'分类速查';const label=parts.length===2?parts[1]:name;if(!groups.has(group))groups.set(group,[]);groups.get(group).push([label,item.syntax_example,item.key_rules]);}
-    for(const [name,rows] of groups){s.append(make('h4',name));table(s,['类型','判别 / 示例','关键规则'],rows);}
+    for(const [name,rows] of groups){s.append(make('h4',name));const hasRules=rows.some(row=>String(row[2]||'').trim());table(s,hasRules?['类型','判别 / 示例','关键规则']:['类型','判别 / 示例'],hasRules?rows:rows.map(row=>row.slice(0,2)));}
   }
   const comparisons=valid(cc.comparisons);
   if(comparisons.length){
-    const s=section('易混对比',`围绕「${concept.title||'当前考点'}」比较：先说出区别，再展开核对。`);
-    const toolbar=make('div',undefined,'compare-toolbar');
-    const toggle=make('button','进入自测：隐藏区别','button');toggle.type='button';toggle.setAttribute('aria-pressed','false');let hidden=false;const answers=[];
-    toggle.onclick=()=>{hidden=!hidden;answers.forEach(d=>d.open=!hidden);toggle.textContent=hidden?'结束自测：展开区别':'进入自测：隐藏区别';toggle.setAttribute('aria-pressed',String(hidden));};toolbar.append(toggle);s.append(toolbar);
-    const grid=make('div',undefined,'compare-cards');s.append(grid);
-    for(const item of comparisons){const card=make('div',undefined,'compare-card');const names=make('div',undefined,'compare-names');names.append(make('strong',concept.title||'当前考点'),make('span','↔','compare-versus'),make('strong',String(item.vs||'对比对象')));card.append(names);
-      const answer=make('details',undefined,'compare-answer');answer.open=true;answer.append(make('summary','关键区别 · 点击展开 / 收起'));
-      for(const line of String(item.difference||'未提供区别说明').split(/；|\n/).filter(x=>x.trim())){const p=make('p');cornellInline(p,line);answer.append(p);}answers.push(answer);card.append(answer);grid.append(card);
+    const current=String(concept.title||'当前考点');
+    const s=section('易混对比','每行聚焦一个有效维度，直接横向核对概念差异。');
+    for(const item of comparisons){
+      const compared=String(item.vs||'对比对象');
+      const dimensions=valid(item.dimensions).filter(row=>String(row.dimension||'').trim() && (String(row.current||'').trim() || String(row.compared||'').trim()));
+      s.append(make('h4',`${current} ↔ ${compared}`));
+      if(String(item.commonality||'').trim())table(s,['关系','说明'],[['共同点',item.commonality]]);
+      if(dimensions.length){
+        table(s,['对比维度',current,compared],dimensions.map(row=>[row.dimension,row.current,row.compared]));
+      } else {
+        table(s,['对比维度',current,compared],[['综合区别',item.difference||'未提供区别说明','旧内容尚未按对象拆分']]);
+      }
     }
   }
 }
@@ -362,40 +371,77 @@ function renderQuestionLearningDetails(parent, question, titlePrefix = '') {
   }
 }
 
+function conceptQuestionIds(concept) {
+  const origins = fidelityList(concept.question_origins).map(item => typeof item === 'string' ? item : item && item.question_id);
+  return [...new Set([...fidelityList(concept.question_ids), ...fidelityList(concept.related_questions), ...fidelityList(concept.source_questions), ...origins].filter(id => typeof id === 'string' && id))];
+}
+
+function renderConceptQuestionLinks(parent, concept) {
+  const ids = conceptQuestionIds(concept);
+  if (!ids.length) return;
+  add(parent, 'h3', '关联题目');
+  const links = add(parent, 'div', undefined, 'related-question-list');
+  for (const id of ids) {
+    if (QMAP[id]) links.append(relatedQuestionButton(id, () => { state.view = 'quiz'; state.qid = id; state.search = ''; render(); }));
+    else if (typeof CASES !== 'undefined' && CASES.some(c => (c.sub_questions || []).some(q => q.id === id))) links.append(relatedQuestionButton(id, () => { state.view = 'cases'; state.childId = id; render(); }));
+    else add(links, 'span', `${id}（不在本学习包）`);
+  }
+}
+
+function fidelityReferences(value) {
+  const seen = new Set();
+  return fidelityList(value).flatMap(item => {
+    const raw = fidelityText(item);
+    const page = item && typeof item === 'object' ? (item.source_page ?? item.page_no ?? item.page) : null;
+    const status = item && typeof item === 'object' ? item.verification_status || '' : '';
+    const key = JSON.stringify([raw, page, status]);
+    if (seen.has(key)) return [];
+    seen.add(key);
+    const name = raw.replace(/\\/g, '/').split('/').pop().replace(/^sub_[a-z0-9]+_(?:(?:quiz|syllabus)_)?\d+_/, '');
+    return [{raw, label: name + (page ? ` · 第 ${page} 页` : '')}];
+  });
+}
+
 function renderConceptFidelityDetails(parent, concept) {
-  const originIds = [];
-  for (const item of fidelityList(concept.question_origins)) {
-    const id = typeof item === 'string' ? item : item && item.question_id;
-    if (typeof id === 'string' && id && !originIds.includes(id)) originIds.push(id);
-  }
-  for (const id of fidelityList(concept.source_questions)) {
-    if (typeof id === 'string' && id && !originIds.includes(id)) originIds.push(id);
-  }
-  if (originIds.length) {
-    add(parent, 'h3', '来源题目（输入声明）');
-    const links = add(parent, 'div', undefined, 'links');
-    for (const id of originIds) {
-      if (QMAP[id]) links.append(linkButton(id, () => { state.view = 'quiz'; state.qid = id; render(); }));
-      else add(links, 'span', `${id}（不在本学习包）`);
+  const box = add(parent, 'details');
+  add(box, 'summary', '查看来源');
+  const groups = [
+    ['输入提供的来源（未额外核验）', concept.canonical_references],
+    ['旧式来源字段（未核验）', concept.references],
+    ['模型建议来源（未核验）', concept.unverified_generated_references],
+  ];
+  let count = 0;
+  for (const [title, values] of groups) {
+    const rows = fidelityReferences(values);
+    if (!rows.length) continue;
+    count += rows.length;
+    add(box, 'h3', title);
+    const list = add(box, 'ul');
+    for (const row of rows) {
+      const item = add(list, 'li', row.label);
+      item.title = row.raw;
     }
   }
+  if (count) callout(box, '来源状态', '来源信息按输入保留，未额外核验；旧式字段和模型建议不自动视为可信来源或教辅证据。具体内容请结合原题与教辅原页核对。', 'warning');
+  else callout(box, '外部来源', '未提供可追溯的来源；关联题目不等于教材证据。', 'warning');
+}
 
-  const canonical = fidelityList(concept.canonical_references);
-  const legacy = fidelityList(concept.references);
-  const generated = fidelityList(concept.unverified_generated_references);
-  if (canonical.length) {
-    textList(parent, '输入提供的来源（未额外核验）', canonical.map(fidelityText));
-    callout(parent, '来源状态', '这些来源来自输入数据，学习包未额外核验其内容、版本、页码或教材归属。', 'warning');
-  }
-  if (legacy.length) {
-    textList(parent, '旧式来源字段（未核验）', legacy.map(fidelityText));
-    callout(parent, '来源状态', '旧式 references 字段仅保留原文，不自动视为可信来源或教辅证据。', 'warning');
-  }
-  if (generated.length) {
-    textList(parent, '模型建议来源（未核验）', generated.map(fidelityText));
-  }
-  if (!canonical.length && !legacy.length && !generated.length) {
-    callout(parent, '外部来源', '未提供可追溯的来源；关联题目不等于教材证据。', 'warning');
+// Only explicitly authored relationships become learning links. Chapter order is not a prerequisite.
+function renderConceptLearningLinks(parent, concept) {
+  const rel = concept.learning_relations;
+  if (!rel || typeof rel !== 'object' || Array.isArray(rel)) return;
+  const groups = [['prerequisites','前置知识'], ['related_concepts','关联知识'], ['next_concepts','后续学习']];
+  const rows = groups.map(([key,title]) => [title, [...new Set(fidelityList(rel[key]).filter(id => typeof id === 'string' && id && id !== concept.id))]]).filter(([,ids])=>ids.length);
+  if (!rows.length) return;
+  add(parent,'h3','知识关联与学习路径');
+  for (const [title,ids] of rows) {
+    add(parent,'h4',title);
+    const links=add(parent,'div',undefined,'links');
+    for (const id of ids) {
+      const target=CMAP[id];
+      if (target) links.append(linkButton(target.title||id,()=>{state.view='notes';state.cid=id;state.search='';render();}));
+      else add(links,'span',`${id}（不在本学习包）`);
+    }
   }
 }
 
@@ -437,21 +483,23 @@ function openMaterialDialog(item){
   dlg.showModal();
 }
 
+function materialEvidenceCard(item){
+  const card=button('',()=>openMaterialDialog(item),'material-card');
+  materialPageImage(card,item,true);
+  const copy=add(card,'span',undefined,'material-card-copy');
+  add(copy,'strong',item.source_title+(item.page?' · 第 '+item.page+' 页':''));
+  if(item.anchor)add(copy,'span',item.anchor,'material-anchor');
+  if(item.relation||item.status)add(copy,'span',[item.relation,item.status].filter(Boolean).join(' · '),'material-meta');
+  if(item.snippet)add(copy,'span',item.snippet,'material-snippet');
+  return card;
+}
+
 function renderMaterialEvidence(parent,conceptId,evidence){
   const rows=(Array.isArray(evidence)?evidence:[]).filter(x=>x&&x.concept_id===conceptId);
   if(!rows.length)return;
   add(parent,'h3','教辅资料');
   const list=add(parent,'div',undefined,'material-list');
-  for(const item of rows){
-    const card=button('',()=>openMaterialDialog(item),'material-card');
-    materialPageImage(card,item,true);
-    const copy=add(card,'span',undefined,'material-card-copy');
-    add(copy,'strong',item.source_title+(item.page?' · 第 '+item.page+' 页':''));
-    if(item.anchor)add(copy,'span',item.anchor,'material-anchor');
-    if(item.relation||item.status)add(copy,'span',[item.relation,item.status].filter(Boolean).join(' · '),'material-meta');
-    if(item.snippet)add(copy,'span',item.snippet,'material-snippet');
-    list.append(card);
-  }
+  for(const item of rows)list.append(materialEvidenceCard(item));
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -464,7 +512,7 @@ const DATA={"questions":[{"id":"fixture_hi_001","question_zh":"某项目的完�
 const $=s=>document.querySelector(s), esc=v=>String(v??'');
 const nullMap=entries=>Object.assign(Object.create(null),Object.fromEntries(entries));
 const Q=DATA.questions, C=DATA.concepts, QMAP=nullMap(Q.map(x=>[x.id,x])), CMAP=nullMap(C.map(x=>[x.id,x]));
-const state={view:'notes',cid:C[0]?.id,qid:Q[0]?.id,answers:Object.create(null),picked:Object.create(null),wrongbook:[],storageStatus:'正在读取作答记录…'};
+const state={view:'notes',cid:C[0]?.id,qid:Q[0]?.id,answers:Object.create(null),picked:Object.create(null),wrongbook:[],savedChoices:[],dismissedChoices:[],caseBookmarks:[],storageStatus:'正在读取作答记录…'};
 // Study state belongs to a local learner. The loopback library is the only
 // supported automatic cross-package store; file:// receives a per-file fallback.
 const StudyProgress = (() => {
@@ -473,13 +521,42 @@ const StudyProgress = (() => {
   const endpoint = match ? `/api/packages/${match[1]}` : null;
   const localKey = `quick-pass-study-v1:${DATA.profile?.exam_code || 'default'}:${location.pathname}`;
 
+  function localWrongbook(saved) {
+    const answers = saved.answers || {}, bookmarked = new Set(saved.saved_choices || []);
+    const dismissed = new Set(saved.dismissed_choices || []);
+    const choices = [...new Set([...Object.keys(answers), ...bookmarked])]
+      .filter(qid => bookmarked.has(qid) || (!answers[qid]?.ok && !dismissed.has(qid)))
+      .filter(qid => QMAP[qid])
+      .map(qid => ({kind: 'choice', qid, stem: QMAP[qid].question_zh || qid,
+        wrong_count: answers[qid] && !answers[qid].ok ? 1 : 0, picked: answers[qid]?.picked || [], saved: bookmarked.has(qid)}));
+    const cases = (saved.case_bookmarks || []).filter(id => CASEMAP[id])
+      .map(case_id => ({kind: 'case', case_id, stem: CASEMAP[case_id].original_number || case_id}));
+    return [...choices, ...cases];
+  }
+
   function apply(saved) {
     state.answers = Object.assign(Object.create(null), saved.answers || {});
     state.picked = Object.create(null);
     for (const [qid, answer] of Object.entries(state.answers)) {
       if (Array.isArray(answer.picked)) state.picked[qid] = [...answer.picked];
     }
-    state.wrongbook = Array.isArray(saved.wrongbook) ? saved.wrongbook : [];
+    state.savedChoices = Array.isArray(saved.saved_choices) ? saved.saved_choices : [];
+    state.dismissedChoices = Array.isArray(saved.dismissed_choices) ? saved.dismissed_choices : [];
+    state.caseBookmarks = Array.isArray(saved.case_bookmarks) ? saved.case_bookmarks : [];
+    state.wrongbook = endpoint ? (Array.isArray(saved.wrongbook) ? saved.wrongbook : []) : localWrongbook(saved);
+  }
+
+  function saveLocal(saved) {
+    localStorage.setItem(localKey, JSON.stringify(saved));
+    apply(saved);
+  }
+
+  async function changeBookmark(payload) {
+    const response = await fetch(endpoint + '/wrongbook', {
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload),
+    });
+    if (!response.ok) throw new Error('错题本未保存；请确认本地学习库仍在运行');
+    apply(await response.json());
   }
 
   async function load() {
@@ -497,7 +574,7 @@ const StudyProgress = (() => {
     localStorage.removeItem(probe);
     const value = localStorage.getItem(localKey);
     if (value) apply(JSON.parse(value));
-    state.storageStatus = '本文件作答已保存；跨学习包请使用本地学习库入口';
+    state.storageStatus = '当前为 file:// 单文件模式；若图片或 PDF 未随目录打开，请让 Agent 使用电脑端学习库返回的 http:// 地址';
   }
 
   async function record(q, picked) {
@@ -514,11 +591,53 @@ const StudyProgress = (() => {
     const correct = q.options.filter(x => x.is_correct).map(x => x.label);
     const answers = Object.assign(Object.create(null), state.answers);
     answers[q.id] = {ok: picked.length === correct.length && correct.every(x => picked.includes(x)), picked: [...picked]};
-    const wrongbook = Object.entries(answers).filter(([, result]) => !result.ok)
-      .map(([qid]) => ({qid, stem: QMAP[qid]?.question_zh || qid, wrong_count: 1}));
+    const dismissed_choices = answers[q.id].ok ? state.dismissedChoices :
+      state.dismissedChoices.filter(id => id !== q.id);
     // Save first. A quota/security failure must not be shown as a completed answer.
-    localStorage.setItem(localKey, JSON.stringify({answers, wrongbook}));
-    apply({answers, wrongbook});
+    saveLocal({answers, saved_choices: state.savedChoices,
+      dismissed_choices, case_bookmarks: state.caseBookmarks});
+  }
+
+  async function bookmarkChoice(q, save) {
+    if (endpoint) return changeBookmark({kind: 'choice', action: save ? 'add' : 'remove', qid: q.id});
+    const saved_choices = state.savedChoices.filter(id => id !== q.id);
+    if (save) saved_choices.push(q.id);
+    const dismissed_choices = save ? state.dismissedChoices.filter(id => id !== q.id) :
+      [...new Set([...state.dismissedChoices, q.id])];
+    saveLocal({answers: state.answers, saved_choices, dismissed_choices,
+      case_bookmarks: state.caseBookmarks});
+  }
+
+  async function bookmarkCase(c, save) {
+    if (endpoint) return changeBookmark({kind: 'case', action: save ? 'add' : 'remove', case_id: c.id});
+    const case_bookmarks = state.caseBookmarks.filter(id => id !== c.id);
+    if (save) case_bookmarks.push(c.id);
+    saveLocal({answers: state.answers, saved_choices: state.savedChoices,
+      dismissed_choices: state.dismissedChoices, case_bookmarks});
+  }
+
+  async function removeWrongbook(item) {
+    if (endpoint) {
+      const payload = item.kind === 'case'
+        ? {kind: 'case', action: 'remove', case_id: item.case_id,
+          source_package_id: item.source_package_id}
+        : {kind: 'choice', action: 'remove', question_key: item.question_key};
+      return changeBookmark(payload);
+    }
+    if (item.kind === 'case') return bookmarkCase({id: item.case_id}, false);
+    return bookmarkChoice({id: item.qid}, false);
+  }
+
+  function wrongbookKey(item) {
+    return item.kind === 'case' ? `case:${item.source_package_id || 'local'}:${item.case_id}` :
+      item.question_key || item.history_url || item.qid || item.stem;
+  }
+
+  function selectedWrongbook() {
+    const entries = state.wrongbook || [];
+    const selected = entries.find(item => wrongbookKey(item) === state.wrongKey) || entries[0];
+    state.wrongKey = selected ? wrongbookKey(selected) : null;
+    return selected;
   }
 
   function renderWrongbook(parent) {
@@ -527,52 +646,517 @@ const StudyProgress = (() => {
       add(parent, 'p', '暂无待复习错题。答错的题目会自动出现在这里。', 'muted');
       return;
     }
-    add(parent, 'strong', `待复习 · ${entries.length} 题`);
+    add(parent, 'strong', `错题本 · ${entries.length} 题`);
+    selectedWrongbook();
     for (const item of entries) {
-      const label = `${item.qid || '历史'} · ${String(item.stem || '').slice(0, 22)}（错 ${item.wrong_count} 次）`;
+      const label = item.kind === 'case'
+        ? `案例 · ${String(item.stem || item.case_id).slice(0, 28)}`
+        : `${item.qid || '历史'} · ${String(item.stem || '').slice(0, 22)}` +
+          (item.wrong_count ? `（错 ${item.wrong_count} 次）` : '（已收藏）');
       parent.append(button(label, () => {
-        if (item.qid && QMAP[item.qid]) {
-          state.view = 'quiz';
-          state.search = '';
-          state.qid = item.qid;
-          render();
-        } else if (item.history_url) {
-          location.href = item.history_url;
-        }
-      }, item.qid === state.qid ? 'active' : ''));
+        state.wrongKey = wrongbookKey(item);
+        render();
+      }, wrongbookKey(item) === state.wrongKey ? 'active' : ''));
     }
-    add(parent, 'hr');
   }
 
-  return {load, record, renderWrongbook};
+  return {load, record, bookmarkChoice, bookmarkCase, removeWrongbook,
+    selectedWrongbook, renderWrongbook};
 })();
+
+async function changeWrongbook(kind, item, save) {
+  try {
+    if (kind === 'remove') await StudyProgress.removeWrongbook(item);
+    else if (kind === 'case') await StudyProgress.bookmarkCase(item, save);
+    else await StudyProgress.bookmarkChoice(item, save);
+    render();
+  } catch (error) {
+    const message = error.message || '错题本保存失败';
+    state.storageStatus = message;
+    if (kind === 'case') state.caseStatus = message;
+    render();
+  }
+}
+
+function wrongbookQuestion(item) {
+  return item?.qid && QMAP[item.qid] ? QMAP[item.qid] : null;
+}
+
+function wrongbookCase(item) {
+  if (item?.kind !== 'case' || !CASEMAP[item.case_id]) return null;
+  const current = location.pathname.match(/^\/packages\/([a-f0-9]{16})\/web\/index\.html$/)?.[1];
+  return !item.source_package_id || item.source_package_id === current ? CASEMAP[item.case_id] : null;
+}
+
+function wrongbookSnapshotImage(item, asset) {
+  const packageId = item?.source_package_id;
+  if (!/^[a-f0-9]{16}$/.test(packageId || '') ||
+      !/^assets\/content\/[A-Za-z0-9._-]+$/.test(asset || '')) return null;
+  return `/packages/${packageId}/web/${asset}`;
+}
+
+function wrongbookOriginal(parent, src, label, originalFile) {
+  if (!src) return;
+  const details = add(parent, 'details', undefined, 'question-source-page');
+  details.open = false;
+  add(details, 'summary', label);
+  if (originalFile && originalFile !== src) {
+    const link = add(details, 'a', '打开原文件');
+    link.href = originalFile; link.target = '_blank'; link.rel = 'noopener';
+  }
+  const zoom = add(details, 'a');
+  zoom.href = src; zoom.target = '_blank'; zoom.rel = 'noopener';
+  image(zoom, src, label);
+}
+
+function showWrongbookBody() {
+  const out = $('#content');
+  out.replaceChildren();
+  const article = add(out, 'article');
+  const item = StudyProgress.selectedWrongbook();
+  if (!item) {
+    add(article, 'h2', '错题本');
+    add(article, 'p', '暂无待复习错题。答错的选择题会出现在左侧。', 'muted');
+    return;
+  }
+  if (item.kind === 'case') {
+    showWrongbookCase(article, item);
+    article.append(button('从错题本删除', () => changeWrongbook('remove', item), 'button'));
+    return;
+  }
+  const question = wrongbookQuestion(item);
+  const snapshot = item.snapshot || {};
+  add(article, 'h2', question?.id || '历史错题');
+  add(article, 'p', `累计答错 ${item.wrong_count || 0} 次` +
+    (item.streak ? ` · 连续答对 ${item.streak} 次` : ''), 'muted');
+  const stem = question?.question_zh || question?.question_en || snapshot.stem || item.stem || '';
+  const body = add(article, 'div', undefined, 'question-body');
+  if (question) markdown(body, stem, question.inline_image_assets || []);
+  else add(body, 'p', stem);
+  if (question) {
+    source(article, question);
+    for (const [index, asset] of (question.diagram_assets || []).entries())
+      if (asset !== question.source_page_asset)
+        wrongbookOriginal(article, asset, `查看原题图表 ${index + 1}`);
+  } else {
+    for (const [index, asset] of (snapshot.images || []).entries()) {
+      const src = wrongbookSnapshotImage(item, asset);
+      wrongbookOriginal(article, src, `查看历史原题原件 ${index + 1}`);
+    }
+  }
+  const options = question?.options || snapshot.options || [];
+  if (options.length) {
+    add(article, 'h3', '选项');
+    const list = add(article, 'div', undefined, 'options');
+    const picked = item.picked || state.answers[question?.id]?.picked || [];
+    for (const option of options) {
+      const row = add(list, 'div', `${option.label || ''} · ${option.text || option.text_zh || option.text_en || ''}`,
+        'option' + (option.is_correct ? ' ok' : picked.includes(option.label) ? ' bad' : ''));
+      if (picked.includes(option.label)) add(row, 'small', ' · 上次选择');
+      if (option.is_correct) add(row, 'small', ' · 正确答案');
+    }
+  }
+  const explanation = question?.explanation || snapshot.explanation;
+  if (explanation) callout(article, '题库解析原文', explanation);
+  if (question && Q.length) article.append(button('去选择题重做', () => {
+    state.view = 'quiz'; state.qid = question.id; render();
+  }, 'button'));
+  if (!question && item.history_url) {
+    const link = add(article, 'a', '打开历史题页');
+    link.href = item.history_url; link.target = '_blank'; link.rel = 'noopener';
+  }
+  if (!question && !Object.keys(snapshot).length)
+    callout(article, '历史题详情暂不可用', '请打开历史题页查看原文。', 'warning');
+  article.append(button('从错题本删除', () => changeWrongbook('remove', item), 'button'));
+}
+
+function showWrongbookCase(article, item) {
+  const current = wrongbookCase(item);
+  const c = current || item.snapshot || {};
+  add(article, 'h2', c.original_number || item.stem || item.case_id || '案例题');
+  add(article, 'p', c.scenario || '', 'question-body');
+  if (current) {
+    const pageAssets = new Set((current.source_page_assets || []).map(page => page.asset));
+    for (const page of current.source_page_assets || [])
+      wrongbookOriginal(article, page.asset, `查看原题所在第 ${page.page} 页`,
+        current.source_file ? `${current.source_file}#page=${page.page}` : null);
+    for (const [index, asset] of (current.diagram_assets || []).entries()) {
+      if (pageAssets.has(asset)) continue;
+      const isSourceImage = asset === current.source_file;
+      wrongbookOriginal(article, asset, isSourceImage ? '查看原题截图' : `查看案例图表 ${index + 1}`);
+    }
+  } else for (const [index, asset] of (c.images || []).entries()) {
+    const src = wrongbookSnapshotImage(item, asset);
+    wrongbookOriginal(article, src, `查看历史案例原件 ${index + 1}`);
+  }
+  for (const child of c.sub_questions || []) {
+    const section = add(article, 'section', undefined, 'case-child');
+    add(section, 'h3', child.original_number || child.id || '案例子问题');
+    add(section, 'p', child.question || '');
+    const answer = child.reference_answer || {};
+    if (answer.text || child.generated_analysis) {
+      const details = add(section, 'details');
+      add(details, 'summary', '查看参考答案与解析');
+      if (answer.status === 'verified' && answer.text) callout(details, '原题参考答案', answer.text);
+      else if (answer.text) callout(details, '答案待核验', answer.text, 'warning');
+      if (child.generated_analysis) callout(details, '生成学习解析', child.generated_analysis, 'warning');
+    }
+  }
+  if (current) article.append(button('前往案例题学习', () => {
+    state.view = 'cases'; state.caseId = current.id; render();
+  }, 'button'));
+  else if (item.source_package_id && /^[a-f0-9]{16}$/.test(item.source_package_id)) {
+    const link = add(article, 'a', '打开原案例学习包');
+    link.href = `/packages/${item.source_package_id}/web/index.html`;
+    link.target = '_blank'; link.rel = 'noopener';
+  }
+}
+
+function renderWrongbookRail(parent) {
+  const item = StudyProgress.selectedWrongbook();
+  add(parent, 'strong', '本题关联');
+  if (!item) {
+    add(parent, 'p', '选择左侧错题后查看关联内容。', 'muted');
+    return;
+  }
+  const question = wrongbookQuestion(item);
+  const snapshot = item.snapshot || {};
+  const caseItem = wrongbookCase(item);
+  add(parent, 'h4', '关联考点');
+  const ids = [...new Set(question?.concept_ids ||
+    (caseItem?.sub_questions || []).flatMap(q => q.concept_ids || []))];
+  const concepts = question || caseItem ? ids.map(id => CMAP[id] || {id, title: id}) : snapshot.concepts || [];
+  if (!concepts.length) add(parent, 'p', '暂无明确关联考点。', 'muted');
+  for (const concept of concepts) {
+    if (concept.id && CMAP[concept.id]) parent.append(button(concept.title || concept.id, () => {
+      state.view = 'notes'; state.cid = concept.id; render();
+    }));
+    else add(parent, 'p', concept.title || concept.id || '未命名考点', 'muted');
+  }
+  add(parent, 'h4', '关联方法');
+  const methods = caseItem
+    ? [...new Set((caseItem.sub_questions || []).flatMap(q => q.method_ids || []))]
+      .map(id => METHODS.find(m => m.id === id) || {id, title: id})
+    : question
+    ? METHODS.filter(m => ids.some(id => (m.concept_ids || []).includes(id)))
+    : snapshot.methods || [];
+  if (!methods.length) add(parent, 'p', '暂无明确关联方法。', 'muted');
+  for (const method of methods) {
+    if (method.id && METHODS.some(m => m.id === method.id)) parent.append(button(method.title || method.id, () => {
+      state.view = 'methods'; state.methodId = method.id; render();
+    }));
+    else add(parent, 'p', method.title || method.id || '未命名方法', 'muted');
+  }
+}
 
 function el(tag, text, cls){const n=document.createElement(tag); if(text!==undefined)n.textContent=text; if(cls)n.className=cls; return n}
 function add(parent,tag,text,cls){const n=el(tag,text,cls);parent.append(n);return n}
 function button(text,fn,cls){const n=el('button',text,cls);n.type='button';n.onclick=fn;return n}
 function linkButton(text,fn){return button(text,fn,'') }
 function markdown(parent,text,inlineAssets=[]){const lines=String(text||'').split(String.fromCharCode(10)),imageOnly=/^\s*!\[([^\]]*)\]\(([^)]*)\)\s*$/,assetBySource=new Map((Array.isArray(inlineAssets)?inlineAssets:[]).filter(x=>x&&typeof x.source==='string').map(x=>[x.source,x.asset]));const cells=line=>line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(x=>x.trim());for(let i=0;i<lines.length;i++){const line=lines[i],match=line.match(imageOnly);if(match){const source=match[2].trim(),asset=assetBySource.get(source);if(asset)image(parent,asset,match[1]||'题干图片');else callout(parent,'题干图片不可用',source||'未提供图片路径','warning');continue}if(line.includes('|')&&i+1<lines.length&&cells(lines[i+1]).every(x=>/^:?-{3,}:?$/.test(x))){const table=el('table',undefined,'markdown-table');const head=table.createTHead().insertRow();cells(line).forEach(v=>add(head,'th',v));const body=table.createTBody();i+=2;while(i<lines.length&&lines[i].includes('|')){const row=body.insertRow();cells(lines[i]).forEach(v=>add(row,'td',v));i++}i--;parent.append(table)}else if(line.trim()){add(parent,'p',line)}}}
-function stats(){const a=Object.values(state.answers), ok=a.filter(x=>x.ok).length; $('#stats').textContent=`本包已做 ${a.length} · 答对 ${ok} · 答错 ${a.length-ok} · 待复习错题 ${state.wrongbook.length}`; const wrongbookButton=$('nav [data-view=wrongbook]');if(wrongbookButton)wrongbookButton.textContent=`错题本（${state.wrongbook.length}）`; const status=$('#storage-status');if(status)status.textContent=state.storageStatus;}
-function qualityLabel(status){return ({blocked:'内容未通过检查',failed:'内容未通过检查',review_required:'内容待审校',agent_reviewed:'Agent 已审校',reviewed:'Agent 已审校',needs_revision:'内容待修订',fixture:'演示样本',limited:'存在内容或证据缺口'})[status]||'内容待审校'}
-function renderQualityStatus(){const root=$('#quality-status');if(!root)return;root.replaceChildren();const q=DATA.quality_summary||{},status=q.content_status;add(root,'strong',qualityLabel(status));add(root,'span',status==='agent_reviewed'?' · Agent 审校记录不等于人工核验，请结合原文学习。':status==='limited'?' · 请查看卡片说明，证据不足的内容仍需核对。':status==='fixture'?' · 自编演示内容，不代表真实资料已经核验。':status==='blocked'||status==='failed'?' · 请先修订内容，再使用本包学习。':' · 尚未完成内容审校，请结合原题和教辅核对。');const n=q.metrics?.concepts_without_supports;if(n>0)add(root,'span',` · ${n} 张卡尚无直接支持的教辅证据。`);}
-function renderCardReview(parent,review,result){const status=result?.status||'review_required',details=add(parent,'details',undefined,'card-review');add(details,'summary',qualityLabel(status));add(details,'p',typeof review?.rationale==='string'&&review.rationale.trim()?review.rationale:'未提供本卡的内容审校说明。');if(['agent_reviewed','reviewed'].includes(status))add(details,'p','此为 Agent 审校记录，不代表已经人工核验。','muted');const evidence=result?.teaching_evidence;if(evidence&&!evidence.supports){details.open=true;add(details,'p',evidence.related?'教辅仅提供相关材料，尚未找到直接支持；请结合题库依据和本卡限制说明学习。':'本卡尚无直接支持的教辅证据；请结合题库依据和本卡限制说明学习。','muted');}}
-function sidebar(){const s=$('#sidebar');s.replaceChildren();if(state.view==='wrongbook'){add(s,'strong','错题复习');add(s,'p','选择错题查看解析，也可以重做本题。','muted');return}const search=document.createElement('input');search.type='search';search.placeholder=state.view==='notes'?'搜索考点':'搜索题目';search.value=state.search||'';search.oninput=()=>{state.search=search.value;sidebar()};s.append(search);const kw=(state.search||'').trim();if(state.view==='notes'){const groups=Object.create(null);for(const c of C){if(kw&&!((c.title||'').includes(kw)||(c.tags||[]).join(' ').includes(kw)))continue;const group=c.chapter||(/[一-鿿]/.test(c.parent||'')?c.parent:'未分组');(groups[group]??=[]).push(c)}for(const [name,list] of Object.entries(groups)){add(s,'div',name,'chapter');for(const x of list)s.append(button(x.title||x.id,()=>{state.cid=x.id;render()},state.cid===x.id?'active':''))}}else{for(const x of Q){const title=x.id+' · '+(x.question_zh||x.question_en||'未命名题目').slice(0,22);if(kw&&!title.includes(kw))continue;s.append(button(title,()=>{state.qid=x.id;render()},state.qid===x.id?'active':''))}}}
-function rail(){const r=$('#rail');r.replaceChildren();if(state.view==='wrongbook'){add(r,'strong','复习记录');add(r,'p','错题按当前考试科目汇总。通过本地学习库打开时，可继续复习其他学习包中的错题。','muted');return}const note=state.view==='notes';add(r,'strong',note?'关联真题':'本题考点');const ids=note?(CMAP[state.cid].question_ids||[]):(QMAP[state.qid].concept_ids||[]);for(const id of ids)r.append(button(note?id:(CMAP[id]?.title||id),()=>{if(note){state.view='quiz';state.qid=id}else{state.view='notes';state.cid=id}render()}));}
+function stats(){const a=Object.values(state.answers), ok=a.filter(x=>x.ok).length; $('#stats').textContent=`选择题已做 ${a.length} · 答对 ${ok} · 答错 ${a.length-ok} · 待复习错题 ${state.wrongbook.length}`; const wrongbookButton=$('nav [data-view=wrongbook]');if(wrongbookButton)wrongbookButton.textContent=`错题本（${state.wrongbook.length}）`;}
+function sidebar(){const s=$('#sidebar');s.replaceChildren();if(state.view==='wrongbook'){StudyProgress.renderWrongbook(s);return}if(state.view==='methods'){add(s,'strong','方法卡');for(const m of METHODS)s.append(button(m.title||m.id,()=>{state.methodId=m.id;render()},state.methodId===m.id?'active':''));return}const search=document.createElement('input');search.type='search';search.placeholder=state.view==='notes'?'搜索考点':'搜索题目或批次';search.value=state.search||'';s.append(search);const list=add(s,'div',undefined,'sidebar-list');const draw=()=>{list.replaceChildren();const kw=(state.search||'').trim();if(state.view==='cases'||state.view==='quiz')renderGroupedSidebar(list,state.view,kw);else renderNotesSidebar(list,kw)};search.oninput=()=>{state.search=search.value;draw()};draw()}
+function rail(){const r=$('#rail');r.replaceChildren();if(state.view==='wrongbook'){renderWrongbookRail(r);return}if(state.view==='cases'){renderCaseRail(r);return}if(state.view==='methods'){renderMethodRail(r);return}const note=state.view==='notes';add(r,'strong',note?'关联真题':'本题考点');if(note)r.classList.add('related-question-rail');else r.classList.remove('related-question-rail');const ids=note?(CMAP[state.cid]?.question_ids||[]):(QMAP[state.qid]?.concept_ids||[]);for(const id of ids){const open=()=>{if(note){if(QMAP[id]){state.view='quiz';state.qid=id}else if(CASES.some(c=>(c.sub_questions||[]).some(q=>q.id===id))){state.view='cases';state.childId=id}}else{state.view='notes';state.cid=id}render()};if(note){const link=relatedQuestionButton(id,open);if(link)r.append(link)}else r.append(button(CMAP[id]?.title||id,open))}}
 function callout(parent,title,body,cls=''){if(!body)return;const box=add(parent,'div',undefined,'callout '+cls);add(box,'strong',title);add(box,'div',body)}
 function textList(parent,title,values){if(!Array.isArray(values)||!values.length)return;add(parent,'h3',title);const ul=add(parent,'ul');for(const v of values)add(ul,'li',typeof v==='string'?v:(v.text||v.tip||JSON.stringify(v)))}
-function image(parent,path,alt){if(!path)return;const im=document.createElement('img');im.src=path;im.alt=alt;im.loading='lazy';im.className='image';parent.append(im)}
-function source(parent,q){if(q.source_link){const a=document.createElement('a');a.href=q.source_link;a.target='_blank';a.rel='noopener';a.textContent=`来源文件，第 ${q.source_page} 页`;parent.append(a)}else if(q.source_file||q.source_page||q.page_no)callout(parent,'来源','未提供可复制、可定位的本地来源文件与确定物理页。','warning');if(q.source_page_asset){const details=add(parent,'details',undefined,'question-source-page');const hasDiagram=(q.diagram_assets||[]).length||(q.inline_image_assets||[]).some(x=>x.asset);details.open=!hasDiagram;add(details,'summary',`查看原题所在第 ${q.source_page} 页（可能包含多题）`);const zoom=add(details,'a');zoom.href=q.source_page_asset;zoom.target='_blank';zoom.rel='noopener';image(zoom,q.source_page_asset,'原题 PDF 第 '+q.source_page+' 页');add(details,'p','点击页面图可放大核对图表与数字；也可用上方链接打开原 PDF。','muted')}}
+function image(parent,path,alt){if(!path)return;const im=document.createElement('img');im.src=path;im.alt=alt;im.loading='lazy';im.className='image';im.onerror=()=>{const warning=$('#save-warning');if(warning)warning.textContent=' · 图片资源加载失败；请让 Agent 使用电脑端学习库返回的 http:// 地址打开完整学习包。'};parent.append(im)}
+function source(parent,q){if(q.source_link){const a=document.createElement('a');a.href=q.source_link;a.target='_blank';a.rel='noopener';a.textContent=`来源文件，第 ${q.source_page} 页`;parent.append(a)}else if(q.source_file||q.source_page||q.page_no)callout(parent,'来源','未提供可复制、可定位的本地来源文件与确定物理页。','warning');if(q.source_page_asset){const details=add(parent,'details',undefined,'question-source-page');/* Keep the source page collapsed across quiz redraws. Selecting an option redraws the question, and opening it here made the PDF pop open unexpectedly. */details.open=false;add(details,'summary',`查看原题所在第 ${q.source_page} 页（可能包含多题）`);const zoom=add(details,'a');zoom.href=q.source_page_asset;zoom.target='_blank';zoom.rel='noopener';image(zoom,q.source_page_asset,'原题 PDF 第 '+q.source_page+' 页');add(details,'p','点击页面图可放大核对图表与数字；也可用上方链接打开原 PDF。','muted')}}
+// Case study state is intentionally separate from choice-question progress.
+// Learner text is always inserted with textContent/value, never HTML.
+const CASES=Array.isArray(DATA.cases)?DATA.cases:[], METHODS=Array.isArray(DATA.methods)?DATA.methods:[];
+const CASEMAP=nullMap(CASES.map(x=>[x.id,x]));
+function caseLabel(id){const method=METHODS.find(x=>x.id===id);if(method)return method.title;const concept=CMAP[id];if(concept)return concept.title;for(const c of CASES){if(c.id===id)return c.original_number||id;const q=(c.sub_questions||[]).find(x=>x.id===id);if(q)return (c.original_number||c.id)+' '+(q.original_number||q.id);}return id;}
+if(CASES.length)document.querySelector('nav [data-view=cases]')?.classList.remove('hidden');
+if(METHODS.length)document.querySelector('nav [data-view=methods]')?.classList.remove('hidden');
+if(!C.length)document.querySelector('nav [data-view=notes]')?.classList.add('hidden');
+if(!Q.length)document.querySelector('nav [data-view=quiz]')?.classList.add('hidden');
+if(!C.length&&CASES.length)state.view='cases';
+state.caseProgress=Object.create(null); state.caseStats={}; state.caseStatus='';
+const CaseProgress=(()=>{
+  const match=location.protocol==='http:'&&location.hostname==='127.0.0.1'?location.pathname.match(/^\/packages\/([a-f0-9]{16})\/web\/index\.html$/):null;
+  const endpoint=match?`/api/packages/${match[1]}/cases/progress`:null;
+  const key=`quick-pass-case-v1:${DATA.profile?.exam_code||'default'}:${location.pathname}`;
+  const apply=data=>{state.caseProgress=Object.assign(Object.create(null),data?.items||{});state.caseStats=data?.stats||{};};
+  async function load(){if(!CASES.length)return;if(endpoint){const r=await fetch(endpoint,{cache:'no-store'});if(!r.ok)throw new Error('案例题记录无法读取');apply(await r.json());state.caseStatus='案例题记录已连接本地学习库';return}const raw=localStorage.getItem(key);if(raw)apply(JSON.parse(raw));state.caseStatus='使用本文件的浏览器本地记录；案例记录不跨学习包继承';}
+  const queues=Object.create(null);
+  function save(id,change){const run=async()=>{const next=Object.assign({},state.caseProgress[id]||{},change);if(endpoint){const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({sub_question_id:id},change))});if(!r.ok)throw new Error('案例题未保存；请确认本地学习库仍在运行');apply(await r.json());return}const items=Object.assign({},state.caseProgress,{[id]:next});localStorage.setItem(key,JSON.stringify({items,stats:state.caseStats}));apply({items,stats:state.caseStats});};const prior=queues[id]||Promise.resolve();const queued=prior.catch(()=>{}).then(run);queues[id]=queued;return queued;}
+  return {load,save};
+})();
+function caseLinks(parent,ids,label,go){if(!Array.isArray(ids)||!ids.length)return;add(parent,'h4',label);const box=add(parent,'div',undefined,'links');for(const id of ids)box.append(linkButton(caseLabel(id),()=>go(id)));}
+function renderCaseEvidence(parent,ids){
+  const requested=[...new Set(Array.isArray(ids)?ids:[])];
+  if(!requested.length)return;
+  const evidenceById=new Map((DATA.teaching_evidence||[]).filter(x=>x?.id).map(x=>[x.id,x]));
+  const rows=requested.map(id=>evidenceById.get(id)).filter(Boolean);
+  add(parent,'h4','关联证据');
+  if(rows.length){
+    const list=add(parent,'div',undefined,'material-list');
+    for(const item of rows)list.append(materialEvidenceCard(item));
+  }
+  const missing=requested.filter(id=>!evidenceById.has(id));
+  if(missing.length)add(parent,'p','以下关联证据未找到可展示的教辅原页：'+missing.join('、'),'warning');
+}
+function captureCaseDrafts(){for(const area of document.querySelectorAll('textarea[data-case-draft]')){const id=area.dataset.caseDraft;state.caseProgress[id]=Object.assign({},state.caseProgress[id]||{},{draft:area.value});}}
+function caseOrigin(parent,item,label){if(!item?.source_file)return;const pages=item.source_pages||[];const box=add(parent,'div',undefined,'links');const a=document.createElement('a');a.href=item.source_file+(pages[0]?'#page='+pages[0]:'');a.target='_blank';a.rel='noopener';a.textContent=label+(pages.length?' · 第 '+pages.join('、')+' 页':'');box.append(a);for(const page of item.source_page_assets||[]){const b=linkButton('查看原页 '+page.page,()=>{const d=document.createElement('dialog');d.className='material-dialog';const body=add(d,'div',undefined,'material-dialog-body');image(body,page.asset,label+'第 '+page.page+' 页');const close=button('关闭',()=>d.close(),'button');body.append(close);document.body.append(d);d.addEventListener('close',()=>d.remove());d.showModal()});box.append(b)}}
+function selectedCase(){
+  if(state.childId){
+    const owner=CASES.find(c=>(c.sub_questions||[]).some(q=>q.id===state.childId));
+    if(owner)state.caseId=owner.id;
+  }
+  if(!CASEMAP[state.caseId])state.caseId=CASES[0]?.id;
+  return CASEMAP[state.caseId];
+}
+function openCase(id){
+  state.view='cases';state.caseId=id;state.childId=null;render();
+  document.querySelector(`[data-case-id="${CSS.escape(id)}"]`)?.scrollIntoView({block:'start'});
+}
+function renderCaseRail(parent){
+  const c=selectedCase();
+  add(parent,'strong','本案例关联');
+  if(!c){add(parent,'p','暂无案例题。','muted');return;}
+  const info=CASE_GROUPS.byId.get(c.id);add(parent,'p',(info?`${info.year}${info.half} ${info.batch} · 第${info.number}题`:(c.original_number||c.id))+' · '+(c.sub_questions||[]).length+' 问','muted');
+  const children=c.sub_questions||[];
+  for(const [field,title,items,view,key] of [
+    ['method_ids','关联方法',new Map(METHODS.map(x=>[x.id,x])),'methods','methodId'],
+    ['concept_ids','关联考点',CMAP,'notes','cid'],
+  ]){
+    add(parent,'h4',title);
+    const ids=[...new Set(children.flatMap(q=>q[field]||[]))];
+    if(!ids.length){add(parent,'p','本案例未提供关联内容。','muted');continue;}
+    for(const id of ids){
+      const item=items instanceof Map?items.get(id):items[id];
+      if(!item)continue;
+      parent.append(button(item.title||id,()=>{state.view=view;state[key]=id;render()}));
+    }
+  }
+}
+function selectedMethod(){
+  if(!METHODS.some(m=>m.id===state.methodId))state.methodId=METHODS[0]?.id;
+  return METHODS.find(m=>m.id===state.methodId);
+}
+function renderMethodRail(parent){
+  const m=selectedMethod();
+  add(parent,'strong','本方法关联');
+  if(!m){add(parent,'p','暂无方法卡。','muted');return;}
+  add(parent,'h4','关联案例子题');
+  const childIds=[...new Set(m.sub_question_ids||[])];
+  if(!childIds.length)add(parent,'p','本方法未提供关联案例子题。','muted');
+  for(const id of childIds){
+    const owner=CASES.find(c=>(c.sub_questions||[]).some(q=>q.id===id));
+    if(!owner)continue;
+    parent.append(button(caseLabel(id),()=>{state.view='cases';state.childId=id;render()}));
+  }
+  add(parent,'h4','关联考点');
+  const conceptIds=[...new Set(m.concept_ids||[])];
+  if(!conceptIds.length)add(parent,'p','本方法未提供关联考点。','muted');
+  for(const id of conceptIds){
+    const concept=CMAP[id];
+    if(!concept)continue;
+    parent.append(button(concept.title||id,()=>{state.view='notes';state.cid=id;render()}));
+  }
+}
+function showCases(){const out=$('#content');out.replaceChildren();const children=CASES.flatMap(c=>c.sub_questions||[]),items=Object.values(state.caseProgress);const summary=add(out,'article',undefined,'case-summary');add(summary,'h2','案例题学习进度');add(summary,'p',`已作答 ${items.filter(x=>x.draft).length}/${children.length} · 待复习 ${items.filter(x=>x.review).length} · 掌握 ${items.filter(x=>x.self_assessment==='mastered').length} · 部分掌握 ${items.filter(x=>x.self_assessment==='partial').length} · 未掌握 ${items.filter(x=>x.self_assessment==='unmastered').length}`,'muted');if(state.caseStatus)add(summary,'p',state.caseStatus,state.caseStatus.includes('失败')||state.caseStatus.includes('无法')?'error':'muted');const review=children.filter(q=>state.caseProgress[q.id]?.review);if(review.length){add(summary,'h3','待复习');const list=add(summary,'div',undefined,'links');for(const q of review)list.append(linkButton(caseLabel(q.id),()=>{state.childId=q.id;render()}));}const c=selectedCase();if(c){const a=add(out,'article','', 'case-study');a.dataset.caseId=c.id;const info=CASE_GROUPS.byId.get(c.id);add(a,'h2',(info?`${info.year}${info.half} ${info.batch} · 第${info.number}题`:(c.original_number||c.id))+' · 案例题');a.append(button(state.caseBookmarks.includes(c.id)?'取消收藏':'收藏进错题本',()=>changeWrongbook('case',c,!state.caseBookmarks.includes(c.id)),'button'));add(a,'p',c.scenario||'');if(c.source_warning)callout(a,'来源不可用',c.source_warning,'warning');if(c.source_file&&c.source_pages?.length){const link=document.createElement('a');link.href=c.source_file+'#page='+c.source_pages[0];link.target='_blank';link.rel='noopener';link.textContent='打开案例原文件第 '+c.source_pages.join('、')+' 页';a.append(link)}for(const item of c.source_page_assets||[]){const d=add(a,'details',undefined,'question-source-page');add(d,'summary','查看原题所在第 '+item.page+' 页');image(d,item.asset,'案例原题第 '+item.page+' 页')}for(const p of c.diagram_assets||[])image(a,p,'案例图表');if((c.unavailable_diagrams||[]).length)callout(a,'资源不可用','以下案例图未复制到学习包：'+c.unavailable_diagrams.join('；'),'warning');for(const q of c.sub_questions||[])renderCaseChild(a,c,q);}if(state.childId){document.querySelector(`[data-case-child="${CSS.escape(state.childId)}"]`)?.scrollIntoView({block:'start'});state.childId=null;}}
+function renderCaseChild(parent,c,q){const box=add(parent,'section',undefined,'case-child');box.dataset.caseChild=q.id;add(box,'h3',(q.original_number||q.id)+' · '+(q.type||'案例子题'));add(box,'p',q.question||'');const saved=state.caseProgress[q.id]||{};const area=document.createElement('textarea');area.dataset.caseDraft=q.id;area.placeholder='写下你的作答…';area.value=saved.draft||'';const status=add(box,'p','', 'muted');area.oninput=()=>{clearTimeout(area._timer);area._timer=setTimeout(()=>saveCase(q.id,{draft:area.value},area,false,status),700)};box.append(area);const ops=add(box,'div',undefined,'case-ops');ops.append(button('保存作答',()=>saveCase(q.id,{draft:area.value},area,true,status),'button'));for(const [value,label] of [['mastered','掌握'],['partial','部分掌握'],['unmastered','未掌握']])ops.append(button(label,()=>saveCase(q.id,{draft:area.value,self_assessment:value},area,true,status),'button '+(saved.self_assessment===value?'primary':'')));ops.append(button(saved.review?'移出待复习':'加入待复习',()=>saveCase(q.id,{draft:area.value,review:!saved.review},area,true,status),'button'));const reveal=button(saved.revealed?'收起参考':'查看参考答案与解析',()=>saveCase(q.id,{draft:area.value,revealed:!saved.revealed},area,true,status),'button');ops.append(reveal);if(saved.revealed){const ans=q.reference_answer||{},unresolved=ans.status==='unresolved';callout(box,ans.status==='verified'?'原题参考答案':unresolved?'答案归属待核验':'参考答案状态',unresolved?'归属待核验，不作为本问确定答案。'+(ans.text?' '+ans.text:''):(ans.text||'来源未提供可确认的答案。'),ans.status==='verified'?'':'warning');if(unresolved&&ans.reason)callout(box,'待核验原因',ans.reason,'warning');caseOrigin(box,ans,'答案来源');if(q.generated_analysis)callout(box,'生成学习解析',q.generated_analysis,'warning');textList(box,'计算步骤',q.calculation_steps?.map(x=>x.text));for(const step of q.calculation_steps||[])for(const basis of step.input_basis||[])caseOrigin(box,basis,'计算依据');textList(box,'评分点',q.scoring_points?.map(x=>x.text));if(q.score?.max_points!=null)callout(box,'本问分值',String(q.score.max_points)+' 分（仅展示来源评分信息，不自动判分）');caseOrigin(box,q.score,'分值依据');for(const point of q.scoring_points||[])caseOrigin(box,point,'评分点依据');textList(box,'易错点',q.pitfalls)}renderCaseEvidence(box,q.evidence_ids);}
+async function saveCase(id,change,area,rerender,status){try{await CaseProgress.save(id,change);state.caseStatus='案例题已保存';if(status)status.textContent='已保存';if(rerender){captureCaseDrafts();render()}}catch(e){state.caseStatus=e.message||'案例题保存失败';if(status){status.textContent=state.caseStatus;status.className='error'}}}
+function showMethods(){const out=$('#content');out.replaceChildren();const m=selectedMethod();if(!m){const empty=add(out,'article');add(empty,'h2','暂无方法卡');return}if(m){const a=add(out,'article',undefined,'method-card');add(a,'h2',m.title||m.id);add(a,'p',m.applicability||'');callout(a,'公式/作答框架',m.formula||m.answer_structure);callout(a,'代入示例',m.substitution);callout(a,'单位/口径',m.units);textList(a,'步骤',m.steps);textList(a,'易错点',m.pitfalls);for(const basis of m.case_basis||[])caseOrigin(a,basis,'案例依据');renderCaseEvidence(a,m.evidence_ids);}}
+
+// Display numbers are positions within a source batch. Stable IDs remain the
+// keys for answers, bookmarks, and case progress.
+function sourceBatchLabel(item, kind) {
+  if (kind === 'quiz' && item.source_url) {
+    try {
+      const query = new URL(item.source_url).hash.split('?')[1] || '';
+      const name = new URLSearchParams(query).get('name');
+      if (name) return name;
+    } catch (_) { /* fall back to a clearly unclassified group */ }
+  }
+  if (kind === 'cases') return String(item.original_number || '').replace(/\s*第\d+题.*$/, '').trim();
+  return '';
+}
+
+function batchParts(label) {
+  const match = String(label || '').match(/^(\d{4})年(上半年|下半年)(.*)$/);
+  if (!match) return { year: '年份未标注', half: '场次未标注', batch: label || '批次未标注' };
+  const tail = match[3].replace(/[-～~]?(持续更新中).*$/, '').trim();
+  return { year: match[1] + '年', half: match[2], batch: tail || '未分批' };
+}
+
+function groupQuestions(items, kind) {
+  const years = new Map(), byId = new Map(), byBatch = new Map();
+  for (const item of items) {
+    const { year, half, batch } = batchParts(sourceBatchLabel(item, kind));
+    if (!years.has(year)) years.set(year, new Map());
+    const halves = years.get(year);
+    if (!halves.has(half)) halves.set(half, new Map());
+    const batches = halves.get(half);
+    if (!batches.has(batch)) batches.set(batch, []);
+    const group = batches.get(batch);
+    group.push(item);
+    byId.set(item.id, { year, half, batch, number: group.length, group });
+  }
+  for (const entry of byId.values()) byBatch.set(entry.group, entry.group.length);
+  return { years, byId };
+}
+
+const QUIZ_GROUPS = groupQuestions(Q, 'quiz');
+const CASE_GROUPS = groupQuestions(CASES, 'cases');
+const expandedQuestionGroups = { quiz: new Set(), cases: new Set() };
+const collapsedQuestionGroups = { quiz: new Set(), cases: new Set() };
+const expandedNoteChapters = new Set();
+const collapsedNoteChapters = new Set();
+let lastNoteSelection = null;
+
+function relatedQuestionInfo(id) {
+  const choice = QMAP[id];
+  if (choice) {
+    const entry = QUIZ_GROUPS.byId.get(id);
+    return {
+      meta: entry ? `${entry.year}${entry.half} · ${entry.batch} · 第${entry.number}题` : '选择题',
+      summary: String(choice.question_zh || choice.question_en || '查看题目').replace(/\s+/g, ' ').trim(),
+    };
+  }
+  const owner = CASES.find(c => c.id === id || (c.sub_questions || []).some(q => q.id === id));
+  if (!owner) return null;
+  const child = (owner.sub_questions || []).find(q => q.id === id);
+  const entry = CASE_GROUPS.byId.get(owner.id);
+  const questionNumber = child?.original_number ? ` · ${child.original_number}` : '';
+  return {
+    meta: entry ? `${entry.year}${entry.half} · ${entry.batch} · 案例第${entry.number}题${questionNumber}` : '案例题',
+    summary: String(child?.question || owner.scenario || '查看案例').replace(/\s+/g, ' ').trim(),
+  };
+}
+
+function relatedQuestionButton(id, open) {
+  const info = relatedQuestionInfo(id);
+  if (!info) return null;
+  const link = button(undefined, open, 'related-question-link');
+  add(link, 'small', info.meta);
+  add(link, 'span', info.summary);
+  link.title = `${info.meta} · ${info.summary}`;
+  link.setAttribute('aria-label', link.title);
+  return link;
+}
+
+function groupKey(parts) { return JSON.stringify(parts); }
+function groupedQuestionTitle(item, number, kind) {
+  const text = kind === 'quiz' ? item.question_zh || item.question_en : item.scenario;
+  return `第${number}题 · ${String(text || '未命名题目').replace(/\s+/g, ' ').slice(0, 25)}`;
+}
+
+function renderNotesSidebar(sidebar, keyword) {
+  const groups=Object.create(null);
+  for (const concept of C) {
+    const group = concept.chapter || (/[\u4e00-\u9fff]/.test(concept.parent || '') ? concept.parent : '未分组');
+    if (keyword && !(group.includes(keyword) || (concept.title || '').includes(keyword) || (concept.tags || []).join(' ').includes(keyword))) continue;
+    (groups[group] ??= []).push(concept);
+  }
+  if (state.cid !== lastNoteSelection) {
+    const selected = C.find(concept => concept.id === state.cid);
+    if (selected) {
+      const chapter = selected.chapter || (/[\u4e00-\u9fff]/.test(selected.parent || '') ? selected.parent : '未分组');
+      collapsedNoteChapters.delete(chapter);
+      expandedNoteChapters.add(chapter);
+    }
+    lastNoteSelection = state.cid;
+  }
+  for (const [name, list] of Object.entries(groups)) {
+    const chapter = add(sidebar, 'details', undefined, 'question-group note-chapter');
+    chapter.open = keyword ? true : expandedNoteChapters.has(name) && !collapsedNoteChapters.has(name);
+    const summary = add(chapter, 'summary');
+    add(summary, 'span', name);
+    add(summary, 'small', String(list.length));
+    chapter.ontoggle = keyword ? null : () => {
+      if (chapter.open) { expandedNoteChapters.add(name); collapsedNoteChapters.delete(name); }
+      else { expandedNoteChapters.delete(name); collapsedNoteChapters.add(name); }
+    };
+    for (const concept of list) chapter.append(button(concept.title || concept.id,
+      () => { state.cid = concept.id; render(); }, state.cid === concept.id ? 'active' : ''));
+  }
+  if (!Object.keys(groups).length) add(sidebar, 'p', '没有匹配的考点。', 'muted');
+}
+
+function batchOrder(label) {
+  const match = label.match(/第([一二三四五六七八九十\d]+)批/);
+  if (!match) return 0;
+  const value = match[1];
+  const number = Number(value);
+  if (Number.isInteger(number)) return number;
+  return '一二三四五六七八九十'.indexOf(value) + 1;
+}
+
+function renderGroupedSidebar(sidebar, kind, search) {
+  const groups = kind === 'quiz' ? QUIZ_GROUPS : CASE_GROUPS;
+  const selectedId = kind === 'quiz' ? state.qid : state.caseId;
+  const expanded = expandedQuestionGroups[kind];
+  const collapsed = collapsedQuestionGroups[kind];
+  const keyword = String(search || '').trim();
+  const makeBranch = (parent, title, path, count, selected, visible) => {
+    const details = add(parent, 'details', undefined, 'question-group');
+    const key = groupKey(path);
+    details.open = keyword ? visible : (expanded.has(key) || selected) && !collapsed.has(key);
+    const summary = add(details, 'summary');
+    add(summary, 'span', title);
+    add(summary, 'small', String(count));
+    details.ontoggle = keyword ? null : () => {
+      if (details.open) { expanded.add(key); collapsed.delete(key); }
+      else { expanded.delete(key); collapsed.add(key); }
+    };
+    return details;
+  };
+  const years = [...groups.years.entries()].sort((a, b) => b[0].localeCompare(a[0], 'zh-CN'));
+  let matches = 0;
+  for (const [year, halves] of years) {
+    const halfRows = [];
+    for (const [half, batches] of [...halves.entries()].sort((a, b) => (a[0] === '上半年' ? -1 : 1) - (b[0] === '上半年' ? -1 : 1))) {
+      const batchRows = [];
+      for (const [batch, items] of [...batches.entries()].sort((a, b) => batchOrder(a[0]) - batchOrder(b[0]) || a[0].localeCompare(b[0], 'zh-CN'))) {
+        const shown = items.filter((item, index) => !keyword ||
+          groupedQuestionTitle(item, index + 1, kind).includes(keyword) ||
+          `${year}${half}${batch}`.includes(keyword));
+        if (shown.length) batchRows.push({ batch, items, shown });
+      }
+      if (batchRows.length) halfRows.push({ half, batches: batchRows });
+    }
+    if (!halfRows.length) continue;
+    const yearCount = [...halves.values()].flatMap(b => [...b.values()]).reduce((n, list) => n + list.length, 0);
+    const yearSelected = groups.byId.get(selectedId)?.year === year;
+    const yearNode = makeBranch(sidebar, year, [year], yearCount, yearSelected, true);
+    for (const { half, batches } of halfRows) {
+      const halfCount = [...halves.get(half).values()].reduce((n, list) => n + list.length, 0);
+      const halfSelected = yearSelected && groups.byId.get(selectedId)?.half === half;
+      const halfNode = makeBranch(yearNode, half, [year, half], halfCount, halfSelected, true);
+      for (const { batch, items, shown } of batches) {
+        const batchSelected = halfSelected && groups.byId.get(selectedId)?.batch === batch;
+        const batchNode = makeBranch(halfNode, batch, [year, half, batch], items.length, batchSelected, true);
+        shown.forEach(item => {
+          const number = groups.byId.get(item.id).number;
+          const label = groupedQuestionTitle(item, number, kind);
+          const open = kind === 'quiz'
+            ? () => { state.qid = item.id; render(); }
+            : () => openCase(item.id);
+          batchNode.append(button(label, open, 'grouped-question ' + (item.id === selectedId ? 'active' : '')));
+          matches++;
+        });
+      }
+    }
+  }
+  if (!matches) add(sidebar, 'p', '没有匹配的题目。', 'muted');
+}
+
 function sameStructuredValue(left,right){return JSON.stringify(left??null)===JSON.stringify(right??null)}
-function showNote(){const c=CMAP[state.cid],out=$('#content');out.replaceChildren();const a=el('article');out.append(a);add(a,'h2',c.title||c.id);renderCardReview(a,c.content_review,(DATA.quality_summary?.concepts||[]).find(row=>row.concept_id===c.id));add(a,'p',c.one_liner||'', 'muted');const cc=c.core_concept||{};callout(a,'定义',cc.definition);callout(a,'原理',cc.principle);textList(a,'关键规则',cc.rules);if(cc.syntax){add(a,'h3','公式/框架');add(a,'pre',cc.syntax,'formula')} renderComparisons(a,c); textList(a,'最佳实践',c.best_practices);callout(a,'记忆口诀',c.mnemonic);callout(a,'为什么考',c.why_tested);if(Array.isArray(c.common_mistakes)&&c.common_mistakes.length){add(a,'h3','易错点');for(const m of c.common_mistakes)callout(a,'易错：'+(m.mistake||''),m.correct||'', 'warning')} const cn=c.cornell_note||{};renderCornell(a,cn);if(Array.isArray(c.tags)&&c.tags.length){const tags=add(a,'div',undefined,'relation');for(const tag of c.tags)add(tags,'span',tag)}if(Array.isArray(c.image_assets))for(const p of c.image_assets)image(a,p,'教辅原图');if((c.unavailable_images||[]).length)callout(a,'资源不可用','以下教辅图没有复制到学习包：'+c.unavailable_images.join('；'),'warning');renderMaterialEvidence(a,c.id,DATA.teaching_evidence||[]);renderKnowledgeGraph(a,c.visualization);renderConceptFidelityDetails(a,c);add(a,'h3','关联题目');const links=add(a,'div',undefined,'links');for(const qid of c.question_ids||[])links.append(linkButton(qid,()=>{state.view='quiz';state.qid=qid;render()}));}
+function showNote(){const c=CMAP[state.cid],out=$('#content');out.replaceChildren();const a=el('article');out.append(a);add(a,'h2',c.title||c.id);add(a,'p',c.one_liner||'', 'muted');const cc=c.core_concept||{};callout(a,'定义',cc.definition);callout(a,'原理',cc.principle);textList(a,'关键规则',cc.rules);if(cc.syntax){add(a,'h3','公式/框架');add(a,'pre',cc.syntax,'formula')} renderComparisons(a,c); textList(a,'最佳实践',c.best_practices);callout(a,'记忆口诀',c.mnemonic);callout(a,'为什么考',c.why_tested);if(Array.isArray(c.common_mistakes)&&c.common_mistakes.length){add(a,'h3','易错点');for(const m of c.common_mistakes)callout(a,'易错：'+(m.mistake||''),m.correct||'', 'warning')} const cn=c.cornell_note||{};renderCornell(a,cn);if(Array.isArray(c.tags)&&c.tags.length){const tags=add(a,'div',undefined,'relation');for(const tag of c.tags)add(tags,'span',tag)}if(Array.isArray(c.image_assets))for(const p of c.image_assets)image(a,p,'教辅原图');if((c.unavailable_images||[]).length)callout(a,'资源不可用','以下教辅图没有复制到学习包：'+c.unavailable_images.join('；'),'warning');renderMaterialEvidence(a,c.id,DATA.teaching_evidence||[]);renderKnowledgeGraph(a,c.visualization);renderConceptLearningLinks(a,c);renderConceptQuestionLinks(a,c);renderConceptFidelityDetails(a,c);}
 async function answer(q){if(!q.answerable||state.saving)return;const pick=state.picked[q.id]||[];state.saving=true;try{await StudyProgress.record(q,pick);render()}catch(error){state.storageStatus=error.message||'作答保存失败';render()}finally{state.saving=false}}
-function showQuiz(){const q=QMAP[state.qid],out=$('#content');out.replaceChildren();const a=el('article');out.append(a);add(a,'h2',q.id);add(a,'p',q.question_zh||q.question_en||'');renderQuestionTrustWarning(a,q);source(a,q);for(const p of q.diagram_assets||[])image(a,p,'题目图表');if((q.unavailable_diagrams||[]).length)callout(a,'资源不可用','以下题图/表格没有复制到学习包：'+q.unavailable_diagrams.join('；'),'warning');const picked=state.picked[q.id]||[],done=state.answers[q.id];const opts=add(a,'div',undefined,'options');for(const o of q.options){const b=button(o.label+' · '+o.text,()=>{if(done||!q.answerable)return;const multi=q.options.filter(x=>x.is_correct).length>1;if(multi){const i=picked.indexOf(o.label);i<0?picked.push(o.label):picked.splice(i,1)}else{picked.splice(0,picked.length,o.label)}state.picked[q.id]=picked;render()},'option '+(picked.includes(o.label)?'selected ':'')+(done?(o.is_correct?'ok':picked.includes(o.label)?'bad':''):''));opts.append(b)}if(!q.answerable)callout(a,'不可作答','来源题目缺少选项或确定答案；已保留为阅读材料，未猜测答案。','warning');else if(!done)a.append(button('提交答案',()=>answer(q),'button primary'));add(a,'h3','关联考点');const links=add(a,'div',undefined,'links');for(const cid of q.concept_ids||[])links.append(linkButton(CMAP[cid]?.title||cid,()=>{state.view='notes';state.cid=cid;render()}));if(done){callout(a,done.ok?'答对':'答错',done.ok?'本题已答对。':'已保存到持久错题本，可从本地学习库跨包复习。',done.ok?'':'error');a.append(button('重做本题',()=>{delete state.answers[q.id];delete state.picked[q.id];render()},'button'));callout(a,'题库解析原文',q.explanation);if(q.answer_mismatch)renderAnswerMismatchDetails(a,q);if(Array.isArray(q.option_analyses)&&q.option_analyses.length){add(a,'h3','已有选项分析');for(const x of q.option_analyses){callout(a,(x.option||'')+(x.is_correct?' ✓':' ✗'),x.analysis||'');if(Array.isArray(x.quotes)&&x.quotes.length)callout(a,'引用摘录',x.quotes.join(String.fromCharCode(10)))}}renderQuestionLearningDetails(a,q);textList(a,'已有记忆辅助',q.memory_tips);const cn=q.cornell_note||{},ga=q.generated_analysis||{};if(cn.cues||cn.notes||cn.pairs){if(!sameStructuredValue(cn,ga.cornell_note))renderCornell(a,cn,'题库康奈尔笔记')}if(Object.keys(ga).length){add(a,'h3','模型生成辅助解释');callout(a,'模型说明','以下内容由模型生成，用于学习辅助，不是题库原解析。','warning');renderAnswerMismatchDetails(a,q,ga);callout(a,'模型解释',ga.explanation||ga.analysis);if(Array.isArray(ga.option_analyses))for(const x of ga.option_analyses)callout(a,'模型选项 '+(x.option||''),x.analysis||'');renderQuestionLearningDetails(a,ga,'模型生成');textList(a,'模型记忆辅助',ga.memory_tips);renderCornell(a,ga.cornell_note,'模型辅助康奈尔笔记')}}}
-function showWrongbook(){const out=$('#content');out.replaceChildren();const article=add(out,'article');add(article,'h2','错题本');add(article,'p','答错的题目会自动收录，点击题目可查看解析或重做。','muted');const list=add(article,'div',undefined,'wrongbook-list');StudyProgress.renderWrongbook(list);}
-function render(){document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===state.view));renderQualityStatus();sidebar();state.view==='notes'?showNote():state.view==='wrongbook'?showWrongbook():showQuiz();stats()}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;state.search='';render()});document.title=DATA.profile?.exam_full_name||DATA.profile?.exam_name||DATA.profile?.name||'Quick Pass Exam-快考通';
+function showQuiz(){const q=QMAP[state.qid],out=$('#content');out.replaceChildren();const a=el('article');out.append(a);add(a,'h2','第'+(QUIZ_GROUPS.byId.get(q.id)?.number||1)+'题');add(a,'p',q.question_zh||q.question_en||'');renderQuestionTrustWarning(a,q);source(a,q);a.append(button(state.savedChoices.includes(q.id)?'取消收藏':'收藏进错题本',()=>changeWrongbook('choice',q,!state.savedChoices.includes(q.id)),'button'));for(const p of q.diagram_assets||[])image(a,p,'题目图表');if((q.unavailable_diagrams||[]).length)callout(a,'资源不可用','以下题图/表格没有复制到学习包：'+q.unavailable_diagrams.join('；'),'warning');const picked=state.picked[q.id]||[],done=state.answers[q.id];const opts=add(a,'div',undefined,'options');for(const o of q.options){const b=button(o.label+' · '+o.text,()=>{if(done||!q.answerable)return;const multi=q.options.filter(x=>x.is_correct).length>1;if(multi){const i=picked.indexOf(o.label);i<0?picked.push(o.label):picked.splice(i,1)}else{picked.splice(0,picked.length,o.label)}state.picked[q.id]=picked;render()},'option '+(picked.includes(o.label)?'selected ':'')+(done?(o.is_correct?'ok':picked.includes(o.label)?'bad':''):''));opts.append(b)}if(!q.answerable)callout(a,'不可作答','来源题目缺少选项或确定答案；已保留为阅读材料，未猜测答案。','warning');else if(!done)a.append(button('提交答案',()=>answer(q),'button primary'));add(a,'h3','关联考点');const links=add(a,'div',undefined,'links');for(const cid of q.concept_ids||[])links.append(linkButton(CMAP[cid]?.title||cid,()=>{state.view='notes';state.cid=cid;render()}));if(done){callout(a,done.ok?'答对':'答错',done.ok?'本题已答对。':'已保存到持久错题本，可从本地学习库跨包复习。',done.ok?'':'error');a.append(button('重做本题',()=>{delete state.answers[q.id];delete state.picked[q.id];render()},'button'));callout(a,'题库解析原文',q.explanation);if(q.answer_mismatch)renderAnswerMismatchDetails(a,q);if(Array.isArray(q.option_analyses)&&q.option_analyses.length){add(a,'h3','已有选项分析');for(const x of q.option_analyses){callout(a,(x.option||'')+(x.is_correct?' ✓':' ✗'),x.analysis||'');if(Array.isArray(x.quotes)&&x.quotes.length)callout(a,'引用摘录',x.quotes.join(String.fromCharCode(10)))}}renderQuestionLearningDetails(a,q);textList(a,'已有记忆辅助',q.memory_tips);const cn=q.cornell_note||{},ga=q.generated_analysis||{};if(cn.cues||cn.notes||cn.pairs){if(!sameStructuredValue(cn,ga.cornell_note))renderCornell(a,cn,'题库康奈尔笔记')}if(Object.keys(ga).length){add(a,'h3','模型生成辅助解释');callout(a,'模型说明','以下内容由模型生成，用于学习辅助，不是题库原解析。','warning');renderAnswerMismatchDetails(a,q,ga);callout(a,'模型解释',ga.explanation||ga.analysis);if(Array.isArray(ga.option_analyses))for(const x of ga.option_analyses)callout(a,'模型选项 '+(x.option||''),x.analysis||'');renderQuestionLearningDetails(a,ga,'模型生成');textList(a,'模型记忆辅助',ga.memory_tips);renderCornell(a,ga.cornell_note,'模型辅助康奈尔笔记')}}}
+function showWrongbook(){showWrongbookBody()}
+function render(){if(state.view==='cases')selectedCase();if(state.view==='methods')selectedMethod();document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===state.view));sidebar();state.view==='notes'?showNote():state.view==='wrongbook'?showWrongbook():state.view==='cases'?showCases():state.view==='methods'?showMethods():showQuiz();stats()}
+const _rawShowNote=showNote;showNote=function(){if(!CMAP[state.cid]){const out=$('#content');out.replaceChildren();const a=add(out,'article');add(a,'h2','暂无考点笔记');add(a,'p','此学习包当前仅包含案例题或方法卡。','muted');return}_rawShowNote()};
+const _rawShowQuiz=showQuiz;showQuiz=function(){if(!QMAP[state.qid]){const out=$('#content');out.replaceChildren();const a=add(out,'article');add(a,'h2','暂无选择题');add(a,'p','此学习包当前仅包含案例题或方法卡。','muted');return}_rawShowQuiz()};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;state.search='';render()});const profileName=DATA.profile?.exam_name_zh||DATA.profile?.exam_full_name||DATA.profile?.exam_name||DATA.profile?.name||'未命名科目',profileId=DATA.profile?.exam_code||'unknown';$('#profile-name').textContent=profileName;$('#profile-id').textContent=profileId;document.body.dataset.profile=profileId;document.title=DATA.profile?.exam_full_name||DATA.profile?.exam_name||DATA.profile?.name||'Quick Pass Exam-快考通';
 const _showQuiz=showQuiz;
-showQuiz=function(){_showQuiz();const q=QMAP[state.qid],article=$('#content article'),qi=Q.findIndex(x=>x.id===q.id);const submit=[...article.querySelectorAll('button')].find(b=>b.textContent==='提交答案');if(submit)submit.disabled=!(state.picked[q.id]||[]).length;const bar=el('div',undefined,'qbar');bar.append(el('span',(qi+1)+' / '+Q.length));const track=el('div',undefined,'track'),fill=el('i');fill.style.width=((qi+1)/Q.length*100)+'%';track.append(fill);bar.append(track);article.prepend(bar);const nav=el('div',undefined,'links');if(qi>0)nav.append(button('上一题',()=>{state.qid=Q[qi-1].id;render()},'button'));if(qi<Q.length-1)nav.append(button('下一题',()=>{state.qid=Q[qi+1].id;render()},'button'));article.append(nav);const dots=el('div',undefined,'qnav');Q.forEach((x,i)=>dots.append(button(String(i+1),()=>{state.qid=x.id;render()},i===qi?'current':'')));article.append(dots);const para=article.querySelector('p');if(para){const block=el('div',undefined,'question-body');markdown(block,q.question_zh||q.question_en||'',q.inline_image_assets||[]);para.replaceWith(block)}};
-const _showNote=showNote;showNote=function(){_showNote();const c=CMAP[state.cid],a=$('#content article');callout(a,'内容说明','考点笔记用于学习辅助；事实应以题库及输入中提供的来源为准。','warning')};
-const _render=render;render=function(){_render();rail()};
-StudyProgress.load().then(render).catch(error=>{state.storageStatus=error.message||'无法保存作答记录';render()});</script>
+showQuiz=function(){_showQuiz();const q=QMAP[state.qid],article=$('#content article');if(!q)return;const group=QUIZ_GROUPS.byId.get(q.id),batch=group?.group||Q,qi=group?group.number-1:Q.findIndex(x=>x.id===q.id);const submit=[...article.querySelectorAll('button')].find(b=>b.textContent==='提交答案');if(submit)submit.disabled=!(state.picked[q.id]||[]).length;const bar=el('div',undefined,'qbar');bar.append(el('span',(qi+1)+' / '+batch.length+' · '+(group?.year||'')+(group?.half||'')+' '+(group?.batch||'')));const track=el('div',undefined,'track'),fill=el('i');fill.style.width=((qi+1)/batch.length*100)+'%';track.append(fill);bar.append(track);article.prepend(bar);const nav=el('div',undefined,'links');if(qi>0)nav.append(button('上一题',()=>{state.qid=batch[qi-1].id;render()},'button'));if(qi<batch.length-1)nav.append(button('下一题',()=>{state.qid=batch[qi+1].id;render()},'button'));article.append(nav);const dots=el('div',undefined,'qnav');batch.forEach((x,i)=>dots.append(button(String(i+1),()=>{state.qid=x.id;render()},i===qi?'current':'')));article.append(dots);const para=article.querySelector('p');if(para){const block=el('div',undefined,'question-body');markdown(block,q.question_zh||q.question_en||'',q.inline_image_assets||[]);para.replaceWith(block)}};
+const _showNote=showNote;showNote=function(){_showNote();const c=CMAP[state.cid],a=$('#content article');if(!c)return;callout(a,'内容说明','考点笔记用于学习辅助；事实应以题库及输入中提供的来源为准。','warning');const relatedMethods=METHODS.filter(m=>(m.concept_ids||[]).includes(c.id));if(relatedMethods.length){add(a,'h3','关联方法');const links=add(a,'div',undefined,'links');for(const m of relatedMethods)links.append(linkButton(m.title||m.id,()=>{state.view='methods';state.methodId=m.id;render()}));}};
+const _render=render;render=function(){_render();rail();const status=(state.view==='cases'||state.view==='methods')?state.caseStatus:state.storageStatus;$('#storage-status').title=status||'';$('#save-warning').textContent=/(失败|无法|未保存|不可用|单文件模式)/.test(status||'')?' · '+status:''};
+StudyProgress.load().then(render).catch(error=>{state.storageStatus=error.message||'无法保存作答记录';render()});
+CaseProgress.load().then(render).catch(error=>{state.caseStatus=error.message||'案例题记录无法读取';render()});</script>
 </body>
 </html>

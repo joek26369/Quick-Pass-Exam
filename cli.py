@@ -53,6 +53,12 @@ def main() -> int:
         "--agent-content", action="store_true",
         help="校验并打包唯一支持的 quick-pass-agent-content-v2，不调用外部 LLM",
     )
+    parser.add_argument("--source-root", type=Path,
+                        help="用户提供的原始资料根目录；与 --source-inventory 一起检查漏包")
+    parser.add_argument("--source-inventory", type=Path,
+                        help="原始资料逐文件处理清单 JSON")
+    parser.add_argument("--source-scope", action="append", default=[],
+                        help="在原始资料根目录下要检查的子目录；可重复，省略时检查整个根目录")
     args = parser.parse_args()
     try:
         if args.open and args.import_only:
@@ -79,7 +85,10 @@ def main() -> int:
             raise ContractError("JSON 已是结构化入口；--import-only 用于文档解析")
         path = generate_package(source, args.output, profile_name=args.profile,
                                 llm_config=args.llm_config, fixture=args.fixture,
-                                agent_content=args.agent_content)
+                                agent_content=args.agent_content,
+                                source_root=args.source_root,
+                                source_inventory=args.source_inventory,
+                                source_scopes=args.source_scope)
     except Exception as exc:
         category, message = _safe_failure(exc)
         print(json.dumps({"status": "failed", "category": category, "message": message},
@@ -95,6 +104,10 @@ def main() -> int:
         "fixture": "演示学习包已生成；不代表真实资料生成或内容审校通过。",
     }
     print(quality_labels.get(quality_status, "请查看学习包质量报告。"), file=sys.stderr)
+    if args.agent_content and manifest.get("source_coverage_status") != "passed":
+        print("原始资料覆盖未检查；不能据此宣称全部教辅已处理。", file=sys.stderr)
+    if args.agent_content and manifest.get("post_generation_status") != "passed":
+        print("生成后核对仍有限制；请查看 reports/post-generation-check.json。", file=sys.stderr)
     if args.open:
         try:
             from study_server import ensure_server, package_url, register

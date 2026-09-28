@@ -243,6 +243,7 @@ def validate_cases_methods(raw_cases: Any, raw_methods: Any, *, sources: list[di
                 _fail(where + "." + field, "必须是字符串数组")
         _basis(method.get("case_basis"), where + ".case_basis", source_map)
         _ids(method.get("sub_question_ids"), where + ".sub_question_ids", all_ids)
+        _ids(method.get("question_ids", []), where + ".question_ids", question_ids)
         _ids(method.get("concept_ids"), where + ".concept_ids", concept_ids)
         _ids(method.get("evidence_ids"), where + ".evidence_ids", evidence_ids)
         if not method["evidence_ids"]:
