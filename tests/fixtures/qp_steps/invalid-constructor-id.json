@@ -1,0 +1,34 @@
+{
+  "description": "invalid-constructor-id",
+  "block": {
+    "schema": "qp-steps-v1",
+    "method": "拒绝样例",
+    "kind": "method",
+    "view": "formula",
+    "inputs": [
+      {
+        "id": "constructor",
+        "label": "输入",
+        "example": 2
+      }
+    ],
+    "steps": [
+      {
+        "id": "Y",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "X+1"
+      }
+    ],
+    "provenance": {
+      "generator": "skill",
+      "source_questions": [],
+      "generated_at": "2026-11-07T00:00:00Z",
+      "basis_hash": "41ebb26684847a667b95200cdf750c8ffcced478544f48cc0f2a243199430976"
+    }
+  },
+  "expected": {
+    "valid": false,
+    "error_code": "SCHEMA"
+  }
+}

@@ -252,6 +252,18 @@ def validate_cases_methods(raw_cases: Any, raw_methods: Any, *, sources: list[di
             findings.append({"code": "METHOD_CASE_BASIS_MISSING", "id": mid})
         if method["type"] == "calculation" and (not method["formula"].strip() or not method["steps"]):
             findings.append({"code": "METHOD_CALCULATION_INCOMPLETE", "id": mid})
+        if "qp_steps" in method:
+            from qp_steps import basis_hash, validate
+            block = method["qp_steps"]
+            ok, errors = validate(block)
+            if ok and (method["type"] != "calculation" or not method["formula"].strip()
+                       or re.search(r'^#{1,2}\s', method["formula"], re.M)
+                       or block["method"] != method["title"]
+                       or block["provenance"]["basis_hash"] != basis_hash(method["title"], method["formula"])):
+                ok, errors = False, ["BASIS: method/type/formula mismatch"]
+            if not ok:
+                del method["qp_steps"]
+                findings.append({"code": "METHOD_QP_STEPS_DROPPED", "id": mid, "errors": errors})
     for case in cases:
         for child in case["sub_questions"]:
             for mid in child["method_ids"]:

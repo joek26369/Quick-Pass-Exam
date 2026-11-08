@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:quick-pass:qp-steps-v1",
+  "title": "qp-steps-v1",
+  "$comment": "Semantic checks (references, functions, mutually exclusive when, finite examples) and UTF-8 compact JSON <=65536 bytes are enforced by qp_steps.validate, not JSON Schema alone.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "method", "kind", "view", "inputs", "steps", "provenance"],
+  "properties": {
+    "schema": {"const": "qp-steps-v1"},
+    "method": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["method", "trace"]},
+    "view": {"enum": ["formula", "table", "network"]},
+    "inputs": {"type": "array", "maxItems": 40, "items": {"$ref": "#/$defs/input"}},
+    "choices": {"type": "array", "items": {"$ref": "#/$defs/choice"}},
+    "steps": {"type": "array", "minItems": 1, "maxItems": 80, "items": {"$ref": "#/$defs/step"}},
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["generator", "source_questions", "generated_at", "basis_hash"],
+      "properties": {
+        "generator": {"enum": ["webapp", "skill"]},
+        "source_questions": {"type": "array", "items": {"type": "string"}},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "basis_hash": {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  },
+  "allOf": [{
+    "if": {"properties": {"kind": {"const": "method"}}},
+    "then": {"properties": {"steps": {"items": {
+      "not": {"required": ["show"]},
+      "oneOf": [
+        {"required": ["expr"], "properties": {"expr": {"minLength": 1}}},
+        {"required": ["input"]}
+      ]
+    }}}},
+    "else": {"properties": {"steps": {"items": {
+      "required": ["expr"], "not": {"required": ["input"]}
+    }}}}
+  }],
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]{0,23}$", "allOf": [{"not": {"pattern": "[\\r\\n]"}}], "not": {"enum": ["constructor", "prototype", "__proto__", "toString", "valueOf", "hasOwnProperty", "isPrototypeOf", "propertyIsEnumerable", "toLocaleString", "__defineGetter__", "__defineSetter__", "__lookupGetter__", "__lookupSetter__"]}},
+    "inputValue": {
+      "type": "object", "additionalProperties": false, "required": ["label", "example"],
+      "properties": {
+        "label": {"type": "string", "minLength": 1}, "unit": {"type": "string"},
+        "example": {"type": "number"}, "min": {"type": "number"}, "max": {"type": "number"}
+      }
+    },
+    "input": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "example"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "label": {"type": "string", "minLength": 1},
+        "unit": {"type": "string"}, "example": {"type": "number"},
+        "min": {"type": "number"}, "max": {"type": "number"}
+      }
+    },
+    "choice": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "default", "options"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "label": {"type": "string", "minLength": 1},
+        "default": {"$ref": "#/$defs/id"},
+        "options": {"type": "array", "minItems": 1, "items": {
+          "type": "object", "additionalProperties": false, "required": ["id", "label", "why"],
+          "properties": {"id": {"$ref": "#/$defs/id"}, "label": {"type": "string", "minLength": 1}, "why": {"type": "string"}}
+        }}
+      }
+    },
+    "step": {
+      "type": "object", "additionalProperties": false, "required": ["id", "title", "explain"],
+      "not": {"required": ["expr", "input"]},
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "title": {"type": "string", "minLength": 1},
+        "explain": {"type": "string"}, "expr": {"type": "string", "maxLength": 200, "description": "Numbers, prior ids, + - * / ^ and parentheses; functions only sqrt/min/max/abs/round(x,n)/ceil/floor/ln. Checked semantically by the engines."},
+        "input": {"$ref": "#/$defs/inputValue"}, "unit": {"type": "string"},
+        "digits": {"type": "integer", "minimum": 0, "maximum": 15},
+        "when": {"type": "object", "minProperties": 1, "propertyNames": {"$ref": "#/$defs/id"}, "additionalProperties": {"$ref": "#/$defs/id"}},
+        "verdicts": {"type": "array", "items": {
+          "type": "object", "additionalProperties": false, "required": ["test", "text"],
+          "properties": {
+            "test": {"type": "string", "not": {"pattern": "[\\r\\n]"}, "pattern": "^(?:<=|>=|<|>|=)-?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[eE][+-]?[0-9]+)?$"},
+            "text": {"type": "string"}
+          }
+        }},
+        "show": {
+          "type": "object", "additionalProperties": false, "required": ["table"],
+          "properties": {
+            "table": {"type": "array", "items": {"type": "array", "items": {"type": ["number", "string"]}}},
+            "highlight": {"type": "array", "items": {"type": "array", "prefixItems": [{"type": "integer", "minimum": 0}, {"type": "integer", "minimum": 0}], "items": false, "minItems": 2, "maxItems": 2}}
+          }
+        }
+      }
+    }
+  }
+}

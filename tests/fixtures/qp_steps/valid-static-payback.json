@@ -1,0 +1,108 @@
+{
+  "description": "valid-static-payback",
+  "block": {
+    "schema": "qp-steps-v1",
+    "method": "静态投资回收期",
+    "kind": "method",
+    "view": "formula",
+    "inputs": [
+      {
+        "id": "N",
+        "label": "累计净现金流首次非负的年份序号",
+        "example": 3,
+        "min": 1
+      },
+      {
+        "id": "PREV",
+        "label": "上一年累计净现金流",
+        "example": -200,
+        "max": 0
+      },
+      {
+        "id": "CF",
+        "label": "该年净现金流",
+        "example": 300,
+        "min": 1
+      }
+    ],
+    "steps": [
+      {
+        "id": "REMAIN",
+        "title": "上一年未回收投资",
+        "explain": "上一年未回收投资",
+        "expr": "abs(PREV)"
+      },
+      {
+        "id": "FRACTION",
+        "title": "本年回收所需比例",
+        "explain": "本年回收所需比例",
+        "expr": "REMAIN/CF"
+      },
+      {
+        "id": "T",
+        "title": "静态投资回收期",
+        "explain": "静态投资回收期",
+        "unit": "年",
+        "digits": 3,
+        "expr": "N-1+FRACTION"
+      }
+    ],
+    "provenance": {
+      "generator": "skill",
+      "source_questions": [],
+      "generated_at": "2026-11-07T00:00:00Z",
+      "basis_hash": "2502e4cabdc2a1a88d422be2e20999c64a2a861280f5e39f631c57e492e779a3"
+    }
+  },
+  "expected": {
+    "valid": true,
+    "runs": [
+      {
+        "inputs": {},
+        "choices": {},
+        "steps": [
+          {
+            "id": "REMAIN",
+            "value": 200,
+            "verdicts": []
+          },
+          {
+            "id": "FRACTION",
+            "value": 0.6666666666666666,
+            "verdicts": []
+          },
+          {
+            "id": "T",
+            "value": 2.6666666666666665,
+            "verdicts": []
+          }
+        ]
+      },
+      {
+        "inputs": {
+          "N": 4,
+          "PREV": -100,
+          "CF": 400
+        },
+        "choices": {},
+        "steps": [
+          {
+            "id": "REMAIN",
+            "value": 100,
+            "verdicts": []
+          },
+          {
+            "id": "FRACTION",
+            "value": 0.25,
+            "verdicts": []
+          },
+          {
+            "id": "T",
+            "value": 3.25,
+            "verdicts": []
+          }
+        ]
+      }
+    ]
+  }
+}

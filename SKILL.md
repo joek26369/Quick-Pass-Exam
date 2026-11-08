@@ -52,6 +52,8 @@ Agent 应生成 `agent-content.json`，其中包含 `schema_version: "quick-pass
 
 生成或修复题目内容前必须读取 @references/method-coverage.md，逐题建立 `method_coverage` 清单；选择题和案例小问均需分类。按真实算法拆分并补齐方法，禁止只用考点标签批量关联或固定卡片数量。生成前后检查与浏览器验收通过后，按该规范向用户补报。
 
+为本次新计算方法编写可选 `methods[].qp_steps` 时必须读取 @references/qp-steps.md 与 `schema/qp-steps-v1.schema.json`。输入依据为当前 `title`/`formula`，输出为 Schema 对象并用 `qp_steps.basis_hash(title, formula)` 填 provenance；由宿主 Agent 编写，不新增模型调用。旧输入无块不补，已有块依据变化则删块保文字；现有输出目录仍拒绝覆盖。
+
 ## 案例题与自评
 
 遇到共享背景、多问、计算题或简答题时，必须读取 @references/case-authoring.md。v2 可在选择题之外接受 `cases` 和 `methods`；仅有案例题时使用 `questions: []`。

@@ -122,7 +122,8 @@ def test_diagram_without_a_physical_page_is_rejected():
         check(cases, methods)
 
 
-def test_case_only_concept_evidence_method_package_roundtrip(tmp_path):
+@pytest.mark.parametrize('qp_state', ['absent', 'valid', 'stale', 'invalid'])
+def test_case_only_concept_evidence_method_package_roundtrip(tmp_path, qp_state):
     import json
     from reportlab.pdfgen import canvas
     from generator import AGENT_CONTENT_SCHEMA, generate_package
@@ -140,6 +141,19 @@ def test_case_only_concept_evidence_method_package_roundtrip(tmp_path):
     methods[0]["concept_ids"] = ["concept1"]
     methods[0]["evidence_ids"] = ["evidence1"]
     methods[0].update(calculation_type="critical-path", assumptions="确定工期、无资源约束", input_requirements=["活动工期和依赖"])
+    if qp_state != 'absent':
+        from qp_steps import basis_hash
+        methods[0]['qp_steps'] = {
+            'schema': 'qp-steps-v1', 'method': methods[0]['title'], 'kind': 'trace', 'view': 'formula',
+            'inputs': [{'id': 'A', 'label': '活动A', 'example': 5}, {'id': 'B', 'label': '活动B', 'example': 5}],
+            'steps': [{'id': 'T', 'title': '该固定串行示例的工期', 'explain': '合成示例，不是通用关键路径求解器', 'expr': 'A+B'}],
+            'provenance': {'generator': 'skill', 'source_questions': ['case1q1'],
+                           'generated_at': '2026-11-07T00:00:00Z',
+                           'basis_hash': basis_hash(methods[0]['title'], methods[0]['formula'])}}
+        if qp_state == 'stale':
+            methods[0]['qp_steps']['provenance']['basis_hash'] = '0' * 64
+        elif qp_state == 'invalid':
+            methods[0]['qp_steps']['steps'][0]['expr'] = '1/0'
     payload = {
         "schema_version": AGENT_CONTENT_SCHEMA, "questions": [],
         "concepts": [{"id": "concept1", "title": "进度计算", "source_questions": ["case1q1"],
@@ -164,3 +178,16 @@ def test_case_only_concept_evidence_method_package_roundtrip(tmp_path):
     assert (manifest["question_count"], manifest["case_count"], manifest["sub_question_count"]) == (0, 1, 1)
     assert json.loads((output / "data" / "cases.json").read_text(encoding="utf-8"))[0]["sub_questions"][0]["id"] == "case1q1"
     assert json.loads((output / "data" / "methods.json").read_text(encoding="utf-8"))[0]["id"] == "method1"
+    saved = json.loads((output / 'data/methods.json').read_text())[0]
+    assert ('qp_steps' in saved) == (qp_state == 'valid')
+    quality = json.loads((output / 'reports/quality-report.json').read_text())
+    findings = quality['cases']['findings']
+    assert any(x['code'] == 'METHOD_QP_STEPS_DROPPED' for x in findings) == (qp_state in ('stale', 'invalid'))
+    if qp_state == 'valid':
+        from qp_steps import validate
+        assert saved['qp_steps'] == methods[0]['qp_steps']
+        assert validate(saved['qp_steps']) == (True, [])
+    before = (output / 'data/methods.json').read_bytes()
+    with pytest.raises(ValueError, match='exist|存在'):
+        generate_package(path, output, profile_name='ruankao-xitixiangmu', agent_content=True)
+    assert (output / 'data/methods.json').read_bytes() == before

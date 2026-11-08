@@ -1,0 +1,38 @@
+{
+  "description": "Identical plain text from Web and Skill hashes identically",
+  "cases": [
+    {
+      "web": {
+        "method": "abc",
+        "formulas_section": "def"
+      },
+      "skill": {
+        "title": " abc\n",
+        "formula": "\tdef  "
+      },
+      "expected": "d53d6b91af7caf8fe3d8021f116270137c0079d579a1e16965da80c2ed138ffb"
+    },
+    {
+      "web": {
+        "method": " PERT\t三点估算 ",
+        "formulas_section": "TE = (O + 4*M + P) / 6\n"
+      },
+      "skill": {
+        "title": "PERT 三点估算",
+        "formula": "\nTE = (O + 4*M + P) / 6"
+      },
+      "expected": "b774332860127631976766bc9fd7e8a4e1cde002a3fa9f5dee2b85ca6195f580"
+    },
+    {
+      "web": {
+        "method": "﻿挣值 分析　",
+        "formulas_section": "CPI = EV\t/\r\nAC"
+      },
+      "skill": {
+        "title": "挣值 分析",
+        "formula": "CPI = EV / AC"
+      },
+      "expected": "a2107731e6d5b26f92a836b20bb234008c12c6e62f1e68d9e01361daeb69f629"
+    }
+  ]
+}

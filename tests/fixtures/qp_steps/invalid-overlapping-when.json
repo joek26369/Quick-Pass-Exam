@@ -1,0 +1,169 @@
+{
+  "description": "invalid-overlapping-when",
+  "block": {
+    "schema": "qp-steps-v1",
+    "method": "挣值分析",
+    "kind": "method",
+    "view": "formula",
+    "inputs": [
+      {
+        "id": "PV",
+        "label": "计划价值",
+        "example": 100,
+        "min": 1
+      },
+      {
+        "id": "EV",
+        "label": "挣值",
+        "example": 80,
+        "min": 1
+      },
+      {
+        "id": "AC",
+        "label": "实际成本",
+        "example": 90,
+        "min": 1
+      },
+      {
+        "id": "BAC",
+        "label": "完工预算",
+        "example": 500,
+        "min": 1
+      }
+    ],
+    "steps": [
+      {
+        "id": "CV",
+        "title": "成本偏差",
+        "explain": "成本偏差",
+        "verdicts": [
+          {
+            "test": "<0",
+            "text": "超支"
+          },
+          {
+            "test": ">=0",
+            "text": "未超支"
+          }
+        ],
+        "expr": "EV-AC"
+      },
+      {
+        "id": "SV",
+        "title": "进度偏差",
+        "explain": "进度偏差",
+        "verdicts": [
+          {
+            "test": "<0",
+            "text": "进度落后"
+          },
+          {
+            "test": ">=0",
+            "text": "进度未落后"
+          }
+        ],
+        "expr": "EV-PV"
+      },
+      {
+        "id": "CPI",
+        "title": "成本绩效指数",
+        "explain": "成本绩效指数",
+        "digits": 2,
+        "expr": "EV/AC"
+      },
+      {
+        "id": "SPI",
+        "title": "进度绩效指数",
+        "explain": "进度绩效指数",
+        "digits": 2,
+        "expr": "EV/PV"
+      },
+      {
+        "id": "ETC",
+        "title": "典型偏差",
+        "explain": "典型偏差",
+        "when": {
+          "etc_mode": "typical"
+        },
+        "expr": "(BAC-EV)/CPI"
+      },
+      {
+        "id": "ETC",
+        "title": "非典型偏差",
+        "explain": "非典型偏差",
+        "when": {
+          "etc_mode": "typical"
+        },
+        "expr": "BAC-EV"
+      },
+      {
+        "id": "ETC",
+        "title": "考虑成本和进度",
+        "explain": "考虑成本和进度",
+        "when": {
+          "etc_mode": "both"
+        },
+        "expr": "(BAC-EV)/(CPI*SPI)"
+      },
+      {
+        "id": "ETC",
+        "title": "重新估算",
+        "explain": "重新估算",
+        "input": {
+          "label": "重新估算的ETC",
+          "unit": "万元",
+          "example": 450,
+          "min": 0
+        },
+        "when": {
+          "etc_mode": "reestimate"
+        }
+      },
+      {
+        "id": "EAC",
+        "title": "完工估算",
+        "explain": "完工估算",
+        "expr": "AC+ETC"
+      }
+    ],
+    "provenance": {
+      "generator": "skill",
+      "source_questions": [],
+      "generated_at": "2026-11-07T00:00:00Z",
+      "basis_hash": "628afa6b7390d4e657218ebcf238cc6bdbd2982c1a83e8db55df75c14865435d"
+    },
+    "choices": [
+      {
+        "id": "etc_mode",
+        "label": "ETC预测假设",
+        "default": "typical",
+        "options": [
+          {
+            "id": "typical",
+            "label": "典型偏差",
+            "why": "当前成本效率持续"
+          },
+          {
+            "id": "atypical",
+            "label": "非典型偏差",
+            "why": "剩余工作按原预算"
+          },
+          {
+            "id": "both",
+            "label": "同时考虑CPI与SPI",
+            "why": "进度压力影响成本"
+          },
+          {
+            "id": "reestimate",
+            "label": "重新估算",
+            "why": "原计划不可用，直接输入ETC"
+          }
+        ]
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "error_code": "WHEN"
+  }
+}

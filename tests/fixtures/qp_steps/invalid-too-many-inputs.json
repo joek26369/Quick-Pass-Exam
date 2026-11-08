@@ -1,0 +1,234 @@
+{
+  "description": "invalid-too-many-inputs",
+  "block": {
+    "schema": "qp-steps-v1",
+    "method": "拒绝样例",
+    "kind": "method",
+    "view": "formula",
+    "inputs": [
+      {
+        "id": "X0",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X1",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X2",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X3",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X4",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X5",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X6",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X7",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X8",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X9",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X10",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X11",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X12",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X13",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X14",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X15",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X16",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X17",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X18",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X19",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X20",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X21",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X22",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X23",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X24",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X25",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X26",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X27",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X28",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X29",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X30",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X31",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X32",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X33",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X34",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X35",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X36",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X37",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X38",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X39",
+        "label": "输入",
+        "example": 1
+      },
+      {
+        "id": "X40",
+        "label": "输入",
+        "example": 1
+      }
+    ],
+    "steps": [
+      {
+        "id": "Y",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "X+1"
+      }
+    ],
+    "provenance": {
+      "generator": "skill",
+      "source_questions": [],
+      "generated_at": "2026-11-07T00:00:00Z",
+      "basis_hash": "41ebb26684847a667b95200cdf750c8ffcced478544f48cc0f2a243199430976"
+    }
+  },
+  "expected": {
+    "valid": false,
+    "error_code": "SCHEMA"
+  }
+}
