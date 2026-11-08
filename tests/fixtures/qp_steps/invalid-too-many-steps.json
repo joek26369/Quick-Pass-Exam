@@ -1,0 +1,514 @@
+{
+  "description": "invalid-too-many-steps",
+  "block": {
+    "schema": "qp-steps-v1",
+    "method": "拒绝样例",
+    "kind": "method",
+    "view": "formula",
+    "inputs": [
+      {
+        "id": "X",
+        "label": "输入",
+        "example": 2
+      }
+    ],
+    "steps": [
+      {
+        "id": "Y0",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y1",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y2",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y3",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y4",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y5",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y6",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y7",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y8",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y9",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y10",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y11",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y12",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y13",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y14",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y15",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y16",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y17",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y18",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y19",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y20",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y21",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y22",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y23",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y24",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y25",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y26",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y27",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y28",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y29",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y30",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y31",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y32",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y33",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y34",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y35",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y36",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y37",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y38",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y39",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y40",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y41",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y42",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y43",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y44",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y45",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y46",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y47",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y48",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y49",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y50",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y51",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y52",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y53",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y54",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y55",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y56",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y57",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y58",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y59",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y60",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y61",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y62",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y63",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y64",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y65",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y66",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y67",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y68",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y69",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y70",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y71",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y72",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y73",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y74",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y75",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y76",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y77",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y78",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y79",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      },
+      {
+        "id": "Y80",
+        "title": "输出",
+        "explain": "输出",
+        "expr": "1"
+      }
+    ],
+    "provenance": {
+      "generator": "skill",
+      "source_questions": [],
+      "generated_at": "2026-11-07T00:00:00Z",
+      "basis_hash": "41ebb26684847a667b95200cdf750c8ffcced478544f48cc0f2a243199430976"
+    }
+  },
+  "expected": {
+    "valid": false,
+    "error_code": "SCHEMA"
+  }
+}

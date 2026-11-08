@@ -1,0 +1,488 @@
+{
+  "description": "valid-hungarian-trace",
+  "block": {
+    "schema": "qp-steps-v1",
+    "method": "匈牙利法固定数字回放",
+    "kind": "trace",
+    "view": "table",
+    "inputs": [
+      {
+        "id": "C11",
+        "label": "人员1任务1成本",
+        "example": 4,
+        "min": 0
+      },
+      {
+        "id": "C12",
+        "label": "人员1任务2成本",
+        "example": 1,
+        "min": 0
+      },
+      {
+        "id": "C13",
+        "label": "人员1任务3成本",
+        "example": 3,
+        "min": 0
+      },
+      {
+        "id": "C21",
+        "label": "人员2任务1成本",
+        "example": 2,
+        "min": 0
+      },
+      {
+        "id": "C22",
+        "label": "人员2任务2成本",
+        "example": 0,
+        "min": 0
+      },
+      {
+        "id": "C23",
+        "label": "人员2任务3成本",
+        "example": 5,
+        "min": 0
+      },
+      {
+        "id": "C31",
+        "label": "人员3任务1成本",
+        "example": 3,
+        "min": 0
+      },
+      {
+        "id": "C32",
+        "label": "人员3任务2成本",
+        "example": 2,
+        "min": 0
+      },
+      {
+        "id": "C33",
+        "label": "人员3任务3成本",
+        "example": 2,
+        "min": 0
+      }
+    ],
+    "steps": [
+      {
+        "id": "START",
+        "title": "原成本矩阵",
+        "explain": "原成本矩阵",
+        "show": {
+          "table": [
+            [
+              "C11",
+              "C12",
+              "C13"
+            ],
+            [
+              "C21",
+              "C22",
+              "C23"
+            ],
+            [
+              "C31",
+              "C32",
+              "C33"
+            ]
+          ],
+          "highlight": []
+        },
+        "expr": ""
+      },
+      {
+        "id": "R1",
+        "title": "第1行最小值",
+        "explain": "第1行最小值",
+        "expr": "min(C11,C12,C13)"
+      },
+      {
+        "id": "R2",
+        "title": "第2行最小值",
+        "explain": "第2行最小值",
+        "expr": "min(C21,C22,C23)"
+      },
+      {
+        "id": "R3",
+        "title": "第3行最小值",
+        "explain": "第3行最小值",
+        "expr": "min(C31,C32,C33)"
+      },
+      {
+        "id": "ROWS",
+        "title": "行归约",
+        "explain": "行归约",
+        "show": {
+          "table": [
+            [
+              "C11-R1",
+              "C12-R1",
+              "C13-R1"
+            ],
+            [
+              "C21-R2",
+              "C22-R2",
+              "C23-R2"
+            ],
+            [
+              "C31-R3",
+              "C32-R3",
+              "C33-R3"
+            ]
+          ],
+          "highlight": []
+        },
+        "expr": ""
+      },
+      {
+        "id": "K1",
+        "title": "第一列最小值",
+        "explain": "第一列最小值",
+        "expr": "min(C11-R1,C21-R2,C31-R3)"
+      },
+      {
+        "id": "COLS",
+        "title": "列归约；两条线覆盖零元素",
+        "explain": "列归约；两条线覆盖零元素",
+        "show": {
+          "table": [
+            [
+              "C11-R1-K1",
+              "C12-R1",
+              "C13-R1"
+            ],
+            [
+              "C21-R2-K1",
+              "C22-R2",
+              "C23-R2"
+            ],
+            [
+              "C31-R3-K1",
+              "C32-R3",
+              "C33-R3"
+            ]
+          ],
+          "highlight": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        },
+        "expr": ""
+      },
+      {
+        "id": "DELTA",
+        "title": "未覆盖元素最小值",
+        "explain": "未覆盖元素最小值",
+        "expr": "min(C11-R1-K1,C13-R1,C21-R2-K1,C23-R2)"
+      },
+      {
+        "id": "ADJUST",
+        "title": "未覆盖减DELTA，双覆盖加DELTA",
+        "explain": "未覆盖减DELTA，双覆盖加DELTA",
+        "show": {
+          "table": [
+            [
+              "C11-R1-K1-DELTA",
+              "C12-R1",
+              "C13-R1-DELTA"
+            ],
+            [
+              "C21-R2-K1-DELTA",
+              "C22-R2",
+              "C23-R2-DELTA"
+            ],
+            [
+              "C31-R3-K1",
+              "C32-R3+DELTA",
+              "C33-R3"
+            ]
+          ],
+          "highlight": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        },
+        "expr": ""
+      },
+      {
+        "id": "TOTAL",
+        "title": "原矩阵按独立零元素指派，最小成本",
+        "explain": "原矩阵按独立零元素指派，最小成本",
+        "show": {
+          "table": [
+            [
+              "C11",
+              "C12",
+              "C13"
+            ],
+            [
+              "C21",
+              "C22",
+              "C23"
+            ],
+            [
+              "C31",
+              "C32",
+              "C33"
+            ]
+          ],
+          "highlight": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        },
+        "expr": "C12+C21+C33"
+      }
+    ],
+    "provenance": {
+      "generator": "skill",
+      "source_questions": [],
+      "generated_at": "2026-11-07T00:00:00Z",
+      "basis_hash": "da3c950394c5e6c627e363f92a7a0513e706382ce39689b290111e694fddca95"
+    }
+  },
+  "expected": {
+    "valid": true,
+    "runs": [
+      {
+        "inputs": {},
+        "choices": {},
+        "steps": [
+          {
+            "id": "START",
+            "value": null,
+            "verdicts": [],
+            "show": {
+              "table": [
+                [
+                  4,
+                  1,
+                  3
+                ],
+                [
+                  2,
+                  0,
+                  5
+                ],
+                [
+                  3,
+                  2,
+                  2
+                ]
+              ],
+              "highlight": []
+            }
+          },
+          {
+            "id": "R1",
+            "value": 1,
+            "verdicts": []
+          },
+          {
+            "id": "R2",
+            "value": 0,
+            "verdicts": []
+          },
+          {
+            "id": "R3",
+            "value": 2,
+            "verdicts": []
+          },
+          {
+            "id": "ROWS",
+            "value": null,
+            "verdicts": [],
+            "show": {
+              "table": [
+                [
+                  3,
+                  0,
+                  2
+                ],
+                [
+                  2,
+                  0,
+                  5
+                ],
+                [
+                  1,
+                  0,
+                  0
+                ]
+              ],
+              "highlight": []
+            }
+          },
+          {
+            "id": "K1",
+            "value": 1,
+            "verdicts": []
+          },
+          {
+            "id": "COLS",
+            "value": null,
+            "verdicts": [],
+            "show": {
+              "table": [
+                [
+                  2,
+                  0,
+                  2
+                ],
+                [
+                  1,
+                  0,
+                  5
+                ],
+                [
+                  0,
+                  0,
+                  0
+                ]
+              ],
+              "highlight": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  1
+                ],
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "id": "DELTA",
+            "value": 1,
+            "verdicts": []
+          },
+          {
+            "id": "ADJUST",
+            "value": null,
+            "verdicts": [],
+            "show": {
+              "table": [
+                [
+                  1,
+                  0,
+                  1
+                ],
+                [
+                  0,
+                  0,
+                  4
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "highlight": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ],
+                [
+                  2,
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "id": "TOTAL",
+            "value": 5,
+            "verdicts": [],
+            "show": {
+              "table": [
+                [
+                  4,
+                  1,
+                  3
+                ],
+                [
+                  2,
+                  0,
+                  5
+                ],
+                [
+                  3,
+                  2,
+                  2
+                ]
+              ],
+              "highlight": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ],
+                [
+                  2,
+                  2
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

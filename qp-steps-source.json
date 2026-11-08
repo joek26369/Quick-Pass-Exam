@@ -1,0 +1,190 @@
+{
+  "contract": "qp-steps-v1",
+  "revision": "content-addressed-sha256",
+  "files": [
+    {
+      "path": "qp_steps.py",
+      "sha256": "a38cd291ed7dab57796151ddf8d068c7b0a833f092dc7b82b11e30594be291f3"
+    },
+    {
+      "path": "schema/qp-steps-v1.schema.json",
+      "source": "schema/qp-steps-v1.schema.json",
+      "sha256": "6862c7f109727b95aa88c0e5ad34fb75e52583aaaec9dfa9ed5614c31aab2863"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/README.md",
+      "source": "tests/fixtures/qp_steps/README.md",
+      "sha256": "ab721140d06d1c2de3fcf9ff2d7d80489d34f8b28cee5d56ef42771946dc4524"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/basis-hash.json",
+      "source": "tests/fixtures/qp_steps/basis-hash.json",
+      "sha256": "9abede35f8ccfe534670eda8f59f912ff9de9542daec4ce6d9199126cbf5d88a"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-constructor-expression.json",
+      "source": "tests/fixtures/qp_steps/invalid-constructor-expression.json",
+      "sha256": "176e682b3e57f74e40301e39e3c3407c52755212ecf6410a3b6e94e23cbf8967"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-constructor-id.json",
+      "source": "tests/fixtures/qp_steps/invalid-constructor-id.json",
+      "sha256": "16ae5b8b0429b19939a71e2567de88451e0d523a5d05878736546cc1d72ffff6"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-division-zero.json",
+      "source": "tests/fixtures/qp_steps/invalid-division-zero.json",
+      "sha256": "bdf68a5b1de521fd3619b2ead10bcb084d53eee2d7b6aacd459cc65513cad563"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-forward-reference.json",
+      "source": "tests/fixtures/qp_steps/invalid-forward-reference.json",
+      "sha256": "f7493f054a3927cbac7454e840296c16753d7ae1af28cc925bbdd2dcb551e558"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-function.json",
+      "source": "tests/fixtures/qp_steps/invalid-function.json",
+      "sha256": "28a8eb3ee906e8f81ff8517f541bdbdeaeffa0538e89aeff0d47af43c7d7fe47"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-id-too-long.json",
+      "source": "tests/fixtures/qp_steps/invalid-id-too-long.json",
+      "sha256": "368d6b25285c44e3b198acb8a365e96122ded426b672f32c1875fb768bbfa9b9"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-invalid-verdict.json",
+      "source": "tests/fixtures/qp_steps/invalid-invalid-verdict.json",
+      "sha256": "c99c4cc108b6b607359d2628c66f60f6486410700e60cd945822c3d9ac2dee33"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-invalid-when.json",
+      "source": "tests/fixtures/qp_steps/invalid-invalid-when.json",
+      "sha256": "887585721cec34d6de5604a7194cb030a4dcc88a249946fed713be97da611412"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-long-expression.json",
+      "source": "tests/fixtures/qp_steps/invalid-long-expression.json",
+      "sha256": "72d65531c3769b7ea5bf212d7877a3bac4bd1db1ad42375f1886d5f4e5afb4d6"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-negative-sqrt.json",
+      "source": "tests/fixtures/qp_steps/invalid-negative-sqrt.json",
+      "sha256": "3b377beab5a26aada98505aea348b21cac2530214f2fb4ee2beadf79209a8816"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-nondefault-option-zero.json",
+      "source": "tests/fixtures/qp_steps/invalid-nondefault-option-zero.json",
+      "sha256": "728b35abc1bc27b81c2ce90176f24fc8fdff928a8b5cf9efc780c1db3fae2b7d"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-overflow.json",
+      "source": "tests/fixtures/qp_steps/invalid-overflow.json",
+      "sha256": "6364a37a80bee36d49905773e7383b6a9076015af2e7f65534f10917edd7137d"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-overlapping-when.json",
+      "source": "tests/fixtures/qp_steps/invalid-overlapping-when.json",
+      "sha256": "c23b9ef018b1ad11b5128bda55543c0270cf43f6c6b8e7906913e0d5d4961881"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-proto-expression.json",
+      "source": "tests/fixtures/qp_steps/invalid-proto-expression.json",
+      "sha256": "2210ca2a4f1c960e793657e2a39843a3ea8e134e32ba9ebe22ffdefb36526be4"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-proto-id.json",
+      "source": "tests/fixtures/qp_steps/invalid-proto-id.json",
+      "sha256": "afd9fa2300d47b00382c1483f55d59eb7d040bb18d7128411d0457e2227fa1e2"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-table-forward-reference.json",
+      "source": "tests/fixtures/qp_steps/invalid-table-forward-reference.json",
+      "sha256": "11277fc015ec96d2f121bc027a6051b894c17c77e6ddeb5b06931c67f89869d3"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-too-many-bytes.json",
+      "source": "tests/fixtures/qp_steps/invalid-too-many-bytes.json",
+      "sha256": "bfc91eab6a60c75caff3149db7db982bb1b1af5d0446b1aa51777e927ea95c71"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-too-many-inputs.json",
+      "source": "tests/fixtures/qp_steps/invalid-too-many-inputs.json",
+      "sha256": "9c9bd952ee4e42b55baf8b77e987e59a9ba2e9f8eb0680e018c1a4b028456879"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-too-many-steps.json",
+      "source": "tests/fixtures/qp_steps/invalid-too-many-steps.json",
+      "sha256": "fa4b433c2d39499c3f0b9aece25e8da585601aaa4d37b2eb6e7c4a19076a882b"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-uncovered-choice-reference.json",
+      "source": "tests/fixtures/qp_steps/invalid-uncovered-choice-reference.json",
+      "sha256": "03b0c1ba5a8ece496979eff84c924d78c2c60343a120bde40e28fa4b3282eb44"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/invalid-undefined-variable.json",
+      "source": "tests/fixtures/qp_steps/invalid-undefined-variable.json",
+      "sha256": "fad390d415a1a64864cde9ba3c2cb1d9d1107972d1ed3438009545795ed7700c"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-earned-value.json",
+      "source": "tests/fixtures/qp_steps/valid-earned-value.json",
+      "sha256": "daf1adcc15e69efb537796aff44d50dbb243239bc2daa33b7816f52ccde44808"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-functions.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-functions.json",
+      "sha256": "5ac7b57c0232a9eb714741cc20cb56b2008e7aa0422bc8ee0e448965ce7ee30b"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-negative-power.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-negative-power.json",
+      "sha256": "d03c96265dd69bec0363457873b8c04b27ec2bae2b5b06bc9358ee63dbd24498"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-right-power.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-right-power.json",
+      "sha256": "d152b5f7f99df2eaa894336f0f0363e85b6f4877399e87bfe14e4bd9a26828af"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-round-large.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-round-large.json",
+      "sha256": "bd7b427e8620c8d0b8dd73578391dde17ed5e4a03964e7c13d8ffd983ed5144c"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-round-negative-tie.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-round-negative-tie.json",
+      "sha256": "5d373b66951ee31f4281228709657806521ace5beedaa3adba1ab6b27c180f79"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-round-positive-tie.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-round-positive-tie.json",
+      "sha256": "e1708e7fca35d34fc13e806ee2f0c2d790d88e65f5676c2260482a9f2b2c3bbe"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-scientific.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-scientific.json",
+      "sha256": "f04cdc28c86d22be61ccd3a2e23fcb8fe3d4c4e65aee6e5f5a84c6a680e7a3d3"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-expr-unary-precedence.json",
+      "source": "tests/fixtures/qp_steps/valid-expr-unary-precedence.json",
+      "sha256": "9fb748d45989594a50fb574e2985111d589ed74614125fa83baf91645d32d8b7"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-hungarian-trace.json",
+      "source": "tests/fixtures/qp_steps/valid-hungarian-trace.json",
+      "sha256": "99ac7883eef42ddf45308063af38a37ec63d85fb13136d82ca585974a4413048"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-pert.json",
+      "source": "tests/fixtures/qp_steps/valid-pert.json",
+      "sha256": "df1f08f3bb9283e08a81cf30f061ad0541767a4f9b7ab04dfc9f2da7cf4bf50f"
+    },
+    {
+      "path": "tests/fixtures/qp_steps/valid-static-payback.json",
+      "source": "tests/fixtures/qp_steps/valid-static-payback.json",
+      "sha256": "4c3f63b98b577c55c3ea9883de5603f97285f71061d2d48142f09187822cdadc"
+    }
+  ]
+}

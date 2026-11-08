@@ -1,0 +1,106 @@
+{
+  "description": "valid-pert",
+  "block": {
+    "schema": "qp-steps-v1",
+    "method": "PERT三点估算",
+    "kind": "method",
+    "view": "formula",
+    "inputs": [
+      {
+        "id": "O",
+        "label": "乐观估算",
+        "example": 2,
+        "min": 0
+      },
+      {
+        "id": "M",
+        "label": "最可能估算",
+        "example": 5,
+        "min": 0
+      },
+      {
+        "id": "P",
+        "label": "悲观估算",
+        "example": 8,
+        "min": 0
+      }
+    ],
+    "steps": [
+      {
+        "id": "TE",
+        "title": "期望工期",
+        "explain": "期望工期",
+        "expr": "(O+4*M+P)/6"
+      },
+      {
+        "id": "SD",
+        "title": "标准差",
+        "explain": "标准差",
+        "expr": "(P-O)/6"
+      },
+      {
+        "id": "VAR",
+        "title": "方差",
+        "explain": "方差",
+        "expr": "SD^2"
+      }
+    ],
+    "provenance": {
+      "generator": "skill",
+      "source_questions": [],
+      "generated_at": "2026-11-07T00:00:00Z",
+      "basis_hash": "169538dbb84ace22859821e47090abcbb780a512396497a7964ccdcd7267cfab"
+    }
+  },
+  "expected": {
+    "valid": true,
+    "runs": [
+      {
+        "inputs": {},
+        "choices": {},
+        "steps": [
+          {
+            "id": "TE",
+            "value": 5.0,
+            "verdicts": []
+          },
+          {
+            "id": "SD",
+            "value": 1.0,
+            "verdicts": []
+          },
+          {
+            "id": "VAR",
+            "value": 1.0,
+            "verdicts": []
+          }
+        ]
+      },
+      {
+        "inputs": {
+          "O": 1,
+          "M": 2,
+          "P": 9
+        },
+        "choices": {},
+        "steps": [
+          {
+            "id": "TE",
+            "value": 3.0,
+            "verdicts": []
+          },
+          {
+            "id": "SD",
+            "value": 1.3333333333333333,
+            "verdicts": []
+          },
+          {
+            "id": "VAR",
+            "value": 1.7777777777777777,
+            "verdicts": []
+          }
+        ]
+      }
+    ]
+  }
+}

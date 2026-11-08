@@ -45,6 +45,7 @@
 - unresolved 写明缺失条件与原因；检查阻止正式交付，须先核原件。缺少参考答案与题型无法判断是不同问题，不得为满足覆盖而猜答案。
 - 每张 calculation 方法卡增加 `calculation_type`（单个类型字符串）、`assumptions`（明确假设）、`input_requirements`（非空字符串数组）。同时保留已有公式、非空步骤、单位、适用条件、来源 `case_basis`。公式/演示必须能回查可靠原题或教辅；教辅支持填真实 `evidence_ids`，没有教辅时不得硬挂无关证据。
 - methods 新增可选 `question_ids`，用于选择题双向导航；案例沿用 `sub_question_ids` 和小问 `method_ids` 双向一致。概念关联或前置知识链接不能替代 requirements 中的实际算法覆盖。
+- 可选 `methods[].qp_steps` 按 [qp-steps.md](qp-steps.md) 的输入/输出/生成规则编写并验证；分步数据不是方法覆盖或语义正确的证明。无块输入保持无块，旧块 basis_hash 不一致删除，不增加付费请求。
 - 同一类型能否合并仍须 Agent 审查正文；程序不自动理解公式。不能用一个泛化类型名称把本应拆开的算法重新并回大卡。
 
 ## 检查与补报
